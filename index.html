@@ -240,16 +240,15 @@ tbody tr.search-hit td:last-child{box-shadow:inset -4px 0 0 #E65100,inset 0 4px 
 #searchCount{font-size:calc(var(--fs)*.7);}
 #searchClear{font-size:calc(var(--fs)*.75);}
 
-/* Baris 2: POINT BIN, ADD USN, MAP, JAM START, Sisa Slot */
+/* Baris 2: POINT BIN, ADD USN, MAP, COUNTDOWN, Sisa Slot */
 .top-row .slot-badge{font-size:calc(var(--fs)*1.25);padding:.3em .4em .3em .8em;gap:.5em;}
 .top-row .slot-badge.plus-set{flex:0 0 auto;}
 /* ADD USN & MAP: ikut melebar mengikuti panjang tulisan (lebar diatur script autoGrow) */
 .top-row .slot-badge.usn-set:not(.start-set){flex:1 1 auto;min-width:0;}
 .top-row .slot-badge.plus-set input{flex:0 1 auto;min-width:0;font-size:1em !important;padding:.3em .4em;}
 .top-row .slot-badge.usn-set:not(.start-set) input{flex:1 1 auto;}
-/* POINT BIN & JAM START: kolom isian diperkecil */
+/* POINT BIN: kolom isian diperkecil */
 #plusDefault{width:1.9em !important;flex:none !important;padding:.3em .1em !important;}
-#jamStart{width:3.7em !important;flex:none !important;padding:.3em .1em !important;font-size:.9em !important;}
 .top-row .slot-badge .slot-num{font-size:1.5em;}
 #slotInfo{flex:0 0 auto;}
 
@@ -271,6 +270,21 @@ tbody tr.search-hit td:last-child{box-shadow:inset -4px 0 0 #E65100,inset 0 4px 
 .top-row .badge-row .slot-badge{gap:.15em;}
 .top-row .badge-row #slotInfo > .slot-label{font-size:1.6em;line-height:1;font-weight:800;margin-right:0;}
 .top-row .badge-row #slotInfo{gap:.2em;padding-left:.5em;}
+
+/* ===== COUNTDOWN WAKTU (pengganti START) ===== */
+.top-row .badge-row .cd-set{gap:.08em;padding:.05em .15em .05em .15em;align-items:center;}
+.cd-set #cdTime{width:2.9em !important;flex:none !important;font-size:1.45em !important;font-weight:800;font-family:inherit;font-variant-numeric:tabular-nums;letter-spacing:0;line-height:1.05;padding:0 .02em !important;text-align:center;background:#fff;color:var(--ink);border:2px solid var(--head-bg);border-radius:8px;}
+.cd-set #cdTime.long{width:4.3em !important;}
+.cd-set #cdTime.running{background:#E6F5EC;border-color:var(--green);color:#0B4A28;cursor:default;}
+.cd-set #cdTime.pre{background:#E3F2FD;border-color:#1565C0;color:#0D47A1;cursor:default;}
+.cd-set #cdTime.warn{background:#FFEBEE;border-color:#E53935;color:#C62828;animation:cdPulse 1s ease-in-out infinite;}
+@keyframes cdPulse{50%{background:#FFCDD2;}}
+.cd-set #cdTime.finished{background:#E53935;border-color:#B71C1C;color:#fff;animation:cdBlink .6s steps(2,start) infinite;}
+@keyframes cdBlink{50%{background:#FFCDD2;color:#B71C1C;}}
+.cd-btn{flex:none;width:1.55em;height:1.55em;border-radius:6px;border:1.5px solid var(--green);background:#fff;color:var(--green);font-family:inherit;font-weight:800;font-size:.55em;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;}
+.cd-btn:hover{background:#E6F5EC;} .cd-btn:active{transform:scale(.92);}
+.cd-btn.on{background:var(--green);color:#fff;}
+.cd-btn.rst{border-color:#9A9A9A;color:#555;}
 
 /* ===== Search paling atas: tanpa jarak ===== */
 body{padding-top:0;}
@@ -338,6 +352,79 @@ input.points-add{width:2.55em;min-width:2.55em;font-size:.8em;padding:.1em 0 .1e
 .panel .copyright{margin-top:5px;padding-top:3px;line-height:1.15;}
 .panel{border-radius:4px;padding-bottom:7px;}
 .copy-mark{display:inline-block;margin-right:.08em;font-weight:800;}
+
+/* ===== PILIHAN MODE DAY / NIGHT ===== */
+.mode-toggle{position:fixed;right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:95;display:inline-flex;align-items:center;border:2px solid var(--head-bg);border-radius:999px;overflow:hidden;background:var(--cell-bg);font-size:15px;box-shadow:0 4px 14px rgba(0,0,0,.35);opacity:.92;transition:opacity .15s;}
+.mode-toggle:hover{opacity:1;}
+.mode-toggle button{border:0;background:transparent;color:var(--ink);font-family:inherit;font-weight:700;font-size:1em;padding:.35em .9em;cursor:pointer;white-space:nowrap;}
+.mode-toggle button.on{background:var(--head-bg);color:#fff;}
+
+body.night{--sheet-bg:#121212;--cell-bg:#1E1E1E;--ink:#F2F2F2;--muted:#B5B5B5;--grid:#3A3A3A;--stripe:#26332B;--head-bg:#14612B;color-scheme:dark;}
+body.night tbody td,body.night th.colhead{border-color:#5A5A5A;}
+body.night .panel{border-color:#3A3A3A;box-shadow:0 2px 8px rgba(0,0,0,.6);}
+/* baris berwarna tetap terang -> tulisan tetap hitam */
+body.night tbody tr.pos:not(.red) input.team-name,body.night tbody tr.pos:not(.red) input.team-nick,
+body.night tbody tr.zero:not(.blank):not(.red) input.team-name,body.night tbody tr.zero:not(.blank):not(.red) input.team-nick,
+body.night tbody tr[class*="rank-"]:not(.red) input.team-name,body.night tbody tr[class*="rank-"]:not(.red) input.team-nick,
+body.night tbody tr[class*="tie-"]:not(.red) input.team-name,body.night tbody tr[class*="tie-"]:not(.red) input.team-nick,
+body.night tbody tr.search-hit:not(.red) input.team-name,body.night tbody tr.search-hit:not(.red) input.team-nick,
+body.night tbody tr.search-hit:not(.red) td.rank{color:#000;}
+body.night input.team-name:focus,body.night input.team-nick:focus{background:#fff;color:#000 !important;}
+body.night input.team-name::placeholder,body.night input.team-nick::placeholder{color:#B5B5B5;}
+body.night input.points,body.night input.points-add{background:#fff;color:#000;-webkit-text-fill-color:#000;}
+body.night .hist-btn{background:#2A2A2A;border-color:#5A5A5A;color:#DDD;}
+body.night .join-btn:not(.joined){background:#2A2A2A;border-color:#8A8A8A;}
+body.night .add-btn{background:#2A2A2A;}
+body.night .plus-set input{background:#2A2A2A;color:#fff;border-color:var(--head-bg);}
+body.night .slot-badge{border-color:#2E9E52;}
+body.night .cd-btn{background:#2A2A2A;}
+body.night .cd-btn.on{background:var(--green);}
+body.night .cd-btn.rst{border-color:#8A8A8A;color:#DDD;}
+body.night .cd-set #cdTime{background:#2A2A2A;color:#fff;}
+body.night .cd-set #cdTime.running{background:#0F2D1B;border-color:#2E9E52;color:#7CFFB0;}
+body.night .cd-set #cdTime.pre{background:#0D2238;border-color:#1E88E5;color:#90CAF9;}
+body.night .cd-set #cdTime.warn{background:#3A0F0F;border-color:#E53935;color:#FF8A80;animation:cdPulseN 1s ease-in-out infinite;}
+@keyframes cdPulseN{50%{background:#5A1515;}}
+body.night .cd-set #cdTime.finished{background:#E53935;border-color:#B71C1C;color:#fff;}
+body.night .modal-box{background:#1E1E1E;color:#F2F2F2;border-color:#3A3A3A;}
+body.night .modal-close{background:#2A2A2A;border-color:#5A5A5A;color:#DDD;}
+body.night .hist-item,body.night .adm-row,body.night .fish-opt{border-bottom-color:#3A3A3A;}
+body.night .fish-foot{border-top-color:#3A3A3A;}
+body.night .fish-foot b{color:#7CFFB0;}
+body.night .adm-total{background:#12261A;}
+body.night .adm-total b{color:#7CFFB0;}
+body.night .hist-delta.pos,body.night .fish-opt .fp{color:#5BE08C;}
+body.night .hist-delta.neg{color:#FF8A80;}
+body.night .hist-fish{color:#FFB74D;}
+body.night .copyright{color:#FF6B6B;}
+
+/* ===== Popup Atur Waktu ===== */
+.cd-presets{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 14px;}
+.cd-presets button{border:2px solid var(--head-bg);background:var(--cell-bg);color:var(--ink);border-radius:999px;font-family:inherit;font-weight:700;font-size:18px;padding:6px 16px;cursor:pointer;}
+.cd-presets button:hover{background:var(--head-bg);color:#fff;}
+.cd-fields{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px;}
+.cd-fields.one{grid-template-columns:1fr;}
+.cd-fields label{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:16px;}
+.cd-fields input{width:100%;border:2px solid var(--head-bg);border-radius:8px;font-family:inherit;font-weight:800;font-size:30px;text-align:center;padding:6px;background:#fff;color:#000;}
+.cd-fields input:focus{outline:none;border-color:var(--sel-border);box-shadow:0 0 0 3px rgba(16,124,65,.25);}
+.cd-note{font-size:14px;color:var(--muted);}
+body.night .cd-fields input{background:#2A2A2A;color:#fff;}
+@media (max-width:520px){.cd-fields input{font-size:24px;}}
+
+/* Tombol timer disusun 3 baris atas-bawah (hemat tempat) */
+.cd-btns{flex:none;display:flex;flex-direction:column;gap:1px;}
+.cd-btns .cd-btn{width:2.4em;height:1.3em;font-size:.42em;border-radius:4px;}
+
+/* Semua badge di baris atas dibuat sama tinggi (timer ikut setinggi kolom MAP) */
+.top-row .badge-row{align-items:stretch;}
+.top-row .badge-row .slot-badge{align-self:stretch;}
+.top-row .badge-row .cd-set{align-items:stretch;padding:.15em .2em .15em .2em;}
+.cd-set #cdTime{height:auto;align-self:stretch;}
+.cd-btns{align-self:stretch;}
+.cd-btns .cd-btn{flex:1 1 0;height:auto;min-height:0;}
+
+/* Lingkaran oval timer dihapus: hanya kotak waktu + tombol */
+.top-row .badge-row .cd-set{background:transparent;border:0;border-radius:0;padding:0;box-shadow:none;}
 </style>
 </head>
 <body>
@@ -353,10 +440,10 @@ input.points-add{width:2.55em;min-width:2.55em;font-size:.8em;padding:.1em 0 .1e
       <button type="button" id="searchClear" title="Tutup (Esc)">✕</button>
     </div>
     <div class="badge-row">
-    <div class="slot-badge plus-set" title="Nilai poin awal otomatis untuk peserta yang kolom Pay-nya berisi BIN, juga nilai bawaan tombol + (kolom ± kosong)"><span>+ POINT BIN</span><input type="number" id="plusDefault" value="0" step="1"></div>
+    <div class="slot-badge plus-set" title="Nilai poin awal otomatis untuk peserta yang kolom Pay-nya berisi BIN, juga nilai bawaan tombol + (kolom ± kosong)"><span>+POINT</span><input type="number" id="plusDefault" value="0" step="1"></div>
     <div class="slot-badge plus-set usn-set" title="Kolom ADD USN, diisi manual"><span>USN</span><input type="text" id="addUsn" placeholder="isi USN..." autocomplete="off" spellcheck="false"></div>
     <div class="slot-badge plus-set usn-set map-set" title="Kolom MAP: klik untuk pilih dari daftar, atau ketik sendiri"><span>MAP</span><input type="text" id="addMap" list="mapList" placeholder="pilih map..." autocomplete="off" spellcheck="false"><button type="button" class="map-clear" id="mapClear" title="Kosongkan MAP">✕</button></div>
-    <div class="slot-badge plus-set usn-set start-set" title="Jam start lomba: klik untuk pilih jam"><span>START</span><input type="time" id="jamStart"></div>
+    <div class="slot-badge plus-set cd-set" id="cdBadge" title="Countdown waktu: klik angka untuk atur (mis. 70 = 70 menit, 15:00, 1:30:00), lalu tekan ▶ (hitung mundur 10 detik dulu)"><input type="text" id="cdTime" value="1:10:00" maxlength="8" autocomplete="off" spellcheck="false"><div class="cd-btns"><button type="button" class="cd-btn" id="cdToggle" title="Mulai / Jeda">▶</button><button type="button" class="cd-btn rst" id="cdReset" title="Reset">↺</button><button type="button" class="cd-btn rst" id="cdSet" title="Atur waktu">⚙</button></div></div>
     <datalist id="mapList"></datalist>
     <div class="slot-badge" id="slotInfo" title="Jumlah Nama Peserta yang masih kosong"><span class="slot-label">-</span><span class="slot-num" id="slotLeft">0</span></div>
     </div>
@@ -376,6 +463,8 @@ input.points-add{width:2.55em;min-width:2.55em;font-size:.8em;padding:.1em 0 .1e
     <div class="copyright"><span class="copy-mark" title="Copyright">&copy;</span><span class="adm-trigger" id="admTrigger">Created</span> By Aaronnn<span class="red-note"><b>NOTE:</b> Klik no peserta untuk memerahkan display &nbsp;|&nbsp; Klik Pay yang sudah diisi untuk menandakan sudah dibayar</span></div>
   </div>
 </div>
+
+<div class="mode-toggle" id="modeToggle" title="Pilih mode tampilan"><button type="button" data-mode="day" class="on">☀️ Day</button><button type="button" data-mode="night">🌙 Night</button></div>
 
 <button type="button" id="searchFab" title="Cari (Ctrl+F)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg></button>
 
@@ -407,6 +496,27 @@ input.points-add{width:2.55em;min-width:2.55em;font-size:.8em;padding:.1em 0 .1e
     </div>
     <div class="modal-body" id="fishList"></div>
     <div class="fish-foot"><span>Total: <b id="fishTotal">+0</b></span><button type="button" class="fish-ok" id="fishOk">Tambah</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="cdModal">
+  <div class="modal-box" style="max-width:480px">
+    <div class="modal-head">
+      <div class="modal-title">Atur Waktu<small>Countdown lomba</small></div>
+      <button type="button" class="modal-close" id="cdModalClose">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="cd-presets" id="cdPresets"></div>
+      <div class="cd-fields">
+        <label>Jam<input type="number" id="cdH" min="0" max="23" value="1"></label>
+        <label>Menit<input type="number" id="cdM" min="0" max="59" value="10"></label>
+        <label>Detik<input type="number" id="cdS" min="0" max="59" value="0"></label>
+      </div>
+      <div class="cd-fields one">
+        <label>Hitung mundur start (detik, 0 = langsung jalan)<input type="number" id="cdPreSec" min="0" max="60" value="10"></label>
+      </div>
+    </div>
+    <div class="fish-foot"><span class="cd-note">Mengatur ulang akan menghentikan timer</span><button type="button" class="fish-ok" id="cdSave">Simpan</button></div>
   </div>
 </div>
 
@@ -1097,11 +1207,210 @@ function getPlusDefault() {
     mapInput.fitSize();
   });
 
-  // JAM START: klik kotaknya langsung membuka pemilih jam (kalau browser mendukung)
-  const jamStart = document.getElementById('jamStart');
-  jamStart.addEventListener('click', () => {
-    try { if(jamStart.showPicker) jamStart.showPicker(); } catch(e) {}
+  // ===== COUNTDOWN WAKTU =====
+  // Atur waktu: klik angkanya lalu ketik. "70" = 70 menit, "15:00" = 15 menit, "1:30:00" = 1 jam 30 menit.
+  // Tekan ▶ = hitung mundur START 10 detik dulu (10, 9, 8 ... 1), lalu waktu utama langsung jalan.
+  // ❚❚ = jeda / batalkan start, ↺ = reset. Saat waktu habis: kotak berkedip merah + beep.
+  let START_SEC = 10;
+  const LAST_WARN_MS = 5 * 60 * 1000;   // mulai peringatan merah di 5 menit terakhir
+  const cdTime = document.getElementById('cdTime');
+  const cdToggle = document.getElementById('cdToggle');
+  const cdReset = document.getElementById('cdReset');
+  let cdTotal = 70 * 60 * 1000;     // durasi yang diatur (ms)
+  let cdLeft = cdTotal;             // sisa waktu (ms)
+  let cdEnd = 0;                    // waktu selesai (timestamp) saat berjalan
+  let cdTimer = null;
+  let cdRunning = false;
+  let cdPre = false, cdPreEnd = 0, cdPreLast = 0, cdLastSec = 0;   // fase hitung mundur start
+
+  function cdParse(str){
+    const s = (str || '').trim();
+    if(!s) return null;
+    const parts = s.split(':').map(p => parseInt(p, 10));
+    if(parts.some(isNaN) || parts.length > 3) return null;
+    let sec;
+    if(parts.length === 1) sec = parts[0] * 60;                              // angka saja = menit
+    else if(parts.length === 2) sec = parts[0] * 60 + parts[1];              // MM:SS
+    else sec = parts[0] * 3600 + parts[1] * 60 + parts[2];                   // H:MM:SS
+    return sec * 1000;
+  }
+  function cdFormat(ms){
+    const total = Math.max(0, Math.ceil(ms / 1000));
+    const h = Math.floor(total / 3600), m = Math.floor((total % 3600) / 60), s = total % 60;
+    const pad = n => String(n).padStart(2, '0');
+    return h > 0 ? (h + ':' + pad(m) + ':' + pad(s)) : (pad(m) + ':' + pad(s));
+  }
+  function cdShow(){
+    const busy = cdRunning || cdPre;
+    if(cdPre){
+      cdTime.value = String(Math.max(1, Math.ceil((cdPreEnd - Date.now()) / 1000)));
+    } else {
+      cdTime.value = cdFormat(cdLeft);
+    }
+    cdTime.classList.toggle('long', !cdPre && cdTime.value.length > 5);
+    cdTime.classList.toggle('pre', cdPre);
+    cdTime.classList.toggle('running', cdRunning);
+    cdTime.classList.toggle('warn', cdRunning && cdLeft > 0 && cdLeft <= LAST_WARN_MS);
+    cdTime.classList.toggle('finished', !busy && cdLeft <= 0 && cdTotal > 0);
+    cdTime.readOnly = busy;
+    cdToggle.textContent = busy ? '❚❚' : '▶';
+    cdToggle.classList.toggle('on', busy);
+  }
+  let cdCtx = null;
+  function cdBeep(freq, n, gap, len){
+    try{
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if(!AC) return;
+      if(!cdCtx) cdCtx = new AC();
+      if(cdCtx.state === 'suspended') cdCtx.resume();
+      for(let i = 0; i < n; i++){
+        const o = cdCtx.createOscillator(), g = cdCtx.createGain();
+        o.type = 'square'; o.frequency.value = freq;
+        g.gain.value = .15;
+        o.connect(g); g.connect(cdCtx.destination);
+        const t0 = cdCtx.currentTime + i * gap;
+        o.start(t0); o.stop(t0 + len);
+      }
+    }catch(e){}
+  }
+  function cdTick(){
+    if(cdPre){
+      const rem = cdPreEnd - Date.now();
+      if(rem > 0){
+        const sec = Math.ceil(rem / 1000);
+        if(sec !== cdPreLast){ cdPreLast = sec; cdBeep(sec <= 3 ? 1000 : 660, 1, 0, .12); }
+        cdShow();
+        return;
+      }
+      // hitung mundur start selesai -> waktu utama mulai
+      cdPre = false;
+      cdEnd = Date.now() + cdLeft;
+      cdRunning = true;
+      cdBeep(1320, 1, 0, .6);
+    }
+    cdLeft = cdEnd - Date.now();
+    if(cdLeft <= 0){
+      cdLeft = 0;
+      cdRunning = false;
+      clearInterval(cdTimer); cdTimer = null;
+      cdShow();
+      cdBeep(880, 3, .35, .25);
+      return;
+    }
+    if(cdLeft <= LAST_WARN_MS){
+      const sec = Math.ceil(cdLeft / 1000);
+      if(sec !== cdLastSec){
+        cdLastSec = sec;
+        if(sec === 300 || sec === 60) cdBeep(700, 2, .2, .1);   // peringatan 5 menit & 1 menit terakhir
+        else if(sec <= 10) cdBeep(sec <= 3 ? 1000 : 800, 1, 0, .1);
+      }
+    }
+    cdShow();
+  }
+  function cdStart(){
+    if(cdLeft <= 0) cdLeft = cdTotal;
+    if(cdLeft <= 0) return;
+    cdLastSec = 0;
+    if(START_SEC <= 0){            // tanpa hitung mundur start: langsung jalan
+      cdEnd = Date.now() + cdLeft;
+      cdRunning = true;
+      cdTimer = setInterval(cdTick, 100);
+      cdTick();
+      return;
+    }
+    cdPre = true;
+    cdPreEnd = Date.now() + START_SEC * 1000;
+    cdPreLast = 0;
+    cdTimer = setInterval(cdTick, 100);
+    cdTick();
+  }
+  function cdPause(){
+    if(cdPre){                     // batalkan hitung mundur start
+      cdPre = false;
+    } else {
+      cdLeft = Math.max(0, cdEnd - Date.now());
+      cdRunning = false;
+    }
+    clearInterval(cdTimer); cdTimer = null;
+    cdShow();
+  }
+  function cdCommitInput(){
+    if(cdRunning || cdPre) return;
+    const ms = cdParse(cdTime.value);
+    if(ms !== null && ms > 0){ cdTotal = ms; cdLeft = ms; }
+    cdShow();
+  }
+  cdToggle.addEventListener('click', () => {
+    if(cdRunning || cdPre){ cdPause(); return; }
+    cdCommitInput();
+    cdStart();
   });
+  cdReset.addEventListener('click', () => {
+    clearInterval(cdTimer); cdTimer = null;
+    cdRunning = false; cdPre = false;
+    cdLeft = cdTotal; cdLastSec = 0;
+    cdShow();
+  });
+  cdTime.addEventListener('focus', () => { if(!cdRunning && !cdPre) cdTime.select(); });
+  cdTime.addEventListener('blur', cdCommitInput);
+  cdTime.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter'){ e.preventDefault(); cdCommitInput(); cdTime.blur(); }
+  });
+  cdShow();
+
+  // ===== Popup Atur Waktu (jam / menit / detik + pilihan cepat) =====
+  const cdModal = document.getElementById('cdModal');
+  const cdH = document.getElementById('cdH'), cdM = document.getElementById('cdM'), cdS = document.getElementById('cdS');
+  const cdPreSec = document.getElementById('cdPreSec');
+  [30, 45, 60, 70, 90].forEach(min => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = min + ' menit';
+    b.addEventListener('click', () => { cdH.value = Math.floor(min / 60); cdM.value = min % 60; cdS.value = 0; });
+    document.getElementById('cdPresets').appendChild(b);
+  });
+  function openCdSet(){
+    const t = Math.round(cdTotal / 1000);
+    cdH.value = Math.floor(t / 3600);
+    cdM.value = Math.floor((t % 3600) / 60);
+    cdS.value = t % 60;
+    cdPreSec.value = START_SEC;
+    cdModal.classList.add('open');
+    cdM.focus(); cdM.select();
+  }
+  function closeCdSet(){ cdModal.classList.remove('open'); }
+  function saveCdSet(){
+    const num = (el, max) => Math.min(max, Math.max(0, parseInt(el.value, 10) || 0));
+    const sec = num(cdH, 23) * 3600 + num(cdM, 59) * 60 + num(cdS, 59);
+    if(sec <= 0){ cdM.focus(); return; }
+    clearInterval(cdTimer); cdTimer = null;
+    cdRunning = false; cdPre = false; cdLastSec = 0;
+    cdTotal = sec * 1000;
+    cdLeft = cdTotal;
+    START_SEC = num(cdPreSec, 60);
+    cdShow();
+    closeCdSet();
+  }
+  document.getElementById('cdSet').addEventListener('click', openCdSet);
+  document.getElementById('cdSave').addEventListener('click', saveCdSet);
+  document.getElementById('cdModalClose').addEventListener('click', closeCdSet);
+  cdModal.addEventListener('click', (e) => { if(e.target === cdModal) closeCdSet(); });
+  cdModal.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter'){ e.preventDefault(); saveCdSet(); }
+    else if(e.key === 'Escape') closeCdSet();
+  });
+
+  // ===== Pilihan mode Day / Night =====
+  const modeBtns = document.querySelectorAll('#modeToggle button');
+  function setMode(m){
+    document.body.classList.toggle('night', m === 'night');
+    modeBtns.forEach(b => b.classList.toggle('on', b.dataset.mode === m));
+    try { localStorage.setItem('galatamaMode', m); } catch(e) {}
+  }
+  modeBtns.forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
+  let savedMode = 'day';
+  try { savedMode = localStorage.getItem('galatamaMode') === 'night' ? 'night' : 'day'; } catch(e) {}
+  setMode(savedMode);
 
   // Skala otomatis: tampilan didesain 1400px lalu diperkecil/diperbesar agar pas selebar layar (tanpa scroll)
   const wrapEl = document.querySelector('.wrap');
