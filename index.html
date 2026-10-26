@@ -338,17 +338,6 @@ input.points-add{width:2.55em;min-width:2.55em;font-size:.8em;padding:.1em 0 .1e
 .panel .copyright{margin-top:5px;padding-top:3px;line-height:1.15;}
 .panel{border-radius:4px;padding-bottom:7px;}
 .copy-mark{display:inline-block;margin-right:.08em;font-weight:800;}
-
-/* ===== Countdown START ===== */
-.start-set{position:relative;cursor:pointer;}
-.start-set #jamStart{position:absolute !important;inset:0;width:100% !important;height:100%;opacity:0;cursor:pointer;padding:0 !important;margin:0;}
-.top-row .badge-row .slot-badge > span.cd-text{font-size:1.2em !important;line-height:1.2;font-weight:800;font-variant-numeric:tabular-nums;min-width:5.4em;text-align:center;padding:.1em .5em;pointer-events:none;}
-.start-set.last{background:#FFB74D;border-color:#E65100;animation:cdPulse 1s infinite;}
-.start-set.last .cd-text{color:#B71C1C;min-width:2.2em;}
-@keyframes cdPulse{50%{transform:scale(1.08);}}
-.start-set.running{background:#FFF3C4;}
-.start-set.go{background:#E53935;border-color:#B71C1C;color:#fff;animation:cdBlink 1s infinite;}
-@keyframes cdBlink{50%{opacity:.55;}}
 </style>
 </head>
 <body>
@@ -367,7 +356,7 @@ input.points-add{width:2.55em;min-width:2.55em;font-size:.8em;padding:.1em 0 .1e
     <div class="slot-badge plus-set" title="Nilai poin awal otomatis untuk peserta yang kolom Pay-nya berisi BIN, juga nilai bawaan tombol + (kolom ± kosong)"><span>+ POINT BIN</span><input type="number" id="plusDefault" value="0" step="1"></div>
     <div class="slot-badge plus-set usn-set" title="Kolom ADD USN, diisi manual"><span>USN</span><input type="text" id="addUsn" placeholder="isi USN..." autocomplete="off" spellcheck="false"></div>
     <div class="slot-badge plus-set usn-set map-set" title="Kolom MAP: klik untuk pilih dari daftar, atau ketik sendiri"><span>MAP</span><input type="text" id="addMap" list="mapList" placeholder="pilih map..." autocomplete="off" spellcheck="false"><button type="button" class="map-clear" id="mapClear" title="Kosongkan MAP">✕</button></div>
-    <div class="slot-badge plus-set usn-set start-set" id="countBadge" title="Countdown ke jam start: klik untuk atur jam, klik 2x untuk reset"><span class="cd-text" id="cdText">--:--:--</span><input type="time" id="jamStart"></div>
+    <div class="slot-badge plus-set usn-set start-set" title="Jam start lomba: klik untuk pilih jam"><span>START</span><input type="time" id="jamStart"></div>
     <datalist id="mapList"></datalist>
     <div class="slot-badge" id="slotInfo" title="Jumlah Nama Peserta yang masih kosong"><span class="slot-label">-</span><span class="slot-num" id="slotLeft">0</span></div>
     </div>
@@ -1108,45 +1097,11 @@ function getPlusDefault() {
     mapInput.fitSize();
   });
 
-  // COUNTDOWN START: klik kotak untuk pilih jam, lalu hitung mundur otomatis
+  // JAM START: klik kotaknya langsung membuka pemilih jam (kalau browser mendukung)
   const jamStart = document.getElementById('jamStart');
-  const cdText = document.getElementById('cdText');
-  const countBadge = document.getElementById('countBadge');
-  function tickCountdown(){
-    if(!jamStart.value){
-      cdText.textContent = '--:--:--';
-      countBadge.classList.remove('running','go','last');
-      return;
-    }
-    const [h, m] = jamStart.value.split(':').map(Number);
-    const target = new Date();
-    target.setHours(h, m, 0, 0);
-    const diff = target - Date.now();
-    if(diff > 10000){
-      const s = Math.floor(diff / 1000);
-      const pad = n => String(n).padStart(2, '0');
-      cdText.textContent = pad(Math.floor(s / 3600)) + ':' + pad(Math.floor(s % 3600 / 60)) + ':' + pad(s % 60);
-      countBadge.classList.add('running');
-      countBadge.classList.remove('go','last');
-    } else if(diff > 0){
-      // 10 detik terakhir: tampil 10, 9, 8, ... 1
-      cdText.textContent = Math.ceil(diff / 1000);
-      countBadge.classList.remove('running','go');
-      countBadge.classList.add('last');
-    } else {
-      cdText.textContent = 'MULAI!';
-      countBadge.classList.remove('running','last');
-      countBadge.classList.add('go');
-    }
-  }
   jamStart.addEventListener('click', () => {
     try { if(jamStart.showPicker) jamStart.showPicker(); } catch(e) {}
   });
-  jamStart.addEventListener('input', tickCountdown);
-  jamStart.addEventListener('change', tickCountdown);
-  countBadge.addEventListener('dblclick', () => { jamStart.value = ''; tickCountdown(); });
-  setInterval(tickCountdown, 200);
-  tickCountdown();
 
   // Skala otomatis: tampilan didesain 1400px lalu diperkecil/diperbesar agar pas selebar layar (tanpa scroll)
   const wrapEl = document.querySelector('.wrap');
