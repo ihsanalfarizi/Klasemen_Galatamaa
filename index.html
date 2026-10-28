@@ -415,14 +415,15 @@ body.night .cd-fields input{background:#2A2A2A;color:#fff;}
 /* ===== Tombol ± + popup tambah/kurang poin ===== */
 .pm-btn{flex:none;width:2.4em;height:1.5em;border-radius:4px;border:2px solid var(--green);background:#fff;color:var(--green);font-family:inherit;font-weight:800;font-size:.95em;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;}
 .pm-btn:hover{background:#E6F5EC;} .pm-btn:active{transform:scale(.92);}
-#pmModal .modal-box{max-width:250px;}
-#pmModal .modal-head{padding:6px 10px;}
-#pmModal .modal-title{font-size:15px;}
-#pmModal .modal-title small{font-size:12px;margin-top:1px;}
-#pmModal .modal-close{width:26px;height:26px;font-size:13px;}
-#pmModal .modal-body{padding:4px 10px 8px;}
-.pm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin:6px 0;}
-.pm-grid button{border-radius:5px;font-family:inherit;font-weight:800;font-size:15px;padding:5px 0;cursor:pointer;border:2px solid;}
+#pmModal.modal-overlay{background:transparent;padding:0;align-items:flex-start;justify-content:flex-start;}
+#pmModal .modal-box{position:absolute;width:200px;max-width:200px;border-width:1px;border-radius:6px;box-shadow:0 4px 14px rgba(0,0,0,.4);}
+#pmModal .modal-head{padding:3px 6px;gap:6px;border-bottom-width:1px;}
+#pmModal .modal-title{font-size:11px;line-height:1.1;}
+#pmModal .modal-title small{font-size:10px;margin-top:0;}
+#pmModal .modal-close{width:18px;height:18px;font-size:10px;border-width:1px;}
+#pmModal .modal-body{padding:3px 6px 5px;}
+.pm-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;margin:3px 0;}
+.pm-grid button{border-radius:4px;font-family:inherit;font-weight:800;font-size:11px;padding:3px 0;cursor:pointer;border:1px solid;line-height:1.1;}
 .pm-grid button:active{transform:scale(.93);}
 .pm-grid .plus{background:#E6F5EC;border-color:var(--green);color:#0B4A28;}
 .pm-grid .plus:hover{background:var(--green);color:#fff;}
@@ -431,6 +432,14 @@ body.night .cd-fields input{background:#2A2A2A;color:#fff;}
 body.night .pm-btn{background:#2A2A2A;}
 body.night .pm-grid .plus{background:#12261A;color:#7CFFB0;}
 body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
+
+/* ===== Pengumuman countdown: 5 menit, 1 menit, 10 detik terakhir ===== */
+.cd-alert{position:fixed;left:50%;top:32%;transform:translate(-50%,-50%) scale(.8);z-index:120;pointer-events:none;opacity:0;transition:opacity .15s,transform .15s;text-align:center;font-weight:800;color:#fff;background:rgba(20,20,20,.88);border:4px solid #fff;border-radius:18px;padding:.25em .8em;font-size:64px;line-height:1.15;white-space:nowrap;box-shadow:0 10px 40px rgba(0,0,0,.5);}
+.cd-alert.show{opacity:1;transform:translate(-50%,-50%) scale(1);}
+.cd-alert.warn{background:#E65100;border-color:#FFE0B2;}
+.cd-alert.num{font-size:190px;min-width:1.5em;background:#C62828;border-color:#FFCDD2;}
+.cd-alert.end{background:#B71C1C;border-color:#FFCDD2;}
+@media (max-width:700px){.cd-alert{font-size:34px}.cd-alert.num{font-size:110px}}
 </style>
 </head>
 <body>
@@ -466,9 +475,11 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
         <tbody id="tableBodyBottom"></tbody>
       </table></div>
     </div>
-    <div class="copyright"><span class="copy-mark" title="Copyright">&copy;</span><span class="adm-trigger" id="admTrigger">Created</span> By Aaronnn<span class="red-note"><b>NOTE:</b> Klik no peserta untuk memerahkan display &nbsp;|&nbsp; Klik Pay yang sudah diisi untuk menandakan sudah dibayar</span></div>
+    <div class="copyright"><span class="copy-mark" title="Copyright">&copy;</span><span class="adm-trigger" id="admTrigger">Created</span> By Aaronnn</div>
   </div>
 </div>
+
+<div class="cd-alert" id="cdAlert"></div>
 
 <div class="mode-toggle" id="modeToggle" title="Pilih mode tampilan"><button type="button" data-mode="day" class="on">☀️ Day</button><button type="button" data-mode="night">🌙 Night</button></div>
 
@@ -799,11 +810,22 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
   // ===== Popup tambah / kurang poin (+1..+8 dan -1..-8) =====
   const pmModal = document.getElementById('pmModal');
   let pmTarget = null;
-  function openPm(id){
+  function openPm(id, btn){
     pmTarget = id;
     const t = teams.find(x => x.id === id);
     document.getElementById('pmSub').textContent = t.nickname || t.name || ('Peserta #' + id);
     pmModal.classList.add('open');
+    // Tempatkan popup tepat di bawah tombol ± (naik ke atas kalau tidak muat), tetap di dalam layar
+    const box = pmModal.querySelector('.modal-box');
+    const r = btn.getBoundingClientRect();
+    const w = box.offsetWidth, h = box.offsetHeight, gap = 4;
+    let left = r.left + r.width / 2 - w / 2;
+    let top = r.bottom + gap;
+    if(top + h > window.innerHeight - gap) top = r.top - h - gap;
+    left = Math.max(gap, Math.min(left, window.innerWidth - w - gap));
+    top = Math.max(gap, top);
+    box.style.left = left + 'px';
+    box.style.top = top + 'px';
   }
   function closePm(){ pmModal.classList.remove('open'); pmTarget = null; }
   function applyDelta(id, delta){
@@ -818,7 +840,7 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
     }
     render();
   }
-  for(let i = 1; i <= 8; i++){
+  for(let i = 1; i <= 10; i++){
     [['pmPlus','plus',i,'+'],['pmMinus','minus',-i,'−']].forEach(([box, cls, d, sg]) => {
       const b = document.createElement('button');
       b.type = 'button'; b.className = cls;
@@ -1017,8 +1039,8 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
     pmBtn.type = 'button';
     pmBtn.className = 'pm-btn';
     pmBtn.textContent = '±';
-    pmBtn.title = 'Tambah / kurangi poin (+1 sampai +8, -1 sampai -8)';
-    pmBtn.addEventListener('click', () => openPm(team.id));
+    pmBtn.title = 'Tambah / kurangi poin (+1 sampai +10, -1 sampai -10)';
+    pmBtn.addEventListener('click', () => openPm(team.id, pmBtn));
 
     const fishBtn = document.createElement('button');
     fishBtn.type = 'button';
@@ -1286,6 +1308,19 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
       }
     }catch(e){}
   }
+  // ===== Pengumuman besar di layar: 5 menit, 1 menit, 10 detik terakhir =====
+  const cdAlertEl = document.getElementById('cdAlert');
+  let cdAlertTimer = null;
+  function cdAlert(text, cls, ms){
+    cdAlertEl.textContent = text;
+    cdAlertEl.className = 'cd-alert show ' + cls;
+    clearTimeout(cdAlertTimer);
+    cdAlertTimer = setTimeout(cdAlertHide, ms);
+  }
+  function cdAlertHide(){
+    clearTimeout(cdAlertTimer);
+    cdAlertEl.classList.remove('show');
+  }
   function cdTick(){
     if(cdPre){
       const rem = cdPreEnd - Date.now();
@@ -1308,14 +1343,16 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
       clearInterval(cdTimer); cdTimer = null;
       cdShow();
       cdBeep(880, 3, .35, .25);
+      cdAlert('WAKTU HABIS', 'end', 6000);
       return;
     }
     if(cdLeft <= LAST_WARN_MS){
       const sec = Math.ceil(cdLeft / 1000);
       if(sec !== cdLastSec){
         cdLastSec = sec;
-        if(sec === 300 || sec === 60) cdBeep(700, 2, .2, .1);   // peringatan 5 menit & 1 menit terakhir
-        else if(sec <= 10) cdBeep(sec <= 3 ? 1000 : 800, 1, 0, .1);
+        if(sec === 300){ cdBeep(700, 2, .2, .1); cdAlert('SISA 5 MENIT', 'warn', 4000); }
+        else if(sec === 60){ cdBeep(700, 2, .2, .1); cdAlert('SISA 1 MENIT', 'warn', 4000); }
+        else if(sec <= 10){ cdBeep(sec <= 3 ? 1000 : 800, 1, 0, .1); cdAlert(String(sec), 'num', 1300); }
       }
     }
     cdShow();
@@ -1345,6 +1382,7 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
       cdRunning = false;
     }
     clearInterval(cdTimer); cdTimer = null;
+    cdAlertHide();
     cdShow();
   }
   function cdCommitInput(){
@@ -1362,6 +1400,7 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
     clearInterval(cdTimer); cdTimer = null;
     cdRunning = false; cdPre = false;
     cdLeft = cdTotal; cdLastSec = 0;
+    cdAlertHide();
     cdShow();
   });
   cdTime.addEventListener('focus', () => { if(!cdRunning && !cdPre) cdTime.select(); });
@@ -1401,6 +1440,7 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
     cdTotal = sec * 1000;
     cdLeft = cdTotal;
     START_SEC = num(cdPreSec, 60);
+    cdAlertHide();
     cdShow();
     closeCdSet();
   }
