@@ -440,6 +440,27 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
 .cd-alert.num{font-size:190px;min-width:1.5em;background:#C62828;border-color:#FFCDD2;}
 .cd-alert.end{background:#B71C1C;border-color:#FFCDD2;}
 @media (max-width:700px){.cd-alert{font-size:34px}.cd-alert.num{font-size:110px}}
+
+/* ===== NOTIFIKASI POIN MENGAMBANG (muncul saat poin naik / turun) ===== */
+.pt-toasts{position:fixed;top:calc(14px + env(safe-area-inset-top,0px));right:calc(14px + env(safe-area-inset-right,0px));z-index:130;display:flex;flex-direction:column;align-items:flex-end;gap:10px;pointer-events:none;max-width:calc(100vw - 28px);}
+.pt-toast{display:flex;align-items:center;gap:16px;min-width:300px;max-width:520px;padding:12px 20px 12px 14px;border-radius:14px;color:#fff;background:rgba(18,18,18,.94);border:3px solid #2ECC71;border-left-width:10px;box-shadow:0 10px 30px rgba(0,0,0,.45);font-family:inherit;opacity:0;transform:translateX(60px) scale(.95);transition:opacity .25s,transform .25s;}
+.pt-toast.show{opacity:1;transform:translateX(0) scale(1);}
+.pt-toast.up{border-color:#2ECC71;}
+.pt-toast.down{border-color:#42A5F5;}
+.pt-delta{flex:none;min-width:2.1em;text-align:center;font-weight:800;font-size:44px;line-height:1;}
+.pt-toast.up .pt-delta{color:#5BE08C;}
+.pt-toast.down .pt-delta{color:#FF8A80;}
+.pt-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;}
+.pt-name{font-weight:800;font-size:24px;line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.pt-total{font-weight:700;font-size:20px;color:#E0E0E0;}
+.pt-total b{font-size:1.5em;font-weight:800;color:#FFD54F;}
+.pt-label{font-weight:600;font-size:16px;color:#FFB74D;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+@media (max-width:700px){.pt-toast{min-width:0;width:100%;padding:8px 12px 8px 10px;gap:10px}.pt-delta{font-size:30px}.pt-name{font-size:18px}.pt-total{font-size:15px}.pt-label{font-size:13px}}
+
+/* Tombol suara ON/OFF */
+.sound-toggle{position:fixed;left:calc(14px + env(safe-area-inset-left,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:95;border:2px solid var(--head-bg);border-radius:999px;background:var(--cell-bg);color:var(--ink);font-family:inherit;font-weight:700;font-size:15px;padding:.35em .9em;cursor:pointer;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,.35);opacity:.92;transition:opacity .15s;}
+.sound-toggle:hover{opacity:1;}
+.sound-toggle.off{border-color:#E53935;color:#E53935;}
 </style>
 </head>
 <body>
@@ -480,6 +501,11 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
 </div>
 
 <div class="cd-alert" id="cdAlert"></div>
+
+<!-- Notifikasi poin mengambang -->
+<div class="pt-toasts" id="ptToasts"></div>
+
+<button type="button" class="sound-toggle" id="soundToggle" title="Suara notifikasi poin ON / OFF">🔊 Suara</button>
 
 <div class="mode-toggle" id="modeToggle" title="Pilih mode tampilan"><button type="button" data-mode="day" class="on">☀️ Day</button><button type="button" data-mode="night">🌙 Night</button></div>
 
@@ -589,6 +615,79 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
 
   const plusDefaultInput = document.getElementById('plusDefault');
 
+  // ===== NOTIFIKASI + SUARA saat poin berubah =====
+  // Dipanggil setiap poin naik / turun (ikan, tombol ±, bonus BIN).
+  // Menampilkan kartu mengambang: nama, perubahan (+3 / -2), dan poin jadi berapa. Suara naik = nada naik, turun = nada turun.
+  const ptToasts = document.getElementById('ptToasts');
+  const soundBtn = document.getElementById('soundToggle');
+  const MAX_TOASTS = 4;        // maksimal kartu tampil bersamaan
+  const TOAST_MS = 4500;       // lama tampil (ms)
+  let soundOn = true;
+  try { soundOn = localStorage.getItem('galatamaSound') !== 'off'; } catch(e) {}
+  let ptCtx = null;
+
+  function refreshSoundBtn(){
+    soundBtn.textContent = soundOn ? '🔊 Suara' : '🔇 Suara OFF';
+    soundBtn.classList.toggle('off', !soundOn);
+  }
+  refreshSoundBtn();
+  soundBtn.addEventListener('click', () => {
+    soundOn = !soundOn;
+    try { localStorage.setItem('galatamaSound', soundOn ? 'on' : 'off'); } catch(e) {}
+    refreshSoundBtn();
+    if(soundOn) ptSound(true);   // contoh bunyi saat dinyalakan
+  });
+
+  // Rangkaian nada: [frekuensi, mulai(detik), durasi(detik)]
+  function ptSound(up, big){
+    if(!soundOn) return;
+    try{
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if(!AC) return;
+      if(!ptCtx) ptCtx = new AC();
+      if(ptCtx.state === 'suspended') ptCtx.resume();
+      const notes = up
+        ? (big ? [[660,0,.12],[880,.11,.12],[1175,.22,.12],[1568,.33,.3]] : [[784,0,.12],[1175,.12,.25]])
+        : [[587,0,.14],[392,.14,.3]];
+      const now = ptCtx.currentTime;
+      notes.forEach(([f, s, d]) => {
+        const o = ptCtx.createOscillator(), g = ptCtx.createGain();
+        o.type = up ? 'triangle' : 'sine';
+        o.frequency.value = f;
+        g.gain.setValueAtTime(0.0001, now + s);
+        g.gain.exponentialRampToValueAtTime(0.25, now + s + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, now + s + d);
+        o.connect(g); g.connect(ptCtx.destination);
+        o.start(now + s); o.stop(now + s + d + 0.05);
+      });
+    }catch(e){}
+  }
+
+  function esc(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  function notifyPoints(t, delta, after, label){
+    if(!delta) return;
+    const up = delta > 0;
+    const who = (t.nickname || '').trim() || (t.name || '').trim() || ('Peserta #' + t.id);
+    const el = document.createElement('div');
+    el.className = 'pt-toast ' + (up ? 'up' : 'down');
+    el.innerHTML =
+      '<div class="pt-delta">' + (up ? '+' : '') + delta + '</div>' +
+      '<div class="pt-info">' +
+        '<div class="pt-name">' + esc(who) + '</div>' +
+        '<div class="pt-total">Poin jadi <b>' + after + '</b></div>' +
+        (label ? '<div class="pt-label">' + esc(label) + '</div>' : '') +
+      '</div>';
+    ptToasts.appendChild(el);
+    while(ptToasts.children.length > MAX_TOASTS) ptToasts.firstElementChild.remove();
+    requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show')));
+    setTimeout(() => {
+      el.classList.remove('show');
+      setTimeout(() => el.remove(), 300);
+    }, TOAST_MS);
+    ptSound(up, Math.abs(delta) >= 3);
+  }
+
   // Bonus POINT BIN diberikan SEKALI di awal: begitu kolom Pay berisi "bin" (huruf besar/kecil bebas),
   // poin peserta otomatis bertambah sebesar nilai + POINT BIN. Kalau "bin" dihapus dari Pay, bonus ditarik lagi.
   function syncBin(t){
@@ -607,6 +706,7 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
     if(actual){
       t.flash = { dir: actual > 0 ? 'up' : 'down', time: Date.now() };
       t.history.push({ delta: actual, after: newPoints, time: Date.now(), label });
+      notifyPoints(t, actual, newPoints, label);
     }
     return true;
   }
@@ -797,9 +897,11 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
     if(!picked.length || fishTarget === null){ closeFish(); return; }
     const t = teams.find(x => x.id === fishTarget);
     const delta = picked.reduce((a,f) => a + f.p, 0);
+    const label = picked.map(f => f.n).join(' + ');
     t.points += delta;
     t.flash = { dir: 'up', time: Date.now() };   // kedip hijau (poin naik)
-    t.history.push({ delta, after: t.points, time: Date.now(), label: picked.map(f => f.n).join(' + ') });
+    t.history.push({ delta, after: t.points, time: Date.now(), label });
+    notifyPoints(t, delta, t.points, label);     // notifikasi + suara
     closeFish();
     // Kosongkan search supaya siap untuk pencarian berikutnya (kolom search tetap terbuka)
     searchInput.value = '';
@@ -807,7 +909,7 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
     searchInput.focus();
   });
 
-  // ===== Popup tambah / kurang poin (+1..+8 dan -1..-8) =====
+  // ===== Popup tambah / kurang poin (+1..+10 dan -1..-10) =====
   const pmModal = document.getElementById('pmModal');
   let pmTarget = null;
   function openPm(id, btn){
@@ -837,6 +939,7 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
     if(actual){
       t.flash = { dir: actual > 0 ? 'up' : 'down', time: Date.now() };   // hijau = naik, biru = turun
       t.history.push({ delta: actual, after: newPoints, time: Date.now(), label: 'Manual' });
+      notifyPoints(t, actual, newPoints, 'Manual');                       // notifikasi + suara
     }
     render();
   }
@@ -1034,7 +1137,7 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
     pointsInput.dataset.id = team.id;
     pointsInput.dataset.field = 'points';
 
-    // Tombol ± = buka popup +1..+8 / -1..-8
+    // Tombol ± = buka popup +1..+10 / -1..-10
     const pmBtn = document.createElement('button');
     pmBtn.type = 'button';
     pmBtn.className = 'pm-btn';
