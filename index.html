@@ -15,7 +15,7 @@
   --stripe:#DCEFE1;          /* baris selang-seling (mint) */
   --head-bg:#1E8E3E;         /* header hijau */
   --server-bg:#58B85F;       /* baris No 20 (server) */
-  --green:#137E43; --red:#C0392B; --sel-border:#107C41; --title-bg:#FFFF00;
+  --green:#137E43; --red:#C0392B; --sel-border:#107C41;
   --fs:16px;
   color-scheme:light;
 }
@@ -31,8 +31,6 @@ col.col-rank{width:6%;} col.col-name{width:23%;} col.col-pay{width:7%;} col.col-
 
 /* ===== Header ala Google Sheets ===== */
 th.colhead{background:var(--head-bg);border:2px solid #000;font-weight:700;font-size:1em;color:#fff;text-align:center;padding:.7em 2px;letter-spacing:.3px;position:relative;}
-th.filt::after{content:"";display:inline-block;width:.9em;height:.9em;margin-left:.45em;vertical-align:-.1em;opacity:.85;
-  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M3 6h18M6 12h12M10 18h4' stroke='white' stroke-width='2.6' stroke-linecap='round' fill='none'/></svg>") center/contain no-repeat;}
 thead th:nth-child(6), thead th:last-child{font-size:.55em;padding:1.1em 0;white-space:nowrap;overflow:hidden;}
 thead th:nth-child(3){font-size:1.05em;font-weight:800;padding:.7em 0;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-shadow:0 1px 0 rgba(0,0,0,.35);}
 
@@ -174,7 +172,6 @@ td.center .hist-btn .ico{width:1.4em;height:1.4em;}
 .search-icon{font-size:calc(var(--fs)*1.15);flex:none;display:flex;}
 #searchInput{flex:1;min-width:0;border:none;background:transparent;font-family:inherit;font-weight:500;font-size:calc(var(--fs)*1.1);color:var(--ink);padding:.3em 4px;}
 #searchInput:focus{outline:none;}
-.search-key{flex:none;font-size:calc(var(--fs)*.75);font-weight:600;color:var(--muted);border:1px solid var(--grid);border-radius:3px;padding:.1em .45em;background:#F3F3F3;white-space:nowrap;}
 #searchClear{display:none;flex:none;width:1.5em;height:1.5em;border-radius:3px;border:1px solid var(--grid);background:#fff;color:var(--muted);font-size:calc(var(--fs)*.85);cursor:pointer;line-height:1;}
 #searchClear:hover{border-color:var(--red);color:var(--red);}
 #searchCount{display:none;flex:none;font-weight:600;font-size:calc(var(--fs)*.8);padding:.15em .6em;border-radius:999px;color:#fff;background:var(--green);white-space:nowrap;}
@@ -193,13 +190,8 @@ tbody tr.search-hit td:last-child{box-shadow:inset -4px 0 0 #E65100,inset 0 4px 
 .usn-set input{width:5.2em;font-size:1em;font-weight:700;padding:.2em .4em;}
 .usn-set input::placeholder{color:#8A8A8A;font-weight:500;}
 .plus-set input:focus{outline:none;border-color:var(--sel-border);}
-.slot-badge.start-set{font-size:calc(var(--fs)*.92);gap:.4em;padding:.2em .3em .2em .7em;}
-.usn-set.start-set input{width:5.6em;font-size:1em;font-weight:700;font-family:inherit;padding:.2em .3em;cursor:pointer;}
-.usn-set.start-set input::-webkit-calendar-picker-indicator{display:none;}
 .map-set input{text-transform:uppercase;}
 .map-set input::placeholder{text-transform:none;}
-.map-clear{flex:none;width:1.6em;height:1.6em;border-radius:50%;border:1px solid var(--grid);background:#fff;color:var(--muted);font-size:.9em;cursor:pointer;line-height:1;padding:0;display:none;}
-.map-clear:hover{border-color:var(--red);color:var(--red);}
 
 .medal{display:inline-flex;align-items:center;justify-content:center;width:1.7em;height:1.7em;border-radius:50%;font-weight:800;font-size:.95em;color:#222;border:2px solid rgba(0,0,0,.35);box-shadow:inset 0 -2px 0 rgba(0,0,0,.18);}
 .medal.m1{background:linear-gradient(#FFE27A,#F5B700);}
@@ -230,7 +222,6 @@ tbody tr.search-hit td:last-child{box-shadow:inset -4px 0 0 #E65100,inset 0 4px 
 .top-row .search-bar{flex:1 1 100%;padding:0 10px;}
 .search-icon{font-size:calc(var(--fs)*1.9);}
 #searchInput{font-size:calc(var(--fs)*.85);padding:.15em 4px;}
-.search-key{font-size:calc(var(--fs)*.65);}
 #searchCount{font-size:calc(var(--fs)*.7);}
 #searchClear{font-size:calc(var(--fs)*.75);}
 
@@ -249,13 +240,11 @@ tbody tr.search-hit td:last-child{box-shadow:inset -4px 0 0 #E65100,inset 0 4px 
 /* Footer "Created By": jarak atas tipis, tulisan diperbesar */
 .copyright{margin-top:2px;font-size:calc(var(--fs)*1.6);line-height:1.2;}
 
-/* Tombol ✕ di kolom MAP dihapus (disembunyikan) */
-.map-clear{display:none !important;}
 
 /* Baris badge: selalu sejajar 1 baris, USN & MAP mengecil kalau tidak muat */
 .badge-row{display:flex;flex:1 1 100%;flex-wrap:wrap;align-items:center;gap:8px 10px;min-width:0;}
 .badge-row .slot-badge{min-width:min-content;flex-shrink:0;}
-.badge-row .slot-badge.plus-set:not(.usn-set),.badge-row .start-set,.badge-row #slotInfo{flex:0 0 auto;}
+.badge-row .slot-badge.plus-set:not(.usn-set),.badge-row #slotInfo{flex:0 0 auto;}
 /* USN & MAP: melebar mengikuti isi (lebar input diatur script), tidak pernah terpotong */
 .badge-row .slot-badge.usn-set:not(.start-set){flex:1 0 auto;}
 .badge-row .slot-badge.usn-set:not(.start-set) input{flex:1 0 auto;}
@@ -287,20 +276,20 @@ body{padding-top:0;}
 .top-row .search-bar{margin-top:0;border-top-width:2px;}
 
 /* ===== SEARCH MENGAMBANG: muncul saat Ctrl+F, hilang saat Esc / kosong ===== */
-.top-row .search-bar{position:fixed;top:auto;bottom:calc(10px + env(safe-area-inset-bottom,0px));right:auto;left:50%;transform:translateX(-50%);width:760px;max-width:calc(100vw - 28px);flex:none;margin:0;padding:16px 24px;gap:16px;background:#2b2b2d;border:0;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.35);z-index:90;visibility:hidden;opacity:0;pointer-events:none;transition:opacity .12s;}
+.top-row .search-bar{position:fixed;top:calc(3px + env(safe-area-inset-top,0px));bottom:auto;right:auto;left:50%;transform:translateX(-50%);width:400px;max-width:calc(100vw - 28px);flex:none;margin:0;padding:4px 10px;gap:6px;background:#2b2b2d;border:0;border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,.35);z-index:90;visibility:hidden;opacity:0;pointer-events:none;transition:opacity .12s;}
 body.search-open .top-row .search-bar{visibility:visible;opacity:1;pointer-events:auto;}
 .top-row .search-bar.active{background:#2b2b2d;border:0;}
-.top-row #searchInput{font-size:calc(var(--fs)*2.1);color:#fff;padding:.3em 6px;}
+.top-row #searchInput{font-size:calc(var(--fs)*1.05);color:#fff;padding:.15em 4px;}
 #searchInput::placeholder{color:#8e8e93;opacity:1;}
-.top-row #searchCount{background:transparent;color:#c8c8cc;font-size:calc(var(--fs)*1.3);padding:0;}
+.top-row #searchCount{background:transparent;color:#c8c8cc;font-size:calc(var(--fs)*.75);padding:0;}
 .top-row #searchCount.none{background:transparent;color:#ff8a80;}
-.search-nav,.top-row #searchClear{flex:none;display:flex;align-items:center;justify-content:center;width:2.4em;height:2.4em;border:0;background:transparent;color:#c8c8cc;border-radius:6px;padding:0;cursor:pointer;font-family:inherit;}
-.top-row #searchClear{display:flex !important;font-size:calc(var(--fs)*1.6);}
+.search-nav,.top-row #searchClear{flex:none;display:flex;align-items:center;justify-content:center;width:1.8em;height:1.8em;border:0;background:transparent;color:#c8c8cc;border-radius:6px;padding:0;cursor:pointer;font-family:inherit;}
+.top-row #searchClear{display:flex !important;font-size:calc(var(--fs)*.9);}
 .search-nav:hover,.top-row #searchClear:hover{background:#3a3a3c;color:#fff;}
 .search-nav svg{width:1.1em;height:1.1em;}
-#searchFab{position:fixed;top:auto;bottom:calc(6px + env(safe-area-inset-bottom,0px));right:auto;left:50%;transform:translateX(-50%);width:3.2em;height:3.2em;border-radius:50%;border:0;background:#2b2b2d;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:.85;z-index:89;padding:0;font-size:var(--fs);box-shadow:0 4px 12px rgba(0,0,0,.3);transition:opacity .15s;}
+#searchFab{position:fixed;top:calc(3px + env(safe-area-inset-top,0px));bottom:auto;right:auto;left:50%;transform:translateX(-50%);width:1.6em;height:1.6em;border-radius:50%;border:0;background:#2b2b2d;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:.6;z-index:89;padding:0;font-size:var(--fs);box-shadow:0 2px 6px rgba(0,0,0,.3);transition:opacity .15s;}
 #searchFab:hover{opacity:1;}
-#searchFab svg{width:1.2em;height:1.2em;}
+#searchFab svg{width:.95em;height:.95em;}
 body.search-open #searchFab{display:none;}
 tbody tr.search-hit.search-cur td,tbody tr.search-hit.search-cur td.name-cell,tbody tr.search-hit.search-cur td.poin-cell{background:#FFC107;}
 
@@ -320,8 +309,6 @@ tbody tr.red.search-hit td.name-cell,
 tbody tr.red.search-hit td.poin-cell{background:#FF8A80;}
 tbody tr.red.search-hit input.team-name,
 tbody tr.red.search-hit input.team-nick{color:#000;}
-.red-note{display:inline-block;margin-left:1.2em;font-size:.55em;font-weight:600;color:#5D4037;letter-spacing:0;vertical-align:middle;background:#FFF59D;border:2px solid #F9A825;border-left:6px solid #F9A825;border-radius:4px;padding:.3em .8em;box-shadow:0 2px 4px rgba(0,0,0,.15);}
-.red-note b{color:#D32F2F;font-weight:800;margin-right:.3em;}
 
 /* Tulisan Admin (baris No 20) = hitam */
 tbody tr.server input.team-name,
@@ -341,9 +328,9 @@ input.points{width:1.6em;font-size:1.85em;height:1.2em;margin-right:.15em;}
 .copy-mark{display:inline-block;margin-right:.08em;font-weight:800;}
 
 /* ===== PILIHAN MODE DAY / NIGHT ===== */
-.mode-toggle{position:fixed;right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:95;display:inline-flex;align-items:center;border:2px solid var(--head-bg);border-radius:999px;overflow:hidden;background:var(--cell-bg);font-size:15px;box-shadow:0 4px 14px rgba(0,0,0,.35);opacity:.92;transition:opacity .15s;}
+.mode-toggle{position:fixed;right:calc(14px + env(safe-area-inset-right,0px));top:calc(3px + env(safe-area-inset-top,0px));bottom:auto;z-index:95;display:inline-flex;align-items:center;border:1px solid var(--head-bg);border-radius:999px;overflow:hidden;background:var(--cell-bg);font-size:11px;box-shadow:0 2px 6px rgba(0,0,0,.3);opacity:.6;transition:opacity .15s;}
 .mode-toggle:hover{opacity:1;}
-.mode-toggle button{border:0;background:transparent;color:var(--ink);font-family:inherit;font-weight:700;font-size:1em;padding:.35em .9em;cursor:pointer;white-space:nowrap;}
+.mode-toggle button{border:0;background:transparent;color:var(--ink);font-family:inherit;font-weight:700;font-size:1em;padding:.2em .7em;cursor:pointer;white-space:nowrap;}
 .mode-toggle button.on{background:var(--head-bg);color:#fff;}
 
 body.night{--sheet-bg:#121212;--cell-bg:#1E1E1E;--ink:#F2F2F2;--muted:#B5B5B5;--grid:#3A3A3A;--stripe:#26332B;--head-bg:#14612B;color-scheme:dark;}
@@ -442,9 +429,9 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
 @media (max-width:700px){.cd-alert{font-size:34px}.cd-alert.num{font-size:110px}}
 
 /* ===== NOTIFIKASI POIN MENGAMBANG (muncul saat poin naik / turun) ===== */
-.pt-toasts{position:fixed;top:calc(14px + env(safe-area-inset-top,0px));right:calc(14px + env(safe-area-inset-right,0px));z-index:130;display:flex;flex-direction:column;align-items:flex-end;gap:10px;pointer-events:none;max-width:calc(100vw - 28px);}
-.pt-toast{display:flex;align-items:center;gap:16px;min-width:300px;max-width:520px;padding:12px 20px 12px 14px;border-radius:14px;color:#fff;background:rgba(18,18,18,.94);border:3px solid #2ECC71;border-left-width:10px;box-shadow:0 10px 30px rgba(0,0,0,.45);font-family:inherit;opacity:0;transform:translateX(60px) scale(.95);transition:opacity .25s,transform .25s;}
-.pt-toast.show{opacity:1;transform:translateX(0) scale(1);}
+.pt-toasts{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:130;display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:none;max-width:calc(100vw - 28px);}
+.pt-toast{display:flex;align-items:center;gap:16px;min-width:300px;max-width:520px;padding:12px 20px 12px 14px;border-radius:14px;color:#fff;background:rgba(18,18,18,.94);border:3px solid #2ECC71;border-left-width:10px;box-shadow:0 10px 30px rgba(0,0,0,.45);font-family:inherit;opacity:0;transform:scale(.9);transition:opacity .25s,transform .25s;}
+.pt-toast.show{opacity:1;transform:scale(1);}
 .pt-toast.up{border-color:#2ECC71;}
 .pt-toast.down{border-color:#42A5F5;}
 .pt-delta{flex:none;min-width:2.1em;text-align:center;font-weight:800;font-size:44px;line-height:1;}
@@ -458,9 +445,40 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
 @media (max-width:700px){.pt-toast{min-width:0;width:100%;padding:8px 12px 8px 10px;gap:10px}.pt-delta{font-size:30px}.pt-name{font-size:18px}.pt-total{font-size:15px}.pt-label{font-size:13px}}
 
 /* Tombol suara ON/OFF */
-.sound-toggle{position:fixed;left:calc(14px + env(safe-area-inset-left,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:95;border:2px solid var(--head-bg);border-radius:999px;background:var(--cell-bg);color:var(--ink);font-family:inherit;font-weight:700;font-size:15px;padding:.35em .9em;cursor:pointer;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,.35);opacity:.92;transition:opacity .15s;}
+.sound-toggle{position:fixed;left:calc(14px + env(safe-area-inset-left,0px));top:calc(3px + env(safe-area-inset-top,0px));bottom:auto;z-index:95;border:1px solid var(--head-bg);border-radius:999px;background:var(--cell-bg);color:var(--ink);font-family:inherit;font-weight:700;font-size:11px;padding:.2em .7em;cursor:pointer;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,.3);opacity:.6;transition:opacity .15s;}
 .sound-toggle:hover{opacity:1;}
 .sound-toggle.off{border-color:#E53935;color:#E53935;}
+
+/* ===== RIWAYAT POINT (transparansi data) ===== */
+.log-panel{margin-top:3px;border:2px solid #000;background:var(--cell-bg);}
+/* Ukuran tetap: hanya 2 baris terlihat, sisanya di-scroll */
+.log-scroll{font-size:calc(var(--fs)*.8);height:calc(6.3em + 2px);overflow-y:auto;}
+table.log-table{width:100%;border-collapse:collapse;font-size:1em;table-layout:fixed;}
+.log-table td:nth-child(1){width:12%;}
+.log-table td:nth-child(2),.log-table td:nth-child(3){width:22%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.log-table td:nth-child(4),.log-table td:nth-child(5){width:8%;}
+.log-table td{height:2.1em;line-height:1.1;border:2px solid #000;padding:.2em .5em;text-align:center;font-weight:800;background:var(--cell-bg);}
+.log-table tbody tr:nth-child(even) td{background:var(--stripe);}
+.log-table td.l{text-align:left;}
+.log-table td.up{color:var(--green);font-weight:800;}
+.log-table td.down{color:var(--red);font-weight:800;}
+.log-table tbody tr:nth-child(1) td{background:#FFEB3B;font-weight:800;}      /* terbaru = kuning terang */
+.log-table tbody tr:nth-child(2) td{background:#A5D6A7;}                       /* ke-2 = hijau sedang */
+.log-table tbody tr:nth-child(3) td{background:#DCEDC8;}                       /* ke-3 = hijau muda */
+.log-table tbody tr:nth-child(n+4) td{background:var(--cell-bg);}              /* lama = putih */
+.log-table tbody tr:nth-child(n+4):nth-child(even) td{background:var(--stripe);}
+.log-empty{text-align:center;color:var(--muted);font-weight:500 !important;}
+body.night .log-panel{border-color:#5A5A5A;}
+body.night .log-table td{border-color:#5A5A5A;}
+body.night .log-table td.up{color:#5BE08C;}
+body.night .log-table td.down{color:#FF8A80;}
+body.night .log-table tbody tr:nth-child(1) td{background:#6D5F00;color:#FFF59D;}
+body.night .log-table tbody tr:nth-child(2) td{background:#1F4D32;}
+body.night .log-table tbody tr:nth-child(3) td{background:#183524;}
+body.night .log-table tbody tr:nth-child(n+4) td{background:var(--cell-bg);}
+body.night .log-table tbody tr:nth-child(n+4):nth-child(even) td{background:var(--stripe);}
+body.night .log-table tbody tr:nth-child(1) td.up{color:#B9F6CA;}
+body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
 </style>
 </head>
 <body>
@@ -478,7 +496,7 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
     <div class="badge-row">
     <div class="slot-badge plus-set" title="Nilai poin awal otomatis untuk peserta yang kolom Pay-nya berisi BIN"><span>+POINT</span><input type="number" id="plusDefault" value="0" step="1"></div>
     <div class="slot-badge plus-set usn-set" title="Kolom ADD USN, diisi manual"><span>USN</span><input type="text" id="addUsn" placeholder="isi USN..." autocomplete="off" spellcheck="false"></div>
-    <div class="slot-badge plus-set usn-set map-set" title="Kolom MAP: klik untuk pilih dari daftar, atau ketik sendiri"><span>MAP</span><input type="text" id="addMap" list="mapList" placeholder="pilih map..." autocomplete="off" spellcheck="false"><button type="button" class="map-clear" id="mapClear" title="Kosongkan MAP">✕</button></div>
+    <div class="slot-badge plus-set usn-set map-set" title="Kolom MAP: klik untuk pilih dari daftar, atau ketik sendiri"><span>MAP</span><input type="text" id="addMap" list="mapList" placeholder="pilih map..." autocomplete="off" spellcheck="false"></div>
     <div class="slot-badge plus-set cd-set" id="cdBadge" title="Countdown waktu: klik angka untuk atur (mis. 70 = 70 menit, 15:00, 1:30:00), lalu tekan ▶ (hitung mundur 10 detik dulu)"><input type="text" id="cdTime" value="1:10:00" maxlength="8" autocomplete="off" spellcheck="false"><div class="cd-btns"><button type="button" class="cd-btn" id="cdToggle" title="Mulai / Jeda">▶</button><button type="button" class="cd-btn rst" id="cdReset" title="Reset">↺</button><button type="button" class="cd-btn rst" id="cdSet" title="Atur waktu">⚙</button></div></div>
     <datalist id="mapList"></datalist>
     <div class="slot-badge" id="slotInfo" title="Jumlah Nama Peserta yang masih kosong"><span class="slot-label">-</span><span class="slot-num" id="slotLeft">0</span></div>
@@ -496,6 +514,16 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
         <tbody id="tableBodyBottom"></tbody>
       </table></div>
     </div>
+
+    <!-- ===== RIWAYAT POINT (semua perubahan poin, terbaru di atas) ===== -->
+    <div class="log-panel">
+      <div class="log-scroll">
+        <table class="log-table">
+          <tbody id="logBody"></tbody>
+        </table>
+      </div>
+    </div>
+
     <div class="copyright"><span class="copy-mark" title="Copyright">&copy;</span><span class="adm-trigger" id="admTrigger">Created</span> By Aaronnn</div>
   </div>
 </div>
@@ -735,12 +763,12 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
   function applySearch(scroll){
     const q = searchInput.value.trim().toLowerCase();
     searchClear.style.display = q ? 'block' : 'none';
-    let first = null, count = 0;
+    let count = 0;
     document.querySelectorAll('#tableBodyTop tr, #tableBodyBottom tr').forEach(tr => {
       const t = teams.find(x => x.id === Number(tr.dataset.id));
       const hit = !!q && !!t && (t.nickname || '').toLowerCase().includes(q);
       tr.classList.toggle('search-hit', hit);
-      if(hit){ count++; if(!first) first = tr; }
+      if(hit) count++;
     });
     document.body.classList.toggle('searching', !!q);
     document.querySelector('.search-bar').classList.toggle('active', !!q);
@@ -1103,6 +1131,7 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
       else if(!t.slotTime) t.slotTime = Date.now();
       tr.classList.toggle('blank', t.name.trim() === '');
       updateSlotInfo();
+      renderLog();
     });
     tdName.appendChild(nameInput);
 
@@ -1118,6 +1147,7 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
     nickInput.addEventListener('input', (e) => {
       teams.find(x => x.id === team.id).nickname = e.target.value;
       applySearch();
+      renderLog();
     });
     tdNick.appendChild(nickInput);
 
@@ -1265,6 +1295,32 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
     return tr;
   }
 
+  // ===== Riwayat poin global di bawah tabel (nama, display nama, perubahan, poin jadi, keterangan) =====
+  function renderLog(){
+    const body = document.getElementById('logBody');
+    if(!body) return;
+    const all = [];
+    teams.forEach(t => t.history.forEach(h => all.push({ t, h })));
+    all.sort((a, b) => b.h.time - a.h.time);   // terbaru di atas
+    if(!all.length){
+      body.innerHTML = '<tr><td colspan="6" class="log-empty">Belum ada perubahan poin.</td></tr>';
+      return;
+    }
+    const box = body.closest('.log-scroll');
+    body.innerHTML = all.map(r => {
+      const d = r.h.delta;
+      return '<tr>'
+        + '<td>' + formatTime(r.h.time) + '</td>'
+        + '<td class="l">' + (esc((r.t.name || '').trim()) || '-') + '</td>'
+        + '<td class="l">' + (esc((r.t.nickname || '').trim()) || '-') + '</td>'
+        + '<td class="' + (d > 0 ? 'up' : 'down') + '">' + (d > 0 ? '+' : '') + d + '</td>'
+        + '<td>' + r.h.after + '</td>'
+        + '<td class="l">' + esc(r.h.label || '-') + '</td>'
+        + '</tr>';
+    }).join('');
+    box.scrollTop = 0;   // selalu tampilkan data terbaru (paling atas)
+  }
+
   function render(){
     tbodyTop.innerHTML = '';
     tbodyBottom.innerHTML = '';
@@ -1276,6 +1332,7 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
     });
     applySearch();
     updateSlotInfo();
+    renderLog();
     if(pendingFocus){
       const el = document.querySelector('[data-id="' + pendingFocus.id + '"][data-field="' + pendingFocus.field + '"]');
       if(el) el.focus();
@@ -1311,7 +1368,6 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
   // Edit daftar pilihan map di sini (tambah/hapus sesuka hati):
   const MAP_OPTIONS = ['Sisyphus Isle', 'Planet Observatory', 'Megalodon', 'Creater', 'Glacial',];
   const mapInput = document.getElementById('addMap');
-  const mapClear = document.getElementById('mapClear');
   const mapList = document.getElementById('mapList');
   MAP_OPTIONS.forEach(name => {
     const o = document.createElement('option');
@@ -1330,20 +1386,11 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
     if(mapInput.value.trim() === '' && mapPrev) mapInput.value = mapPrev;
     mapPrev = '';
     mapInput.fitSize();
-    mapClear.style.display = mapInput.value ? 'inline-block' : 'none';
   });
   mapInput.addEventListener('input', () => {
     mapPrev = '';   // sudah mengetik/memilih sesuatu, jangan dipulihkan lagi
-    mapClear.style.display = mapInput.value ? 'inline-block' : 'none';
   });
   mapInput.addEventListener('keydown', (e) => { if(e.key === 'Enter'){ e.preventDefault(); mapInput.blur(); } });
-  // Tombol ✕ = kosongkan MAP
-  mapClear.addEventListener('mousedown', (e) => e.preventDefault());
-  mapClear.addEventListener('click', () => {
-    mapInput.value = ''; mapPrev = '';
-    mapClear.style.display = 'none';
-    mapInput.fitSize();
-  });
 
   // ===== COUNTDOWN WAKTU =====
   // Atur waktu: klik angkanya lalu ketik. "70" = 70 menit, "15:00" = 15 menit, "1:30:00" = 1 jam 30 menit.
