@@ -12,9 +12,9 @@
 :root{
   --grid:#CFCFCF; --ink:#000; --muted:#4A4A4A;
   --sheet-bg:#F3F3F3; --cell-bg:#FFFFFF;
-  --stripe:#DCEFE1;          /* baris selang-seling (mint) */
-  --head-bg:#1E8E3E;         /* header hijau */
-  --server-bg:#58B85F;       /* baris No 20 (server) */
+  --stripe:#DCEFE1;
+  --head-bg:#1E8E3E;
+  --server-bg:#58B85F;
   --green:#137E43; --red:#C0392B; --sel-border:#107C41;
   --fs:16px;
   color-scheme:light;
@@ -22,64 +22,59 @@
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%;}
 *{box-sizing:border-box;}
 body{margin:0;min-height:100vh;background:var(--sheet-bg);font-family:'Lexend','Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;color:var(--ink);padding:24px 10px 60px;font-size:18px;font-weight:500;overflow-x:hidden;}
-.wrap{width:1400px;margin:0 auto;}   /* lebar desain tetap; di-zoom otomatis oleh script supaya pas di layar apa pun */
+.wrap{width:1400px;margin:0 auto;}
 .panel{background:var(--cell-bg);border:1px solid var(--grid);border-radius:4px;padding:14px;box-shadow:0 2px 8px rgba(0,0,0,.08);}
 .tables{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
 .table-scroll{min-width:0;}
 table{width:100%;border-collapse:collapse;table-layout:fixed;background:var(--cell-bg);font-size:var(--fs);}
-col.col-rank{width:6%;} col.col-name{width:23%;} col.col-pay{width:7%;} col.col-nick{width:33%;} col.col-points{width:20%;} col.col-join{width:5%;} col.col-hist{width:5%;}
+col.col-rank{width:6%;} col.col-name{width:23%;} col.col-pay{width:7%;} col.col-nick{width:31%;} col.col-points{width:22%;} col.col-join{width:5%;} col.col-hist{width:5%;}
 
-/* ===== Header ala Google Sheets ===== */
+/* Header */
 th.colhead{background:var(--head-bg);border:2px solid #000;font-weight:700;font-size:1em;color:#fff;text-align:center;padding:.7em 2px;letter-spacing:.3px;position:relative;}
 thead th:nth-child(6), thead th:last-child{font-size:.55em;padding:1.1em 0;white-space:nowrap;overflow:hidden;}
 thead th:nth-child(3){font-size:1.05em;font-weight:800;padding:.7em 0;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-shadow:0 1px 0 rgba(0,0,0,.35);}
 
-/* ===== Isi tabel: baris putih & mint selang-seling ===== */
+/* Isi tabel */
 tbody td{border:2px solid #000;background:var(--cell-bg);vertical-align:middle;padding:0;font-size:1em;}
 tbody tr:nth-child(even) td{background:var(--stripe);}
 td.rank{text-align:center;font-weight:800;font-size:1.1em;}
 td.center{text-align:center;padding-left:2px;padding-right:2px;}
 td.poin-cell{text-align:center;padding:2px 1px;}
 
-/* Baris Server / Admin (No 20) = hijau solid, tulisan tebal */
+/* Baris Server / Admin (No 20) */
 tbody tr.server td{background:var(--server-bg);font-weight:800;}
 tbody tr.server td.rank,tbody tr.server input.team-name,tbody tr.server input.team-nick{font-weight:800;color:#0A2A14;}
-
-/* Baris No 20 (Admin) bukan peserta: warna sendiri (abu-biru gelap), tidak ikut warna poin/juara */
 tbody tr.server.server.server.server td{background:#FFCC80;color:#000;}
 tbody tr.server.server.server.server td.rank,tbody tr.server.server input.team-name,tbody tr.server.server input.team-nick{color:#000;font-weight:800;}
 tbody tr.server.server input.team-name::placeholder,tbody tr.server.server input.team-nick::placeholder{color:#000;}
 tbody tr.server.server.server.server.search-hit td{background:#FFF176;}
 tbody tr.server.server.search-hit input.team-name,tbody tr.server.server.search-hit input.team-nick,tbody tr.server.server.search-hit td.rank{color:var(--ink);}
 
-/* ===== WARNA POIN =====
-   Poin 0  = MERAH
-   Poin > 0 = HIJAU
-   (urutan CSS penting: aturan juara & poin-sama di bawah menimpa hijau) */
+/* Warna poin: 0 = merah, >0 = hijau */
 tbody tr.zero:not(.blank) td.name-cell,tbody tr.zero:not(.blank) td.poin-cell{background:#FFB0AA;}
 tbody tr.pos td.name-cell,tbody tr.pos td.poin-cell{background:#6FD383;}
 
-/* Juara 1-3 berurutan: EMAS, PERAK, PERUNGGU */
+/* Juara 1-3 */
 tbody tr.rank-1 td.name-cell,tbody tr.rank-1 td.poin-cell{background:#FFC400;}
 tbody tr.rank-2 td.name-cell,tbody tr.rank-2 td.poin-cell{background:#B8C4CC;}
 tbody tr.rank-3 td.name-cell,tbody tr.rank-3 td.poin-cell{background:#E58E3A;}
 tbody tr[class*="rank-"] td.rank{font-weight:800;}
 
-/* Poin sama di peringkat 1-10 = warna sama (tiap kelompok poin sama punya warna sendiri) */
-tbody tr.tie-0 td.name-cell,tbody tr.tie-0 td.poin-cell{background:#B388FF;}   /* ungu */
-tbody tr.tie-1 td.name-cell,tbody tr.tie-1 td.poin-cell{background:#26C6DA;}   /* cyan */
-tbody tr.tie-2 td.name-cell,tbody tr.tie-2 td.poin-cell{background:#F06292;}   /* pink tua */
-tbody tr.tie-3 td.name-cell,tbody tr.tie-3 td.poin-cell{background:#A1887F;}   /* coklat */
-tbody tr.tie-4 td.name-cell,tbody tr.tie-4 td.poin-cell{background:#5C7CFA;}   /* biru tua */
+/* Poin sama = warna kelompok */
+tbody tr.tie-0 td.name-cell,tbody tr.tie-0 td.poin-cell{background:#B388FF;}
+tbody tr.tie-1 td.name-cell,tbody tr.tie-1 td.poin-cell{background:#26C6DA;}
+tbody tr.tie-2 td.name-cell,tbody tr.tie-2 td.poin-cell{background:#F06292;}
+tbody tr.tie-3 td.name-cell,tbody tr.tie-3 td.poin-cell{background:#A1887F;}
+tbody tr.tie-4 td.name-cell,tbody tr.tie-4 td.poin-cell{background:#5C7CFA;}
 tbody tr[class*="tie-"] td.rank{font-weight:800;}
 
-/* Kedip saat poin berubah: hijau = naik, biru = turun */
+/* Kedip saat poin berubah */
 @keyframes flashUp{0%,65%{background-color:#2ECC71;}}
 @keyframes flashDown{0%,65%{background-color:#42A5F5;}}
 tbody tr.flash-up td{animation:flashUp 2.4s ease-out;}
 tbody tr.flash-down td{animation:flashDown 2.4s ease-out;}
 
-/* Menu admin tersembunyi */
+/* Menu admin */
 .copyright{user-select:none;-webkit-user-select:none;}
 .adm-head{background:#263238;border-bottom:2px solid var(--grid);}
 .adm-head .modal-title,.adm-head .modal-title small{color:#fff;}
@@ -100,20 +95,36 @@ input.team-name{text-transform:none;}
 input.team-name::placeholder,input.team-nick::placeholder{color:var(--muted);opacity:.6;font-weight:400;text-transform:none;}
 input.team-name:focus,input.team-nick:focus{outline:none;background:#fff;box-shadow:inset 0 0 0 2px var(--sel-border);text-align:left;}
 
-.points-wrap{display:flex;align-items:center;justify-content:center;gap:2px;flex-wrap:nowrap;}
-input.points{width:1.9em;min-width:0;border:2px solid rgba(0,0,0,.6);border-radius:6px;background:#fff;font-family:inherit;font-weight:800;font-size:1.2em;color:var(--ink);text-align:center;padding:0 .2em;line-height:1.3;height:1.3em;flex:none;cursor:default;margin-right:.35em;overflow:visible;-webkit-appearance:none;appearance:none;-webkit-text-fill-color:currentColor;opacity:1;}
-input.points:focus{outline:none;}
+/* ===== POINT ===== */
+.points-wrap{display:flex;align-items:center;justify-content:center;gap:1px;flex-wrap:nowrap;max-width:100%;overflow:hidden;}
 .points-wrap>*{flex-shrink:0;}
-/* Angka POINT diperbesar, ikon poin ikan dikecilkan agar tetap muat */
-input.points{width:1.8em;font-size:1.6em;height:1.25em;line-height:1.2;padding:0 .1em;margin-right:.3em;}
-.fish-btn{height:1.7em;padding:0 .15em;}
-.fish-btn img{height:1.3em;}
+input.points{width:1.6em;min-width:0;border:2px solid rgba(0,0,0,.6);border-radius:6px;background:#fff;font-family:inherit;font-weight:800;font-size:1.85em;height:1.2em;line-height:1.2;color:var(--ink);text-align:center;padding:0 .1em;margin-right:.15em;flex:none;cursor:default;overflow:visible;-webkit-appearance:none;appearance:none;-webkit-text-fill-color:currentColor;opacity:1;}
+input.points:focus{outline:none;}
+.pm-btn{flex:none;width:2.4em;height:1.5em;border-radius:4px;border:2px solid var(--green);background:#fff;color:var(--green);font-family:inherit;font-weight:800;font-size:.95em;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;}
+.pm-btn:hover{background:#E6F5EC;} .pm-btn:active{transform:scale(.92);}
+#pmModal.modal-overlay{background:transparent;padding:0;align-items:flex-start;justify-content:flex-start;}
+#pmModal .modal-box{position:absolute;width:260px;max-width:260px;border-width:2px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.4);}
+#pmModal .modal-head{padding:5px 9px;gap:8px;border-bottom-width:1px;}
+#pmModal .modal-title{font-size:15px;line-height:1.1;}
+#pmModal .modal-title small{font-size:13px;margin-top:0;}
+#pmModal .modal-close{width:24px;height:24px;font-size:13px;border-width:1px;}
+#pmModal .modal-body{padding:5px 9px 8px;}
+.pm-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin:4px 0;}
+.pm-grid button{border-radius:5px;font-family:inherit;font-weight:800;font-size:15px;padding:6px 0;cursor:pointer;border:2px solid;line-height:1.1;}
+.pm-grid button:active{transform:scale(.93);}
+.pm-grid .plus{background:#E6F5EC;border-color:var(--green);color:#0B4A28;}
+.pm-grid .plus:hover{background:var(--green);color:#fff;}
+.pm-grid .minus{background:#FFEBEE;border-color:#E53935;color:#C62828;}
+.pm-grid .minus:hover{background:#E53935;color:#fff;}
+body.night .pm-btn{background:#2A2A2A;}
+body.night .pm-grid .plus{background:#12261A;color:#7CFFB0;}
+body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
 
-/* Tombol pilih jenis ikan */
-.fish-btn{font-size:1em;height:2.1em;flex:none;border-radius:4px;border:2px solid #1565C0;background:#E3F2FD;cursor:pointer;padding:0 .2em;display:flex;align-items:center;justify-content:center;gap:.1em;font-family:inherit;white-space:nowrap;}
-.fish-btn img{height:1.7em;width:auto;display:block;pointer-events:none;}
-.fish-btn:hover{background:#BBDEFB;border-color:#0D47A1;}
-.fish-btn:active{transform:scale(.93);}
+/* Tombol ikan */
+.fish-btn{flex:none;width:2.1em;height:1.9em;padding:0;border-radius:9px;border:2px solid #E09A00;background:linear-gradient(#FFF8E1,#FFD966);box-shadow:0 2px 4px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.8);cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit;transition:transform .08s,box-shadow .12s;}
+.fish-btn img{height:1.6em;width:auto;display:block;pointer-events:none;filter:drop-shadow(0 1px 1px rgba(0,0,0,.35));}
+.fish-btn:hover{background:linear-gradient(#FFFFFF,#FFE58F);border-color:#C98200;box-shadow:0 3px 7px rgba(0,0,0,.35),inset 0 1px 0 #fff;}
+.fish-btn:active{transform:scale(.9);}
 .fish-opt{display:flex;align-items:center;gap:14px;padding:11px 0;border-bottom:2px solid #E1E1E1;font-size:24px;font-weight:700;cursor:pointer;}
 .fish-opt input{width:30px;height:30px;accent-color:var(--green);}
 .fish-opt .fp{margin-left:auto;color:var(--green);font-weight:800;}
@@ -122,15 +133,14 @@ input.points{width:1.8em;font-size:1.6em;height:1.25em;line-height:1.2;padding:0
 .fish-ok{background:var(--green);color:#fff;border:none;border-radius:6px;font-family:inherit;font-size:24px;font-weight:700;padding:12px 28px;cursor:pointer;}
 .hist-fish{display:block;font-size:20px;font-weight:600;color:#E65100;}
 
-/* Kolom Pay: isi dulu, KLIK 1x = tandai sudah bayar (hijau), klik lagi = batal, klik 2x = edit
-   Tulisan dibesarkan (1.4em); lebar kolom tetap. Tulisan panjang mengecil otomatis lewat fitPay() */
+/* Kolom Pay */
 input.pay-input{width:100%;min-width:0;border-radius:8px;font-family:inherit;font-size:1.15em;font-weight:800;text-align:center;padding:.3em 0;text-transform:uppercase;transition:background .15s,border-color .15s,color .15s,box-shadow .15s;background:#FFE9E7;border:2px solid #E5484D;color:#C62828;box-shadow:none;}
 input.pay-input::placeholder{color:#C98A84;font-weight:600;text-transform:none;}
 input.pay-input:focus{outline:none;box-shadow:0 0 0 2px rgba(16,124,65,.35);}
 input.pay-input.locked{cursor:pointer;caret-color:transparent;}
 input.pay-input.done{background:#1FA35C;border-color:#137E43;color:#fff;box-shadow:0 2px 6px rgba(19,126,67,.45);}
 
-/* Checklist absen */
+/* Absen */
 .join-btn{width:1.3em;height:1.5em;max-width:100%;border-radius:3px;cursor:pointer;font-size:1em;font-weight:800;line-height:1;display:inline-flex;align-items:center;justify-content:center;padding:0;font-family:inherit;transition:background .12s,border-color .12s,color .12s,transform .08s;user-select:none;background:#fff;border:2px solid #444;color:transparent;}
 .join-btn:active{transform:scale(.9);}
 .join-btn:hover{border-color:#137E43;}
@@ -138,7 +148,6 @@ input.pay-input.done{background:#1FA35C;border-color:#137E43;color:#fff;box-shad
 
 .hist-btn{display:inline-flex;align-items:center;justify-content:center;width:1.5em;height:1.5em;max-width:100%;border-radius:2px;border:1px solid var(--grid);background:#fff;color:var(--muted);font-size:1em;cursor:pointer;position:relative;transition:border-color .12s;}
 .hist-btn:hover{border-color:var(--sel-border);} .hist-btn:active{transform:scale(.92);}
-/* Absen & History: isi dibuat penuh selebar kolom supaya jelas terlihat */
 td.center .join-btn{width:100%;height:2.1em;font-size:1.3em;border-radius:4px;}
 td.center .hist-btn{width:100%;height:2.1em;border-radius:4px;}
 td.center .hist-btn .ico{width:1.4em;height:1.4em;}
@@ -164,17 +173,13 @@ td.center .hist-btn .ico{width:1.4em;height:1.4em;}
 .hist-after{font-size:24px;font-weight:700;display:block;margin-bottom:2px;}
 @media (max-width:520px){.modal-title{font-size:22px;}.modal-title small{font-size:16px;}.hist-delta{font-size:28px;min-width:76px;}.hist-after{font-size:19px;}.hist-time{font-size:16px;}.hist-fish{font-size:15px;}.fish-opt{font-size:20px;}}
 
-.top-row{display:flex;align-items:stretch;gap:10px;margin:0 0 10px;}
-.top-row .search-bar{flex:1;min-width:0;margin:0;}
-.search-bar{display:flex;align-items:center;gap:6px;margin:0 0 8px;padding:3px 12px;background:#fff;border:2px solid var(--head-bg);border-radius:6px;}
-.search-bar:focus-within{border-color:var(--sel-border);}
-.search-bar.active{border-color:#107C41;background:#E2EFDA;}
-.search-icon{font-size:calc(var(--fs)*1.15);flex:none;display:flex;}
-#searchInput{flex:1;min-width:0;border:none;background:transparent;font-family:inherit;font-weight:500;font-size:calc(var(--fs)*1.1);color:var(--ink);padding:.3em 4px;}
+.search-bar{display:flex;align-items:center;gap:6px;margin:0;padding:3px 12px;background:#fff;border:2px solid var(--head-bg);border-radius:6px;}
+.search-icon{font-size:calc(var(--fs)*1.9);flex:none;display:flex;}
+.ico{width:1.05em;height:1.05em;display:block;}
+#searchInput{flex:1;min-width:0;border:none;background:transparent;font-family:inherit;font-weight:500;font-size:calc(var(--fs)*.85);color:var(--ink);padding:.15em 4px;}
 #searchInput:focus{outline:none;}
-#searchClear{display:none;flex:none;width:1.5em;height:1.5em;border-radius:3px;border:1px solid var(--grid);background:#fff;color:var(--muted);font-size:calc(var(--fs)*.85);cursor:pointer;line-height:1;}
-#searchClear:hover{border-color:var(--red);color:var(--red);}
-#searchCount{display:none;flex:none;font-weight:600;font-size:calc(var(--fs)*.8);padding:.15em .6em;border-radius:999px;color:#fff;background:var(--green);white-space:nowrap;}
+#searchClear{display:none;flex:none;width:1.5em;height:1.5em;border-radius:3px;border:1px solid var(--grid);background:#fff;color:var(--muted);font-size:calc(var(--fs)*.75);cursor:pointer;line-height:1;}
+#searchCount{display:none;flex:none;font-weight:600;font-size:calc(var(--fs)*.7);padding:.15em .6em;border-radius:999px;color:#fff;background:var(--green);white-space:nowrap;}
 #searchCount.none{background:var(--red);}
 body.searching tbody tr{opacity:.3;transition:opacity .15s;}
 body.searching tbody tr.search-hit{opacity:1;}
@@ -182,9 +187,10 @@ tbody tr.search-hit td,tbody tr.search-hit td.name-cell,tbody tr.search-hit td.p
 tbody tr.search-hit td:first-child{box-shadow:inset 4px 0 0 #E65100,inset 0 4px 0 #E65100,inset 0 -4px 0 #E65100;}
 tbody tr.search-hit td:last-child{box-shadow:inset -4px 0 0 #E65100,inset 0 4px 0 #E65100,inset 0 -4px 0 #E65100;}
 
-/* Sisa Slot */
+/* Badge atas */
+.top-row{display:flex;align-items:stretch;flex-wrap:wrap;gap:5px 8px;margin:0 0 5px;}
 .slot-badge{flex:none;display:inline-flex;align-items:center;align-self:center;gap:.4em;font-weight:700;font-size:calc(var(--fs)*.92);white-space:nowrap;padding:.2em .3em .2em .7em;border-radius:999px;background:var(--stripe);border:2px solid var(--head-bg);color:var(--ink);}
-.slot-badge .slot-num{display:inline-block;min-width:1.8em;padding:.05em .5em;border-radius:999px;background:var(--green);color:#fff;text-align:center;font-weight:800;font-size:1.4em;line-height:1.3;}
+.slot-badge .slot-num{display:inline-block;min-width:1.8em;padding:.05em .5em;border-radius:999px;background:var(--green);color:#fff;text-align:center;font-weight:800;font-size:1.5em;line-height:1.3;}
 .slot-badge.full .slot-num{background:var(--red);}
 .plus-set input{width:3em;border:2px solid var(--head-bg);border-radius:6px;background:#fff;font-family:inherit;font-weight:800;font-size:1.2em;text-align:center;color:var(--ink);padding:.05em .1em;}
 .usn-set input{width:5.2em;font-size:1em;font-weight:700;padding:.2em .4em;}
@@ -197,86 +203,80 @@ tbody tr.search-hit td:last-child{box-shadow:inset -4px 0 0 #E65100,inset 0 4px 
 .medal.m1{background:linear-gradient(#FFE27A,#F5B700);}
 .medal.m2{background:linear-gradient(#F4F6F8,#AEB8C2);}
 .medal.m3{background:linear-gradient(#F0B27A,#B8691F);color:#fff;}
-.ico{width:1.05em;height:1.05em;display:block;}
-.copyright{margin-top:14px;text-align:center;font-weight:800;font-size:calc(var(--fs)*.9);color:#D32F2F;letter-spacing:.3px;}
 .adm-trigger{cursor:pointer;}
 
-/* ===== Popup Tarik Ikan: lebih kecil & centang di kanan ===== */
-#fishModal .modal-box{max-width:460px;}
-#fishModal .modal-head{padding:12px 18px;}
-#fishModal .modal-title{font-size:23px;}
-#fishModal .modal-title small{font-size:16px;margin-top:3px;}
-#fishModal .modal-close{width:38px;height:38px;font-size:20px;}
-#fishModal .modal-body{padding:4px 18px 8px;}
-#fishModal .fish-opt{font-size:20px;gap:10px;padding:9px 0;}
-#fishModal .fish-opt .fp{margin-left:auto;order:2;font-size:19px;}
-#fishModal .fish-opt input{order:3;width:27px;height:27px;margin:0 0 0 12px;}
-#fishModal .fish-foot{padding:10px 18px;}
-#fishModal .fish-foot b{font-size:25px;}
-#fishModal .fish-ok{font-size:20px;padding:10px 24px;}
+/* Popup Tarik Ikan: simpel seperti popup ± (grid tombol kecil, tap untuk pilih, 1 tombol Tambah) */
+#fishModal.modal-overlay{background:transparent;padding:0;align-items:flex-start;justify-content:flex-start;}
+#fishModal .modal-box{position:absolute;width:290px;max-width:290px;border-width:2px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.4);}
+#fishModal .modal-head{padding:5px 9px;gap:8px;border-bottom-width:1px;}
+#fishModal .modal-title{font-size:15px;line-height:1.1;}
+#fishModal .modal-title small{font-size:13px;margin-top:0;}
+#fishModal .modal-close{width:24px;height:24px;font-size:13px;border-width:1px;}
+#fishModal .modal-body{padding:5px 9px 6px;display:grid;grid-template-columns:repeat(3,1fr);gap:4px;overflow:visible;}
+#fishModal .fish-opt{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:5px 2px;border-radius:5px;border:2px solid var(--green);background:#E6F5EC;color:#0B4A28;font-family:inherit;font-weight:800;font-size:12px;line-height:1.1;cursor:pointer;text-align:center;}
+#fishModal .fish-opt .fp{margin:0;color:inherit;font-size:16px;font-weight:800;}
+#fishModal .fish-opt:hover{background:var(--green);color:#fff;}
+#fishModal .fish-opt:active{transform:scale(.93);}
+#fishModal .fish-opt.sel{background:var(--green);color:#fff;box-shadow:0 0 0 2px #0B4A28 inset;}
+#fishModal .fish-foot{display:block;padding:0 9px 9px;border-top:0;}
+#fishModal .fish-foot > span{display:none;}
+#fishModal .fish-ok{width:100%;font-size:16px;padding:7px 0;border-radius:5px;}
+body.night #fishModal .fish-opt{background:#12261A;color:#7CFFB0;}
+body.night #fishModal .fish-opt:hover,body.night #fishModal .fish-opt.sel{background:var(--green);color:#fff;}
 
-/* ===== Bar atas: 2 baris & diperbesar ===== */
-.top-row{flex-wrap:wrap;gap:5px 8px;margin:0 0 5px;}
-
-/* Baris 1: kolom cari memanjang penuh */
+/* Bar atas */
 .top-row .search-bar{flex:1 1 100%;padding:0 10px;}
-.search-icon{font-size:calc(var(--fs)*1.9);}
-#searchInput{font-size:calc(var(--fs)*.85);padding:.15em 4px;}
-#searchCount{font-size:calc(var(--fs)*.7);}
-#searchClear{font-size:calc(var(--fs)*.75);}
-
-/* Baris 2: POINT BIN, ADD USN, MAP, COUNTDOWN, Sisa Slot */
-.top-row .slot-badge{font-size:calc(var(--fs)*1.25);padding:.3em .4em .3em .8em;gap:.5em;}
-.top-row .slot-badge.plus-set{flex:0 0 auto;}
-/* ADD USN & MAP: ikut melebar mengikuti panjang tulisan (lebar diatur script autoGrow) */
-.top-row .slot-badge.usn-set:not(.start-set){flex:1 1 auto;min-width:0;}
-.top-row .slot-badge.plus-set input{flex:0 1 auto;min-width:0;font-size:1em !important;padding:.3em .4em;}
-.top-row .slot-badge.usn-set:not(.start-set) input{flex:1 1 auto;}
-/* POINT BIN: kolom isian diperkecil */
-#plusDefault{width:1.9em !important;flex:none !important;padding:.3em .1em !important;}
 .top-row .slot-badge .slot-num{font-size:1.5em;}
-#slotInfo{flex:0 0 auto;}
-
-/* Footer "Created By": jarak atas tipis, tulisan diperbesar */
-.copyright{margin-top:2px;font-size:calc(var(--fs)*1.6);line-height:1.2;}
-
-
-/* Baris badge: selalu sejajar 1 baris, USN & MAP mengecil kalau tidak muat */
-.badge-row{display:flex;flex:1 1 100%;flex-wrap:wrap;align-items:center;gap:8px 10px;min-width:0;}
-.badge-row .slot-badge{min-width:min-content;flex-shrink:0;}
+.badge-row{display:flex;flex:1 1 100%;flex-wrap:wrap;align-items:stretch;gap:8px 10px;min-width:0;}
+.badge-row .slot-badge{min-width:min-content;flex-shrink:0;align-self:stretch;}
 .badge-row .slot-badge.plus-set:not(.usn-set),.badge-row #slotInfo{flex:0 0 auto;}
-/* USN & MAP: melebar mengikuti isi (lebar input diatur script), tidak pernah terpotong */
 .badge-row .slot-badge.usn-set:not(.start-set){flex:1 0 auto;}
 .badge-row .slot-badge.usn-set:not(.start-set) input{flex:1 0 auto;}
-.top-row .badge-row .slot-badge{font-size:calc(var(--fs)*1.75);}
+.top-row .badge-row .slot-badge{font-size:calc(var(--fs)*1.75);gap:.15em;}
 .top-row .badge-row .slot-badge > span:first-child{font-size:.62em;}
-.top-row .badge-row .slot-badge{gap:.15em;}
+.top-row .slot-badge.plus-set input{flex:0 1 auto;min-width:0;font-size:1em !important;padding:.3em .4em;}
+#plusDefault{width:1.9em !important;flex:none !important;padding:.3em .1em !important;}
 .top-row .badge-row #slotInfo > .slot-label{font-size:1.6em;line-height:1;font-weight:800;margin-right:0;}
 .top-row .badge-row #slotInfo{gap:.2em;padding-left:.5em;}
 
-/* ===== COUNTDOWN WAKTU (pengganti START) ===== */
-.top-row .badge-row .cd-set{gap:.08em;padding:.05em .15em .05em .15em;align-items:center;}
-.cd-set #cdTime{width:2.9em !important;flex:none !important;font-size:1.45em !important;font-weight:800;font-family:inherit;font-variant-numeric:tabular-nums;letter-spacing:0;line-height:1.05;padding:0 .02em !important;text-align:center;background:#fff;color:var(--ink);border:2px solid var(--head-bg);border-radius:8px;}
-.cd-set #cdTime.long{width:4.3em !important;}
+.copyright{margin-top:5px;padding-top:3px;text-align:center;font-weight:800;font-size:calc(var(--fs)*1.6);line-height:1.15;color:#D32F2F;letter-spacing:.3px;}
+.copy-mark{display:inline-block;margin-right:.08em;font-weight:800;}
+.bottom-row{display:flex;align-items:flex-start;gap:14px;margin-top:3px;}
+.bottom-row .log-panel{flex:1;min-width:0;margin-top:0;}
+.bottom-row .copyright{flex:none;margin:0;padding:0 8px;font-size:calc(var(--fs)*1.4);white-space:normal;width:min-content;text-align:center;line-height:1.1;}
+
+/* Countdown */
+.top-row .badge-row .cd-set{gap:.08em;padding:0;align-items:stretch;background:transparent;border:0;border-radius:0;box-shadow:none;}
+.cd-set #cdTime{width:4.7em !important;min-width:4.7em;flex:none !important;font-size:1.35em !important;font-weight:800;font-family:inherit;font-variant-numeric:tabular-nums;letter-spacing:0;line-height:1.05;padding:0 .02em !important;text-align:center;background:#fff;color:var(--ink);border:2px solid var(--head-bg);border-radius:8px;height:auto;align-self:stretch;}
+.cd-set #cdTime.long{width:4.7em !important;}
 .cd-set #cdTime.running{background:#E6F5EC;border-color:var(--green);color:#0B4A28;cursor:default;}
 .cd-set #cdTime.pre{background:#E3F2FD;border-color:#1565C0;color:#0D47A1;cursor:default;}
 .cd-set #cdTime.warn{background:#FFEBEE;border-color:#E53935;color:#C62828;animation:cdPulse 1s ease-in-out infinite;}
 @keyframes cdPulse{50%{background:#FFCDD2;}}
 .cd-set #cdTime.finished{background:#E53935;border-color:#B71C1C;color:#fff;animation:cdBlink .6s steps(2,start) infinite;}
 @keyframes cdBlink{50%{background:#FFCDD2;color:#B71C1C;}}
-.cd-btn{flex:none;width:1.55em;height:1.55em;border-radius:6px;border:1.5px solid var(--green);background:#fff;color:var(--green);font-family:inherit;font-weight:800;font-size:.55em;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;}
+.cd-btn{flex:none;border-radius:4px;border:1.5px solid var(--green);background:#fff;color:var(--green);font-family:inherit;font-weight:800;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;}
 .cd-btn:hover{background:#E6F5EC;} .cd-btn:active{transform:scale(.92);}
 .cd-btn.on{background:var(--green);color:#fff;}
 .cd-btn.rst{border-color:#9A9A9A;color:#555;}
+.cd-btns{flex:none;display:flex;flex-direction:column;gap:1px;align-self:stretch;}
+.cd-btns .cd-btn{width:2.4em;font-size:.42em;flex:1 1 0;height:auto;min-height:0;}
 
-/* ===== Search paling atas: tanpa jarak ===== */
+/* Tanda merah */
+td.rank.red-toggle{cursor:pointer;user-select:none;-webkit-user-select:none;}
+tbody tr.red td,tbody tr.red td.name-cell,tbody tr.red td.poin-cell{background:#E53935;color:#fff;}
+tbody tr.red input.team-name,tbody tr.red input.team-nick{color:#fff;}
+tbody tr.red input.team-name::placeholder,tbody tr.red input.team-nick::placeholder{color:#FFCDD2;}
+tbody tr.red input.team-name:focus,tbody tr.red input.team-nick:focus{background:#fff;color:#000;}
+tbody tr.red.search-hit td,tbody tr.red.search-hit td.name-cell,tbody tr.red.search-hit td.poin-cell{background:#FF8A80;}
+tbody tr.red.search-hit input.team-name,tbody tr.red.search-hit input.team-nick{color:#000;}
+tbody tr.server input.team-name,tbody tr.server input.team-nick,tbody tr.server.server.server input.team-name,tbody tr.server.server.server input.team-nick{color:#000 !important;-webkit-text-fill-color:#000;}
+
 body{padding-top:0;}
-.panel{padding-top:6px;border-top:none;border-radius:0 0 4px 4px;}
-.top-row{margin-top:0;}
-.top-row .search-bar{margin-top:0;border-top-width:2px;}
+.panel{padding-top:6px;padding-bottom:7px;border-top:none;border-radius:0 0 4px 4px;}
 
-/* ===== SEARCH MENGAMBANG: muncul saat Ctrl+F, hilang saat Esc / kosong ===== */
-.top-row .search-bar{position:fixed;top:calc(3px + env(safe-area-inset-top,0px));bottom:auto;right:auto;left:50%;transform:translateX(-50%);width:400px;max-width:calc(100vw - 28px);flex:none;margin:0;padding:4px 10px;gap:6px;background:#2b2b2d;border:0;border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,.35);z-index:90;visibility:hidden;opacity:0;pointer-events:none;transition:opacity .12s;}
+/* Search mengambang */
+.top-row .search-bar{position:fixed;top:calc(3px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);width:400px;max-width:calc(100vw - 28px);flex:none;margin:0;padding:4px 10px;gap:6px;background:#2b2b2d;border:0;border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,.35);z-index:90;visibility:hidden;opacity:0;pointer-events:none;transition:opacity .12s;}
 body.search-open .top-row .search-bar{visibility:visible;opacity:1;pointer-events:auto;}
 .top-row .search-bar.active{background:#2b2b2d;border:0;}
 .top-row #searchInput{font-size:calc(var(--fs)*1.05);color:#fff;padding:.15em 4px;}
@@ -287,48 +287,14 @@ body.search-open .top-row .search-bar{visibility:visible;opacity:1;pointer-event
 .top-row #searchClear{display:flex !important;font-size:calc(var(--fs)*.9);}
 .search-nav:hover,.top-row #searchClear:hover{background:#3a3a3c;color:#fff;}
 .search-nav svg{width:1.1em;height:1.1em;}
-#searchFab{position:fixed;top:calc(3px + env(safe-area-inset-top,0px));bottom:auto;right:auto;left:50%;transform:translateX(-50%);width:1.6em;height:1.6em;border-radius:50%;border:0;background:#2b2b2d;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:.6;z-index:89;padding:0;font-size:var(--fs);box-shadow:0 2px 6px rgba(0,0,0,.3);transition:opacity .15s;}
+#searchFab{position:fixed;top:calc(3px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);width:1.6em;height:1.6em;border-radius:50%;border:0;background:#2b2b2d;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:.6;z-index:89;padding:0;font-size:var(--fs);box-shadow:0 2px 6px rgba(0,0,0,.3);transition:opacity .15s;}
 #searchFab:hover{opacity:1;}
 #searchFab svg{width:.95em;height:.95em;}
 body.search-open #searchFab{display:none;}
 tbody tr.search-hit.search-cur td,tbody tr.search-hit.search-cur td.name-cell,tbody tr.search-hit.search-cur td.poin-cell{background:#FFC107;}
 
-/* ===== TANDA MERAH: klik kolom NO untuk mewarnai baris merah / membatalkan ===== */
-td.rank.red-toggle{cursor:pointer;user-select:none;-webkit-user-select:none;}
-tbody tr.red td,
-tbody tr.red td.name-cell,
-tbody tr.red td.poin-cell{background:#E53935;color:#fff;}
-tbody tr.red input.team-name,
-tbody tr.red input.team-nick{color:#fff;}
-tbody tr.red input.team-name::placeholder,
-tbody tr.red input.team-nick::placeholder{color:#FFCDD2;}
-tbody tr.red input.team-name:focus,
-tbody tr.red input.team-nick:focus{background:#fff;color:#000;}
-tbody tr.red.search-hit td,
-tbody tr.red.search-hit td.name-cell,
-tbody tr.red.search-hit td.poin-cell{background:#FF8A80;}
-tbody tr.red.search-hit input.team-name,
-tbody tr.red.search-hit input.team-nick{color:#000;}
-
-/* Tulisan Admin (baris No 20) = hitam */
-tbody tr.server input.team-name,
-tbody tr.server input.team-nick,
-tbody tr.server.server.server input.team-name,
-tbody tr.server.server.server input.team-nick{color:#000 !important;-webkit-text-fill-color:#000;}
-
-/* Perkecil isi kolom POINT supaya tidak luber ke kolom Absen */
-.points-wrap{gap:1px;max-width:100%;overflow:hidden;}
-input.points{width:1.6em;font-size:1.85em;height:1.2em;margin-right:.15em;}
-.fish-btn{height:1.4em;padding:0 .1em;border-width:1px;}
-.fish-btn img{height:1.05em;}
-
-/* ===== Footer di dalam panel (tepat di bawah tabel) ===== */
-.panel .copyright{margin-top:5px;padding-top:3px;line-height:1.15;}
-.panel{border-radius:4px;padding-bottom:7px;}
-.copy-mark{display:inline-block;margin-right:.08em;font-weight:800;}
-
-/* ===== PILIHAN MODE DAY / NIGHT ===== */
-.mode-toggle{position:fixed;right:calc(14px + env(safe-area-inset-right,0px));top:calc(3px + env(safe-area-inset-top,0px));bottom:auto;z-index:95;display:inline-flex;align-items:center;border:1px solid var(--head-bg);border-radius:999px;overflow:hidden;background:var(--cell-bg);font-size:11px;box-shadow:0 2px 6px rgba(0,0,0,.3);opacity:.6;transition:opacity .15s;}
+/* Mode Day / Night */
+.mode-toggle{position:fixed;right:calc(14px + env(safe-area-inset-right,0px));top:calc(3px + env(safe-area-inset-top,0px));z-index:95;display:inline-flex;align-items:center;border:1px solid var(--head-bg);border-radius:999px;overflow:hidden;background:var(--cell-bg);font-size:11px;box-shadow:0 2px 6px rgba(0,0,0,.3);opacity:.6;transition:opacity .15s;}
 .mode-toggle:hover{opacity:1;}
 .mode-toggle button{border:0;background:transparent;color:var(--ink);font-family:inherit;font-weight:700;font-size:1em;padding:.2em .7em;cursor:pointer;white-space:nowrap;}
 .mode-toggle button.on{background:var(--head-bg);color:#fff;}
@@ -336,7 +302,6 @@ input.points{width:1.6em;font-size:1.85em;height:1.2em;margin-right:.15em;}
 body.night{--sheet-bg:#121212;--cell-bg:#1E1E1E;--ink:#F2F2F2;--muted:#B5B5B5;--grid:#3A3A3A;--stripe:#26332B;--head-bg:#14612B;color-scheme:dark;}
 body.night tbody td,body.night th.colhead{border-color:#5A5A5A;}
 body.night .panel{border-color:#3A3A3A;box-shadow:0 2px 8px rgba(0,0,0,.6);}
-/* baris berwarna tetap terang -> tulisan tetap hitam */
 body.night tbody tr.pos:not(.red) input.team-name,body.night tbody tr.pos:not(.red) input.team-nick,
 body.night tbody tr.zero:not(.blank):not(.red) input.team-name,body.night tbody tr.zero:not(.blank):not(.red) input.team-nick,
 body.night tbody tr[class*="rank-"]:not(.red) input.team-name,body.night tbody tr[class*="rank-"]:not(.red) input.team-nick,
@@ -371,7 +336,7 @@ body.night .hist-delta.neg{color:#FF8A80;}
 body.night .hist-fish{color:#FFB74D;}
 body.night .copyright{color:#FF6B6B;}
 
-/* ===== Popup Atur Waktu ===== */
+/* Popup Atur Waktu */
 .cd-presets{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 14px;}
 .cd-presets button{border:2px solid var(--head-bg);background:var(--cell-bg);color:var(--ink);border-radius:999px;font-family:inherit;font-weight:700;font-size:18px;padding:6px 16px;cursor:pointer;}
 .cd-presets button:hover{background:var(--head-bg);color:#fff;}
@@ -384,51 +349,15 @@ body.night .copyright{color:#FF6B6B;}
 body.night .cd-fields input{background:#2A2A2A;color:#fff;}
 @media (max-width:520px){.cd-fields input{font-size:24px;}}
 
-/* Tombol timer disusun 3 baris atas-bawah (hemat tempat) */
-.cd-btns{flex:none;display:flex;flex-direction:column;gap:1px;}
-.cd-btns .cd-btn{width:2.4em;height:1.3em;font-size:.42em;border-radius:4px;}
-
-/* Semua badge di baris atas dibuat sama tinggi (timer ikut setinggi kolom MAP) */
-.top-row .badge-row{align-items:stretch;}
-.top-row .badge-row .slot-badge{align-self:stretch;}
-.top-row .badge-row .cd-set{align-items:stretch;padding:.15em .2em .15em .2em;}
-.cd-set #cdTime{height:auto;align-self:stretch;}
-.cd-btns{align-self:stretch;}
-.cd-btns .cd-btn{flex:1 1 0;height:auto;min-height:0;}
-
-/* Lingkaran oval timer dihapus: hanya kotak waktu + tombol */
-.top-row .badge-row .cd-set{background:transparent;border:0;border-radius:0;padding:0;box-shadow:none;}
-
-/* ===== Tombol ± + popup tambah/kurang poin ===== */
-.pm-btn{flex:none;width:2.4em;height:1.5em;border-radius:4px;border:2px solid var(--green);background:#fff;color:var(--green);font-family:inherit;font-weight:800;font-size:.95em;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;}
-.pm-btn:hover{background:#E6F5EC;} .pm-btn:active{transform:scale(.92);}
-#pmModal.modal-overlay{background:transparent;padding:0;align-items:flex-start;justify-content:flex-start;}
-#pmModal .modal-box{position:absolute;width:260px;max-width:260px;border-width:2px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.4);}
-#pmModal .modal-head{padding:5px 9px;gap:8px;border-bottom-width:1px;}
-#pmModal .modal-title{font-size:15px;line-height:1.1;}
-#pmModal .modal-title small{font-size:13px;margin-top:0;}
-#pmModal .modal-close{width:24px;height:24px;font-size:13px;border-width:1px;}
-#pmModal .modal-body{padding:5px 9px 8px;}
-.pm-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin:4px 0;}
-.pm-grid button{border-radius:5px;font-family:inherit;font-weight:800;font-size:15px;padding:6px 0;cursor:pointer;border:2px solid;line-height:1.1;}
-.pm-grid button:active{transform:scale(.93);}
-.pm-grid .plus{background:#E6F5EC;border-color:var(--green);color:#0B4A28;}
-.pm-grid .plus:hover{background:var(--green);color:#fff;}
-.pm-grid .minus{background:#FFEBEE;border-color:#E53935;color:#C62828;}
-.pm-grid .minus:hover{background:#E53935;color:#fff;}
-body.night .pm-btn{background:#2A2A2A;}
-body.night .pm-grid .plus{background:#12261A;color:#7CFFB0;}
-body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
-
-/* ===== Pengumuman countdown: 5 menit, 1 menit, 10 detik terakhir ===== */
-.cd-alert{position:fixed;left:50%;top:32%;transform:translate(-50%,-50%) scale(.8);z-index:120;pointer-events:none;opacity:0;transition:opacity .15s,transform .15s;text-align:center;font-weight:800;color:#fff;background:rgba(20,20,20,.88);border:4px solid #fff;border-radius:18px;padding:.25em .8em;font-size:64px;line-height:1.15;white-space:nowrap;box-shadow:0 10px 40px rgba(0,0,0,.5);}
+/* Pengumuman countdown */
+.cd-alert{position:fixed;left:50%;top:32%;transform:translate(-50%,-50%) scale(.8);z-index:120;pointer-events:none;opacity:0;transition:opacity .15s,transform .15s;text-align:center;font-weight:800;color:#fff;background:rgba(20,20,20,.88);border:3px solid #fff;border-radius:14px;padding:.2em .7em;font-size:34px;line-height:1.15;white-space:nowrap;box-shadow:0 10px 40px rgba(0,0,0,.5);}
 .cd-alert.show{opacity:1;transform:translate(-50%,-50%) scale(1);}
 .cd-alert.warn{background:#E65100;border-color:#FFE0B2;}
-.cd-alert.num{font-size:190px;min-width:1.5em;background:#C62828;border-color:#FFCDD2;}
+.cd-alert.num{font-size:84px;min-width:1.5em;background:#C62828;border-color:#FFCDD2;}
 .cd-alert.end{background:#B71C1C;border-color:#FFCDD2;}
-@media (max-width:700px){.cd-alert{font-size:34px}.cd-alert.num{font-size:110px}}
+@media (max-width:700px){.cd-alert{font-size:22px}.cd-alert.num{font-size:60px}}
 
-/* ===== NOTIFIKASI POIN MENGAMBANG (muncul saat poin naik / turun) ===== */
+/* Notifikasi poin */
 .pt-toasts{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:130;display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:none;max-width:calc(100vw - 28px);}
 .pt-toast{display:flex;align-items:center;gap:16px;min-width:300px;max-width:520px;padding:12px 20px 12px 14px;border-radius:14px;color:#fff;background:rgba(18,18,18,.94);border:3px solid #2ECC71;border-left-width:10px;box-shadow:0 10px 30px rgba(0,0,0,.45);font-family:inherit;opacity:0;transform:scale(.9);transition:opacity .25s,transform .25s;}
 .pt-toast.show{opacity:1;transform:scale(1);}
@@ -444,28 +373,28 @@ body.night .pm-grid .minus{background:#3A0F0F;color:#FF8A80;}
 .pt-label{font-weight:600;font-size:16px;color:#FFB74D;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 @media (max-width:700px){.pt-toast{min-width:0;width:100%;padding:8px 12px 8px 10px;gap:10px}.pt-delta{font-size:30px}.pt-name{font-size:18px}.pt-total{font-size:15px}.pt-label{font-size:13px}}
 
-/* Tombol suara ON/OFF */
-.sound-toggle{position:fixed;left:calc(14px + env(safe-area-inset-left,0px));top:calc(3px + env(safe-area-inset-top,0px));bottom:auto;z-index:95;border:1px solid var(--head-bg);border-radius:999px;background:var(--cell-bg);color:var(--ink);font-family:inherit;font-weight:700;font-size:11px;padding:.2em .7em;cursor:pointer;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,.3);opacity:.6;transition:opacity .15s;}
+.sound-toggle{position:fixed;left:calc(14px + env(safe-area-inset-left,0px));top:calc(3px + env(safe-area-inset-top,0px));z-index:95;border:1px solid var(--head-bg);border-radius:999px;background:var(--cell-bg);color:var(--ink);font-family:inherit;font-weight:700;font-size:11px;padding:.2em .7em;cursor:pointer;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,.3);opacity:.6;transition:opacity .15s;}
 .sound-toggle:hover{opacity:1;}
 .sound-toggle.off{border-color:#E53935;color:#E53935;}
 
-/* ===== RIWAYAT POINT (transparansi data) ===== */
+/* Riwayat poin */
 .log-panel{margin-top:3px;border:2px solid #000;background:var(--cell-bg);}
-/* Ukuran tetap: hanya 2 baris terlihat, sisanya di-scroll */
-.log-scroll{font-size:calc(var(--fs)*.8);height:calc(6.3em + 2px);overflow-y:auto;}
+.log-scroll{font-size:calc(var(--fs)*1);height:calc(10.5em + 2px);overflow-y:auto;}
 table.log-table{width:100%;border-collapse:collapse;font-size:1em;table-layout:fixed;}
-.log-table td:nth-child(1){width:12%;}
-.log-table td:nth-child(2),.log-table td:nth-child(3){width:22%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.log-table td:nth-child(4),.log-table td:nth-child(5){width:8%;}
+.log-table td:nth-child(1){width:9%;}
+.log-table td:nth-child(2){width:19%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.log-table td:nth-child(3){width:24%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.log-table td:nth-child(4),.log-table td:nth-child(5){width:6%;}
+.log-table td:nth-child(6){overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .log-table td{height:2.1em;line-height:1.1;border:2px solid #000;padding:.2em .5em;text-align:center;font-weight:800;background:var(--cell-bg);}
 .log-table tbody tr:nth-child(even) td{background:var(--stripe);}
 .log-table td.l{text-align:left;}
 .log-table td.up{color:var(--green);font-weight:800;}
 .log-table td.down{color:var(--red);font-weight:800;}
-.log-table tbody tr:nth-child(1) td{background:#FFEB3B;font-weight:800;}      /* terbaru = kuning terang */
-.log-table tbody tr:nth-child(2) td{background:#A5D6A7;}                       /* ke-2 = hijau sedang */
-.log-table tbody tr:nth-child(3) td{background:#DCEDC8;}                       /* ke-3 = hijau muda */
-.log-table tbody tr:nth-child(n+4) td{background:var(--cell-bg);}              /* lama = putih */
+.log-table tbody tr:nth-child(1) td{background:#FFEB3B;font-weight:800;}
+.log-table tbody tr:nth-child(2) td{background:#A5D6A7;}
+.log-table tbody tr:nth-child(3) td{background:#DCEDC8;}
+.log-table tbody tr:nth-child(n+4) td{background:var(--cell-bg);}
 .log-table tbody tr:nth-child(n+4):nth-child(even) td{background:var(--stripe);}
 .log-empty{text-align:center;color:var(--muted);font-weight:500 !important;}
 body.night .log-panel{border-color:#5A5A5A;}
@@ -497,7 +426,7 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
     <div class="slot-badge plus-set" title="Nilai poin awal otomatis untuk peserta yang kolom Pay-nya berisi BIN"><span>+POINT</span><input type="number" id="plusDefault" value="0" step="1"></div>
     <div class="slot-badge plus-set usn-set" title="Kolom ADD USN, diisi manual"><span>ADD</span><input type="text" id="addUsn" placeholder="isi USN..." autocomplete="off" spellcheck="false"></div>
     <div class="slot-badge plus-set usn-set map-set" title="Kolom MAP: klik untuk pilih dari daftar, atau ketik sendiri"><span>MAP</span><input type="text" id="addMap" list="mapList" placeholder="pilih map..." autocomplete="off" spellcheck="false"></div>
-    <div class="slot-badge plus-set cd-set" id="cdBadge" title="Countdown waktu: klik angka untuk atur (mis. 70 = 70 menit, 15:00, 1:30:00), lalu tekan ▶ (hitung mundur 10 detik dulu)"><input type="text" id="cdTime" value="1:10:00" maxlength="8" autocomplete="off" spellcheck="false"><div class="cd-btns"><button type="button" class="cd-btn" id="cdToggle" title="Mulai / Jeda">▶</button><button type="button" class="cd-btn rst" id="cdReset" title="Reset">↺</button><button type="button" class="cd-btn rst" id="cdSet" title="Atur waktu">⚙</button></div></div>
+    <div class="slot-badge plus-set cd-set" id="cdBadge" title="Countdown waktu: klik angka untuk atur (mis. 70 = 70 menit, 15:00, 1:30:00), lalu tekan ▶"><input type="text" id="cdTime" value="1:10:00" maxlength="8" autocomplete="off" spellcheck="false"><div class="cd-btns"><button type="button" class="cd-btn" id="cdToggle" title="Mulai / Jeda">▶</button><button type="button" class="cd-btn rst" id="cdReset" title="Reset">↺</button><button type="button" class="cd-btn rst" id="cdSet" title="Atur waktu">⚙</button></div></div>
     <datalist id="mapList"></datalist>
     <div class="slot-badge" id="slotInfo" title="Jumlah Nama Peserta yang masih kosong"><span class="slot-label">-</span><span class="slot-num" id="slotLeft">0</span></div>
     </div>
@@ -505,17 +434,17 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
     <div class="tables">
       <div class="table-scroll"><table>
         <colgroup><col class="col-rank"><col class="col-name"><col class="col-pay"><col class="col-nick"><col class="col-points"><col class="col-join"><col class="col-hist"></colgroup>
-        <thead><tr><th class="colhead">NO</th><th class="colhead">NAMA</th><th class="colhead">Pay</th><th class="colhead ">DISPLAY NAMA</th><th class="colhead ">POINT</th><th class="colhead">Absen</th><th class="colhead">History</th></tr></thead>
+        <thead><tr><th class="colhead">NO</th><th class="colhead">NAMA</th><th class="colhead">Pay</th><th class="colhead">DISPLAY NAMA</th><th class="colhead">POINT</th><th class="colhead">Absen</th><th class="colhead">History</th></tr></thead>
         <tbody id="tableBodyTop"></tbody>
       </table></div>
       <div class="table-scroll"><table>
         <colgroup><col class="col-rank"><col class="col-name"><col class="col-pay"><col class="col-nick"><col class="col-points"><col class="col-join"><col class="col-hist"></colgroup>
-        <thead><tr><th class="colhead">NO</th><th class="colhead ">NAMA</th><th class="colhead">Pay</th><th class="colhead ">DISPLAY NAMA</th><th class="colhead ">POINT</th><th class="colhead">Absen</th><th class="colhead">History</th></tr></thead>
+        <thead><tr><th class="colhead">NO</th><th class="colhead">NAMA</th><th class="colhead">Pay</th><th class="colhead">DISPLAY NAMA</th><th class="colhead">POINT</th><th class="colhead">Absen</th><th class="colhead">History</th></tr></thead>
         <tbody id="tableBodyBottom"></tbody>
       </table></div>
     </div>
 
-    <!-- ===== RIWAYAT POINT (semua perubahan poin, terbaru di atas) ===== -->
+    <div class="bottom-row">
     <div class="log-panel">
       <div class="log-scroll">
         <table class="log-table">
@@ -525,12 +454,11 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
     </div>
 
     <div class="copyright"><span class="copy-mark" title="Copyright">&copy;</span><span class="adm-trigger" id="admTrigger">Created</span> By Aaronnn</div>
+    </div>
   </div>
 </div>
 
 <div class="cd-alert" id="cdAlert"></div>
-
-<!-- Notifikasi poin mengambang -->
 <div class="pt-toasts" id="ptToasts"></div>
 
 <button type="button" class="sound-toggle" id="soundToggle" title="Suara notifikasi poin ON / OFF">🔊 Suara</button>
@@ -609,25 +537,23 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
   const nicknamePeserta = ["","","","","","","","","","","","","","","","","","","","Admin"];
   const defaultTeams = [];
   for(let i=1;i<=20;i++){
-    // red = true -> baris diwarnai merah (hanya warna, tidak mengubah poin/peringkat)
     defaultTeams.push({ id:i, name:namaPeserta[i-1], nickname:nicknamePeserta[i-1], points:0, binGiven:0, pay:'', paid:false, joined:false, red:false, slotTime:0, history:[], flash:null });
   }
-  // No 20 (Admin): otomatis sudah absen dan Pay = D (hijau)
   const adminTeam = defaultTeams.find(t => t.id === 20);
   adminTeam.joined = true;
   adminTeam.pay = 'D';
   adminTeam.paid = true;
   let teams = JSON.parse(JSON.stringify(defaultTeams));
 
-  // Gambar ikan (SVG tertanam, tidak perlu file luar). Untuk pakai gambar sendiri,
-  // ganti isi FISH_IMG dengan data URI / nama file gambar, mis. 'ikan.png'
   const FISH_SVG =
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">' +
-    '<circle cx="28" cy="36" r="26" fill="#FFB300" stroke="#6D4000" stroke-width="4"/>' +
-    '<circle cx="28" cy="36" r="19" fill="#FFD54F" stroke="#6D4000" stroke-width="2.5"/>' +
-    '<path fill-rule="evenodd" fill="#6D4000" d="M20 22h13a9 9 0 0 1 0 18h-6v10h-7zM27 28v6h6a3 3 0 0 0 0-6z"/>' +
-    '<circle cx="50" cy="14" r="13" fill="#2E7D32" stroke="#fff" stroke-width="3"/>' +
-    '<path d="M50 7 V21 M43 14 H57" stroke="#fff" stroke-width="5" stroke-linecap="round"/>' +
+    '<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF0A0"/><stop offset="1" stop-color="#F59E0B"/></linearGradient></defs>' +
+    '<circle cx="28" cy="36" r="26" fill="url(#g)" stroke="#7A3E00" stroke-width="4"/>' +
+    '<circle cx="28" cy="36" r="19" fill="#FFD54F" stroke="#B66A00" stroke-width="2.5"/>' +
+    '<path fill-rule="evenodd" fill="#7A3E00" d="M20 22h13a9 9 0 0 1 0 18h-6v10h-7zM27 28v6h6a3 3 0 0 0 0-6z"/>' +
+    '<ellipse cx="18" cy="24" rx="6" ry="3" fill="#fff" opacity=".55" transform="rotate(-35 18 24)"/>' +
+    '<circle cx="49" cy="15" r="15" fill="#22C55E" stroke="#fff" stroke-width="3"/>' +
+    '<path d="M49 7 V23 M41 15 H57" stroke="#fff" stroke-width="6" stroke-linecap="round"/>' +
     '</svg>';
   const FISH_IMG = 'data:image/svg+xml;utf8,' + encodeURIComponent(FISH_SVG);
 
@@ -640,16 +566,13 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
   const histModalClose = document.getElementById('histModalClose');
   const searchInput = document.getElementById('searchInput');
   const searchClear = document.getElementById('searchClear');
-
   const plusDefaultInput = document.getElementById('plusDefault');
 
-  // ===== NOTIFIKASI + SUARA saat poin berubah =====
-  // Dipanggil setiap poin naik / turun (ikan, tombol ±, bonus BIN).
-  // Menampilkan kartu mengambang: nama, perubahan (+3 / -2), dan poin jadi berapa. Suara naik = nada naik, turun = nada turun.
+  // ===== Notifikasi + suara saat poin berubah =====
   const ptToasts = document.getElementById('ptToasts');
   const soundBtn = document.getElementById('soundToggle');
-  const MAX_TOASTS = 4;        // maksimal kartu tampil bersamaan
-  const TOAST_MS = 4500;       // lama tampil (ms)
+  const MAX_TOASTS = 4;
+  const TOAST_MS = 4500;
   let soundOn = true;
   try { soundOn = localStorage.getItem('galatamaSound') !== 'off'; } catch(e) {}
   let ptCtx = null;
@@ -663,10 +586,9 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
     soundOn = !soundOn;
     try { localStorage.setItem('galatamaSound', soundOn ? 'on' : 'off'); } catch(e) {}
     refreshSoundBtn();
-    if(soundOn) ptSound(true);   // contoh bunyi saat dinyalakan
+    if(soundOn) ptSound(true);
   });
 
-  // Rangkaian nada: [frekuensi, mulai(detik), durasi(detik)]
   function ptSound(up, big){
     if(!soundOn) return;
     try{
@@ -716,8 +638,7 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
     ptSound(up, Math.abs(delta) >= 3);
   }
 
-  // Bonus POINT BIN diberikan SEKALI di awal: begitu kolom Pay berisi "bin" (huruf besar/kecil bebas),
-  // poin peserta otomatis bertambah sebesar nilai + POINT BIN. Kalau "bin" dihapus dari Pay, bonus ditarik lagi.
+  // Bonus POINT BIN diberikan sekali begitu kolom Pay berisi "bin"; ditarik lagi kalau "bin" dihapus
   function syncBin(t){
     const has = /bin/i.test(t.pay || '');
     let delta = 0, label = '';
@@ -739,10 +660,8 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
     return true;
   }
 
-  // Lama kedip warna saat poin berubah (ms) - samakan dengan durasi animasi di CSS
   const FLASH_MS = 2400;
 
-  // Sisa slot = jumlah Nama Peserta yang masih kosong
   function updateSlotInfo(){
     const left = teams.filter(t => (t.name || '').trim() === '').length;
     document.getElementById('slotLeft').textContent = left;
@@ -779,7 +698,6 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
     markCur(!!scroll);
   }
 
-  // ===== Search tersembunyi: hanya muncul lewat Ctrl+F =====
   function openSearch(){
     document.body.classList.add('search-open');
     searchInput.focus({ preventScroll:true });
@@ -795,14 +713,12 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
   searchInput.addEventListener('keydown', (e) => {
     if(e.key === 'Enter'){
       e.preventDefault();
-      // Enter = langsung buka popup "Tarik Ikan" untuk peserta pertama yang ditemukan
       const hit = document.querySelector('tr.search-cur') || document.querySelector('tr.search-hit');
       if(hit) openFish(Number(hit.dataset.id));
     } else if(e.key === 'Escape'){
       closeSearch();
     }
   });
-  // Kalau kolom search kosong lalu kehilangan fokus, sembunyikan lagi
   searchInput.addEventListener('blur', () => {
     setTimeout(() => {
       if(searchInput.value.trim() === '' && document.activeElement !== searchInput && !fishModal.classList.contains('open')){
@@ -812,9 +728,7 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
   });
   searchClear.addEventListener('mousedown', (e) => e.preventDefault());
   searchClear.addEventListener('click', () => closeSearch());
-  // Tombol kecil = cadangan kalau Ctrl+F ditangkap browser (mis. fokus belum di halaman)
   document.getElementById('searchFab').addEventListener('click', openSearch);
-  // Pastikan halaman memegang fokus keyboard supaya Ctrl+F sampai ke halaman, bukan ke browser
   window.focus();
   document.addEventListener('pointerdown', () => window.focus(), { once:true });
   ['searchPrev','searchNext'].forEach(id => {
@@ -823,7 +737,6 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
     b.addEventListener('click', () => stepSearch(id === 'searchNext' ? 1 : -1));
   });
 
-  // Pintasan Ctrl+F (atau Cmd+F di Mac): munculkan kolom search lalu langsung fokus
   document.addEventListener('keydown', (e) => {
     if((e.ctrlKey || e.metaKey) && !e.altKey && e.key.toLowerCase() === 'f'){
       e.preventDefault();
@@ -832,20 +745,17 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
     }
   });
 
-  // ===== Menu admin tersembunyi =====
-  // Buka: HANYA dengan klik kata "Created" di bawah (tidak ada pintasan keyboard).
-  // Total dihitung dari angka di kolom PAY (bukan Nama Peserta).
+  // ===== Menu admin (klik kata "Created" di bawah) =====
   const admModal = document.getElementById('admModal');
   const admModalBody = document.getElementById('admModalBody');
 
   function openAdmin(){
     admModalBody.innerHTML = '';
-
     let grand = 0, paidTotal = 0, filled = 0, withNum = 0;
     const rows = document.createElement('div');
     getSorted().forEach(t => {
       const pay = (t.pay || '').trim();
-      if(!pay) return;                       // lewati yang kolom Pay-nya kosong
+      if(!pay) return;
       filled++;
       const nums = (pay.match(/\d+/g) || []).map(Number);
       const sub = nums.reduce((a, b) => a + b, 0);
@@ -890,51 +800,78 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
   function closeAdmin(){ admModal.classList.remove('open'); }
   document.getElementById('admModalClose').addEventListener('click', closeAdmin);
   admModal.addEventListener('click', (e) => { if(e.target === admModal) closeAdmin(); });
-
   document.getElementById('admTrigger').addEventListener('click', openAdmin);
   document.addEventListener('keydown', (e) => {
     if(e.key === 'Escape'){ closeAdmin(); closeHistory(); closeFish(); }
   });
 
-  // ===== Hitungan poin berdasarkan jenis ikan =====
+  // ===== Popup Tarik Ikan: SEKALI TAP langsung masuk =====
   const FISH = [{n:'Secret',p:1},{n:'Big',p:1},{n:'Shiny',p:1},{n:'Mutasi',p:1},{n:'Pelagon',p:2},{n:'Mutant Cosmic',p:2},{n:'Megalodon',p:3},{n:'Glacial',p:3},{n:'FB 100+',p:3},{n:'FB Maxton',p:5},{n:'Forgotten',p:5}];
   const fishModal = document.getElementById('fishModal');
   const fishList = document.getElementById('fishList');
   let fishTarget = null;
   fishList.innerHTML = FISH.map((f,i) =>
-    '<label class="fish-opt"><input type="checkbox" data-i="'+i+'"> '+f.n+'<span class="fp">+'+f.p+'P</span></label>').join('');
-
-  function fishPicked(){ return [...fishList.querySelectorAll('input:checked')].map(c => FISH[+c.dataset.i]); }
-  function updateFishTotal(){
-    document.getElementById('fishTotal').textContent = '+' + fishPicked().reduce((a,f) => a + f.p, 0);
-  }
+    '<button type="button" class="fish-opt" data-i="'+i+'"><span>'+f.n+'</span><span class="fp">+'+f.p+'P</span></button>').join('');
   function openFish(id){
     fishTarget = id;
+    fishList.querySelectorAll('.sel').forEach(b => b.classList.remove('sel'));
+    updateFishTotal();
     const t = teams.find(x => x.id === id);
     document.getElementById('fishSub').textContent = t.nickname || t.name || ('Peserta #' + id);
-    fishList.querySelectorAll('input').forEach(c => c.checked = false);
-    updateFishTotal();
     fishModal.classList.add('open');
+    // Tempatkan popup tepat di bawah tombol ikan (naik ke atas kalau tidak muat)
+    const box = fishModal.querySelector('.modal-box');
+    const btn = document.querySelector('tr[data-id="' + id + '"] .fish-btn');
+    const w = box.offsetWidth, h = box.offsetHeight, gap = 4;
+    let left, top;
+    if(btn){
+      const r = btn.getBoundingClientRect();
+      left = r.left + r.width / 2 - w / 2;
+      top = r.bottom + gap;
+      if(top + h > window.innerHeight - gap) top = r.top - h - gap;
+    } else {
+      left = (window.innerWidth - w) / 2;
+      top = (window.innerHeight - h) / 3;
+    }
+    left = Math.max(gap, Math.min(left, window.innerWidth - w - gap));
+    top = Math.max(gap, top);
+    box.style.left = left + 'px';
+    box.style.top = top + 'px';
   }
   function closeFish(){ fishModal.classList.remove('open'); fishTarget = null; }
-  fishList.addEventListener('change', updateFishTotal);
   document.getElementById('fishClose').addEventListener('click', closeFish);
   fishModal.addEventListener('click', (e) => { if(e.target === fishModal) closeFish(); });
+  // Tap ikan = pilih / batal pilih (bisa gabung beberapa), lalu tekan Tambah
+  function fishPicked(){ return [...fishList.querySelectorAll('.fish-opt.sel')].map(b => FISH[+b.dataset.i]); }
+  function updateFishTotal(){
+    const tot = fishPicked().reduce((a, f) => a + f.p, 0);
+    document.getElementById('fishTotal').textContent = '+' + tot;
+    document.getElementById('fishOk').textContent = tot ? 'Tambah +' + tot : 'Pilih ikan';
+  }
+  fishList.addEventListener('click', (e) => {
+    const b = e.target.closest('.fish-opt');
+    if(!b) return;
+    b.classList.toggle('sel');
+    updateFishTotal();
+  });
   document.getElementById('fishOk').addEventListener('click', () => {
     const picked = fishPicked();
     if(!picked.length || fishTarget === null){ closeFish(); return; }
     const t = teams.find(x => x.id === fishTarget);
-    const delta = picked.reduce((a,f) => a + f.p, 0);
+    const delta = picked.reduce((a, f) => a + f.p, 0);
     const label = picked.map(f => f.n).join(' + ');
     t.points += delta;
-    t.flash = { dir: 'up', time: Date.now() };   // kedip hijau (poin naik)
+    t.flash = { dir: 'up', time: Date.now() };
     t.history.push({ delta, after: t.points, time: Date.now(), label });
-    notifyPoints(t, delta, t.points, label);     // notifikasi + suara
+    notifyPoints(t, delta, t.points, label);
     closeFish();
-    // Kosongkan search supaya siap untuk pencarian berikutnya (kolom search tetap terbuka)
     searchInput.value = '';
     render();
     searchInput.focus();
+  });
+  // Enter di keyboard = Tambah
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter' && !e.defaultPrevented && fishModal.classList.contains('open')){ e.preventDefault(); document.getElementById('fishOk').click(); }
   });
 
   // ===== Popup tambah / kurang poin (+1..+10 dan -1..-10) =====
@@ -945,7 +882,6 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
     const t = teams.find(x => x.id === id);
     document.getElementById('pmSub').textContent = t.nickname || t.name || ('Peserta #' + id);
     pmModal.classList.add('open');
-    // Tempatkan popup tepat di bawah tombol ± (naik ke atas kalau tidak muat), tetap di dalam layar
     const box = pmModal.querySelector('.modal-box');
     const r = btn.getBoundingClientRect();
     const w = box.offsetWidth, h = box.offsetHeight, gap = 4;
@@ -965,9 +901,9 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
     const actual = newPoints - t.points;
     t.points = newPoints;
     if(actual){
-      t.flash = { dir: actual > 0 ? 'up' : 'down', time: Date.now() };   // hijau = naik, biru = turun
+      t.flash = { dir: actual > 0 ? 'up' : 'down', time: Date.now() };
       t.history.push({ delta: actual, after: newPoints, time: Date.now(), label: 'Manual' });
-      notifyPoints(t, actual, newPoints, 'Manual');                       // notifikasi + suara
+      notifyPoints(t, actual, newPoints, 'Manual');
     }
     render();
   }
@@ -991,7 +927,6 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
     renderTimer = setTimeout(() => { renderTimer = null; render(); }, delay);
   }
 
-  // Urutan: poin terbanyak di atas. Kalau poin sama, mengikuti urutan baris.
   function getSorted(){
     return [...teams].sort((a,b) => (b.points - a.points) || (a.id - b.id));
   }
@@ -1002,7 +937,6 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
     return pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
   }
 
-  // Penanda poin: zero (0) = MERAH, pos (>0) = HIJAU (warnanya diatur di CSS)
   function applyScoreColor(tr, td, points){
     const tm = teams.find(x => x.id === Number(tr.dataset.id));
     tr.classList.toggle('blank', !tm || (tm.name || '').trim() === '');
@@ -1010,16 +944,12 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
     tr.classList.toggle('pos', points > 0);
   }
 
-  // Poin sama di peringkat 1-10: tiap kelompok poin yang sama dapat 1 warna yang sama
   let tieColor = {};
-  let compRank = {};   // peringkat kompetisi: poin sama = peringkat sama (untuk medali)
+  let compRank = {};
   const TIE_COLORS = 5;
   const TIE_RANK_LIMIT = 10;
   function computeTies(sorted){
     compRank = {};
-    // Fase poin awal / BIN: selama semua poin yang ada HANYA berasal dari bonus BIN,
-    // nomor juara & warna berurutan 1, 2, 3, ... (tidak boleh 1 semua).
-    // Begitu ada poin dari luar BIN (ikan / manual), poin sama baru boleh berperingkat sama.
     const binPhase = sorted.every(t => t.points === 0 || t.points === t.binGiven);
     if(binPhase){
       sorted.forEach((t, i) => { compRank[t.id] = i + 1; });
@@ -1030,8 +960,6 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
       compRank[t.id] = 1 + sorted.filter(o => o.points > t.points).length;
     });
     const count = {};
-    // Hanya poin sama yang memperebutkan juara 1, 2, atau 3 (peringkat kompetisi <= 3) yang diberi warna kelompok.
-    // Poin sama di peringkat 4 ke bawah tidak diwarnai khusus (tetap hijau biasa).
     sorted.slice(0, TIE_RANK_LIMIT).forEach(t => { if(t.points > 0 && compRank[t.id] <= 3) count[t.points] = (count[t.points] || 0) + 1; });
     tieColor = {};
     let idx = 0;
@@ -1042,11 +970,6 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
     });
   }
 
-  // Warna peringkat:
-  //  - baris bertanda merah (klik NO) -> merah solid (diatur CSS .red)
-  //  - poin sama di peringkat 1-10  -> warna kelompok (sama untuk yang poinnya sama)
-  //  - juara 1-3 (poin > 0, tidak seri) -> emas, perak, perunggu
-  //  - lainnya -> hijau (poin > 0) / merah (poin 0) lewat applyScoreColor
   function applyRankColor(tr, rank, points){
     tr.classList.remove('rank-1','rank-2','rank-3','tie-0','tie-1','tie-2','tie-3','tie-4');
     if(points > 0 && rank <= TIE_RANK_LIMIT && tieColor[points] !== undefined){
@@ -1070,7 +993,7 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
         const cls = h.delta > 0 ? 'pos' : 'neg';
         return '<li class="hist-item"><span class="hist-delta ' + cls + '">' + sign + h.delta + '</span>'
           + '<span class="hist-meta"><span class="hist-after">poin jadi ' + h.after + '</span>'
-          + (h.label ? '<span class="hist-fish">' + h.label + '</span>' : '')
+          + (h.label ? '<span class="hist-fish">' + esc(h.label) + '</span>' : '')
           + '<span class="hist-time">' + formatTime(h.time) + '</span></span></li>';
       }).join('');
       histModalBody.innerHTML = '<ul class="hist-list">' + items + '</ul>';
@@ -1084,15 +1007,12 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
   function buildRow(team, rank){
     const tr = document.createElement('tr');
     tr.dataset.id = team.id;
-    if(team.id === 20) tr.classList.add('server');   // baris server = hijau solid
-    if(team.red) tr.classList.add('red');            // baris bertanda merah
+    if(team.id === 20) tr.classList.add('server');
+    if(team.red) tr.classList.add('red');
 
     const tdRank = document.createElement('td');
     tdRank.className = 'rank';
-    // Juara 1-3 (poin > 0): nomor diganti medali emas, perak, perunggu
     const MEDALS = { 1:true, 2:true, 3:true };
-    // Kalau poin sama (perebutan juara 1-3), semua yang seri dapat medali yang sama,
-    // termasuk yang urutannya sudah di bawah nomor 3.
     const medalRank = compRank[team.id] || rank;
     if(team.points > 0 && MEDALS[medalRank]){
       const m = document.createElement('span');
@@ -1103,8 +1023,7 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
       tdRank.textContent = rank;
     }
 
-    // TOMBOL MERAH: klik kolom NO untuk mewarnai baris merah, klik lagi untuk membatalkan
-    // (hanya warna; poin, urutan, dan medali tidak berubah). Baris No 20 (Admin) tidak bisa.
+    // Klik kolom NO = tandai merah / batalkan (kecuali No 20)
     if(team.id !== 20){
       tdRank.classList.add('red-toggle');
       tdRank.title = 'Klik untuk tandai MERAH / batalkan';
@@ -1189,8 +1108,7 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
     pointsWrap.append(pointsInput, pmBtn, fishBtn);
     tdPoints.appendChild(pointsWrap);
 
-    // Kolom Pay: isi angka/huruf dulu. Kalau sudah terisi, KLIK 1x = tandai sudah bayar (hijau),
-    // klik lagi = batal. Klik 2x (double-click) = edit isinya.
+    // Kolom Pay: klik 1x = tandai sudah bayar, klik lagi = batal, klik 2x = edit
     const tdPay = document.createElement('td');
     tdPay.className = 'center';
     const payInput = document.createElement('input');
@@ -1202,7 +1120,6 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
     payInput.value = team.pay || '';
     payInput.dataset.id = team.id;
     payInput.dataset.field = 'pay';
-    // Ukuran tulisan Pay menyesuaikan panjang isi: pendek = besar, panjang = mengecil agar muat di kolom
     function fitPay(){
       const n = payInput.value.length;
       payInput.style.fontSize = n <= 3 ? '' : n === 4 ? '.9em' : '.72em';
@@ -1211,7 +1128,7 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
       const t = teams.find(x => x.id === team.id);
       const filled = (t.pay || '') !== '';
       payInput.readOnly = filled;
-      if(filled) payInput.value = t.pay.slice(0, 3);   // tampil 3 karakter pertama saja (isi lengkap tetap tersimpan)
+      if(filled) payInput.value = t.pay.slice(0, 3);
       payInput.classList.toggle('locked', filled);
       payInput.classList.toggle('done', filled && !!t.paid);
       payInput.title = !filled ? 'Isi angka/huruf dulu'
@@ -1234,7 +1151,7 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
     });
     payInput.addEventListener('dblclick', () => {
       payInput.readOnly = false;
-      payInput.value = teams.find(x => x.id === team.id).pay;   // saat edit tampil isi lengkap
+      payInput.value = teams.find(x => x.id === team.id).pay;
       fitPay();
       payInput.classList.remove('locked');
       payInput.focus();
@@ -1284,7 +1201,6 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
     histBtn.addEventListener('click', () => openHistory(team.id));
     tdHist.appendChild(histBtn);
 
-    // Kedip hijau (poin naik) / biru (poin turun); lanjut dari sisa waktu kalau baris dibangun ulang
     if(team.flash && Date.now() - team.flash.time < FLASH_MS){
       const el = Date.now() - team.flash.time;
       tr.classList.add(team.flash.dir === 'up' ? 'flash-up' : 'flash-down');
@@ -1295,13 +1211,13 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
     return tr;
   }
 
-  // ===== Riwayat poin global di bawah tabel (nama, display nama, perubahan, poin jadi, keterangan) =====
+  // Riwayat poin global di bawah tabel
   function renderLog(){
     const body = document.getElementById('logBody');
     if(!body) return;
     const all = [];
     teams.forEach(t => t.history.forEach(h => all.push({ t, h })));
-    all.sort((a, b) => b.h.time - a.h.time);   // terbaru di atas
+    all.sort((a, b) => b.h.time - a.h.time);
     if(!all.length){
       body.innerHTML = '<tr><td colspan="6" class="log-empty">Belum ada perubahan poin.</td></tr>';
       return;
@@ -1318,7 +1234,7 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
         + '<td class="l">' + esc(r.h.label || '-') + '</td>'
         + '</tr>';
     }).join('');
-    box.scrollTop = 0;   // selalu tampilkan data terbaru (paling atas)
+    box.scrollTop = 0;
   }
 
   function render(){
@@ -1341,7 +1257,7 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
   }
   render();
 
-  // Kolom ADD USN dan MAP melebar otomatis mengikuti panjang tulisan (minimal 5.2em, maksimal 30em)
+  // ADD USN dan MAP melebar otomatis mengikuti tulisan
   function autoGrow(input){
     const m = document.createElement('span');
     m.style.cssText = 'position:absolute;visibility:hidden;white-space:pre;pointer-events:none;left:-9999px;top:0;';
@@ -1364,9 +1280,8 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
   }
   autoGrow(document.getElementById('addUsn'));
 
-  // ===== Kolom MAP: pilih dari daftar ATAU ketik sendiri =====
-  // Edit daftar pilihan map di sini (tambah/hapus sesuka hati):
-  const MAP_OPTIONS = ['Sisyphus Isle', 'Planet Observatory', 'Megalodon', 'Creater', 'Glacial',];
+  // Kolom MAP: pilih dari daftar atau ketik sendiri
+  const MAP_OPTIONS = ['Sisyphus Isle', 'Planet Observatory', 'Megalodon', 'Creater', 'Glacial'];
   const mapInput = document.getElementById('addMap');
   const mapList = document.getElementById('mapList');
   MAP_OPTIONS.forEach(name => {
@@ -1376,7 +1291,6 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
   });
   autoGrow(mapInput);
 
-  // Saat diklik/fokus: kosongkan sementara supaya SEMUA pilihan muncul (isi lama dipulihkan kalau tidak jadi memilih)
   let mapPrev = '';
   mapInput.addEventListener('focus', () => {
     mapPrev = mapInput.value;
@@ -1387,26 +1301,21 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
     mapPrev = '';
     mapInput.fitSize();
   });
-  mapInput.addEventListener('input', () => {
-    mapPrev = '';   // sudah mengetik/memilih sesuatu, jangan dipulihkan lagi
-  });
+  mapInput.addEventListener('input', () => { mapPrev = ''; });
   mapInput.addEventListener('keydown', (e) => { if(e.key === 'Enter'){ e.preventDefault(); mapInput.blur(); } });
 
   // ===== COUNTDOWN WAKTU =====
-  // Atur waktu: klik angkanya lalu ketik. "70" = 70 menit, "15:00" = 15 menit, "1:30:00" = 1 jam 30 menit.
-  // Tekan ▶ = hitung mundur START 10 detik dulu (10, 9, 8 ... 1), lalu waktu utama langsung jalan.
-  // ❚❚ = jeda / batalkan start, ↺ = reset. Saat waktu habis: kotak berkedip merah + beep.
   let START_SEC = 10;
-  const LAST_WARN_MS = 5 * 60 * 1000;   // mulai peringatan merah di 5 menit terakhir
+  const LAST_WARN_MS = 5 * 60 * 1000;
   const cdTime = document.getElementById('cdTime');
   const cdToggle = document.getElementById('cdToggle');
   const cdReset = document.getElementById('cdReset');
-  let cdTotal = 70 * 60 * 1000;     // durasi yang diatur (ms)
-  let cdLeft = cdTotal;             // sisa waktu (ms)
-  let cdEnd = 0;                    // waktu selesai (timestamp) saat berjalan
+  let cdTotal = 70 * 60 * 1000;
+  let cdLeft = cdTotal;
+  let cdEnd = 0;
   let cdTimer = null;
   let cdRunning = false;
-  let cdPre = false, cdPreEnd = 0, cdPreLast = 0, cdLastSec = 0;   // fase hitung mundur start
+  let cdPre = false, cdPreEnd = 0, cdPreLast = 0, cdLastSec = 0;
 
   function cdParse(str){
     const s = (str || '').trim();
@@ -1414,9 +1323,9 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
     const parts = s.split(':').map(p => parseInt(p, 10));
     if(parts.some(isNaN) || parts.length > 3) return null;
     let sec;
-    if(parts.length === 1) sec = parts[0] * 60;                              // angka saja = menit
-    else if(parts.length === 2) sec = parts[0] * 60 + parts[1];              // MM:SS
-    else sec = parts[0] * 3600 + parts[1] * 60 + parts[2];                   // H:MM:SS
+    if(parts.length === 1) sec = parts[0] * 60;
+    else if(parts.length === 2) sec = parts[0] * 60 + parts[1];
+    else sec = parts[0] * 3600 + parts[1] * 60 + parts[2];
     return sec * 1000;
   }
   function cdFormat(ms){
@@ -1458,7 +1367,6 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
       }
     }catch(e){}
   }
-  // ===== Pengumuman besar di layar: 5 menit, 1 menit, 10 detik terakhir =====
   const cdAlertEl = document.getElementById('cdAlert');
   let cdAlertTimer = null;
   function cdAlert(text, cls, ms){
@@ -1480,7 +1388,6 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
         cdShow();
         return;
       }
-      // hitung mundur start selesai -> waktu utama mulai
       cdPre = false;
       cdEnd = Date.now() + cdLeft;
       cdRunning = true;
@@ -1511,7 +1418,7 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
     if(cdLeft <= 0) cdLeft = cdTotal;
     if(cdLeft <= 0) return;
     cdLastSec = 0;
-    if(START_SEC <= 0){            // tanpa hitung mundur start: langsung jalan
+    if(START_SEC <= 0){
       cdEnd = Date.now() + cdLeft;
       cdRunning = true;
       cdTimer = setInterval(cdTick, 100);
@@ -1525,7 +1432,7 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
     cdTick();
   }
   function cdPause(){
-    if(cdPre){                     // batalkan hitung mundur start
+    if(cdPre){
       cdPre = false;
     } else {
       cdLeft = Math.max(0, cdEnd - Date.now());
@@ -1560,7 +1467,7 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
   });
   cdShow();
 
-  // ===== Popup Atur Waktu (jam / menit / detik + pilihan cepat) =====
+  // Popup Atur Waktu
   const cdModal = document.getElementById('cdModal');
   const cdH = document.getElementById('cdH'), cdM = document.getElementById('cdM'), cdS = document.getElementById('cdS');
   const cdPreSec = document.getElementById('cdPreSec');
@@ -1603,7 +1510,7 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
     else if(e.key === 'Escape') closeCdSet();
   });
 
-  // ===== Pilihan mode Day / Night =====
+  // Mode Day / Night
   const modeBtns = document.querySelectorAll('#modeToggle button');
   function setMode(m){
     document.body.classList.toggle('night', m === 'night');
@@ -1615,7 +1522,7 @@ body.night .log-table tbody tr:nth-child(1) td.down{color:#FFCDD2;}
   try { savedMode = localStorage.getItem('galatamaMode') === 'night' ? 'night' : 'day'; } catch(e) {}
   setMode(savedMode);
 
-  // Skala otomatis: tampilan didesain 1400px lalu diperkecil/diperbesar agar pas selebar layar (tanpa scroll)
+  // Skala otomatis agar pas selebar layar
   const wrapEl = document.querySelector('.wrap');
   const DESIGN_W = 1400;
   function fitToScreen(){
