@@ -16,7 +16,7 @@ body{margin:0;min-height:100vh;background:var(--sheet-bg);font:500 18px Lexend,'
 body.solo{--inp:1.08em;--pt:1.85em}body.clan{--inp:1.4em;--pt:2.3em}
 .wrap{width:1400px;margin:0 auto}body.clan .wrap{width:1700px}
 .panel{background:var(--cell-bg);border:1px solid var(--grid);border-radius:0 0 4px 4px;padding:6px 14px 7px}
-.tables{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+.col{min-width:0}body.duo{padding-bottom:0}html:has(body.duo){height:100%;overflow:hidden}body.duo{height:100vh;min-height:0;overflow:hidden}body.duo .fab{font-size:15px}body.duo .first-row{margin-bottom:10px}body.duo .tables table:not(.log-table){font-size:calc(var(--fs)*var(--ts,1))}body.duo #searchFab{left:auto;right:72px;transform:none}body.duo .bottom-row{margin-top:0}body.duo .log-table td:nth-child(1){width:15%}body.duo .log-table td:nth-child(3){width:17%}body.duo table.log-table{font-size:calc(var(--fs)*var(--ts,1)*1.1)}body.duo .copyright{display:none}body.duo .log-scroll{height:100%;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;font-size:calc(var(--fs)*1.15)}body.duo table.log-table td{height:var(--lr,70px)}.tables{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
 table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:var(--fs)}
 th{background:var(--head-bg);border:2px solid #000;color:#fff;font-weight:700;padding:.7em 2px;text-align:center}
 th:nth-child(3){font-weight:800}th:nth-child(6),th:nth-child(7){font-size:.55em;white-space:nowrap;overflow:hidden}
@@ -42,7 +42,7 @@ body.solo tr.pos input.team-name,body.solo tr.pos input.team-nick,body.solo tr.z
 .medal{display:inline-flex;align-items:center;justify-content:center;width:1.7em;height:1.7em;border-radius:50%;font-weight:800;font-size:.95em;color:#222;border:2px solid rgba(0,0,0,.35)}
 .medal.m1{background:linear-gradient(#FFE27A,#F5B700)}.medal.m2{background:linear-gradient(#F4F6F8,#AEB8C2)}.medal.m3{background:linear-gradient(#F0B27A,#B8691F);color:#fff}
 
-/* Warna CLAN */
+/* Warna CLAN / DUO */
 tr.cs td{border:none!important;background:transparent!important;height:10px}
 tr.cr td:first-child,tr.ch td{border-left:2px solid var(--bd)}tr.cr td:last-child,tr.ch td{border-right:2px solid var(--bd)}
 tr.cr.last td{border-bottom:2px solid var(--bd)}
@@ -232,6 +232,7 @@ body.solo .log-scroll{font-size:var(--fs);height:calc(10.5em + 2px)}
   <h1>Klasemen Galatama</h1>
   <div class="menu-btns">
     <button data-mode="solo">🎣 Galatama Solo<small>20 peserta · ranking perorangan</small></button>
+    <button data-mode="duo">👥 Galatama Duo<small>9 tim × 2 akun · ranking tim</small></button>
     <button data-mode="clan">🛡️ Galatama Clan<small>6 clan × 3 akun · ranking clan</small></button>
   </div>
 </div>
@@ -262,9 +263,10 @@ body.solo .log-scroll{font-size:var(--fs);height:calc(10.5em + 2px)}
       <div class="slot-badge" id="slotInfo" title="Jumlah slot yang masih kosong"><span class="slot-label">-</span><span class="slot-num" id="slotLeft">0</span></div>
     </div>
   </div>
-  <div class="tables">
-    <table><colgroup></colgroup><thead><tr><th>NO</th><th>NAMA</th><th>Pay</th><th>DISPLAY NAMA</th><th>POINT</th><th>Absen</th><th>History</th></tr></thead><tbody id="tableBodyTop"></tbody></table>
-    <table><colgroup></colgroup><thead><tr><th>NO</th><th>NAMA</th><th>Pay</th><th>DISPLAY NAMA</th><th>POINT</th><th>Absen</th><th>History</th></tr></thead><tbody id="tableBodyBottom"></tbody></table>
+  <div class="tables first-row" id="firstRow" style="display:none"><div class="col"><table><colgroup></colgroup><thead><tr><th>NO</th><th>NAMA</th><th>Pay</th><th>DISPLAY NAMA</th><th>POINT</th><th>Absen</th><th>History</th></tr></thead><tbody id="tableBodyFirst"></tbody></table></div><div class="col" id="colF"></div></div>
+  <div class="tables" id="mainTables"><div class="col" id="colL">
+    <table><colgroup></colgroup><thead><tr><th>NO</th><th>NAMA</th><th>Pay</th><th>DISPLAY NAMA</th><th>POINT</th><th>Absen</th><th>History</th></tr></thead><tbody id="tableBodyTop"></tbody></table></div><div class="col" id="colR">
+    <table><colgroup></colgroup><thead><tr><th>NO</th><th>NAMA</th><th>Pay</th><th>DISPLAY NAMA</th><th>POINT</th><th>Absen</th><th>History</th></tr></thead><tbody id="tableBodyBottom"></tbody></table></div>
   </div>
   <div class="bottom-row">
     <div class="log-panel"><div class="log-scroll"><table class="log-table"><tbody id="logBody"></tbody></table></div></div>
@@ -291,15 +293,20 @@ const mk=(tag,cls,html)=>{const e=document.createElement(tag);if(cls)e.className
 const base=o=>({name:'',nickname:'',points:0,binGiven:0,pay:'',paid:false,joined:false,red:false,history:[],flash:null,...o});
 
 // ===== DATA =====
-let M=null; // 'solo' | 'clan'
+let M=null; // 'solo' | 'duo' | 'clan'
 const solo=Array.from({length:20},(_,i)=>base({id:i+1}));
 Object.assign(solo[19],{name:'Admin',nickname:'Admin',joined:true,pay:'D',paid:true});
-const clans=Array.from({length:6},(_,i)=>({id:i+1,name:'Clan '+(i+1),flash:null}));
-const clanT=Array.from({length:18},(_,i)=>base({id:i+1,clan:Math.floor(i/3)+1,slot:i%3}));
-const LETTER=['A','B','C'], CLAN_COLORS=['#1565C0','#7B1FA2','#00838F','#EF6C00','#C2185B','#2E7D32'];
-const TS=()=>M==='solo'?solo:clanT;
-const getT=id=>TS().find(x=>x.id===id), getC=id=>clans[id-1];
-const cTeams=c=>clanT.filter(t=>t.clan===c.id), cTotal=c=>cTeams(c).reduce((a,t)=>a+t.points,0);
+// Clan: 6 clan x 3 akun
+const clansC=Array.from({length:6},(_,i)=>({id:i+1,name:'Clan '+(i+1),flash:null}));
+const clanTC=Array.from({length:18},(_,i)=>base({id:i+1,clan:Math.floor(i/3)+1,slot:i%3}));
+// Duo: 9 tim x 2 akun
+const clansD=Array.from({length:9},(_,i)=>({id:i+1,name:'Tim '+(i+1),flash:null}));
+const clanTD=Array.from({length:18},(_,i)=>base({id:i+1,clan:Math.floor(i/2)+1,slot:i%2}));
+const CL=()=>M==='duo'?clansD:clansC, CT=()=>M==='duo'?clanTD:clanTC;
+const LETTER=['A','B','C'], CLAN_COLORS=['#1565C0','#7B1FA2','#00838F','#EF6C00','#C2185B','#2E7D32','#D84315','#455A64','#6D4C41'];
+const TS=()=>M==='solo'?solo:CT();
+const getT=id=>TS().find(x=>x.id===id), getC=id=>CL()[id-1];
+const cTeams=c=>CT().filter(t=>t.clan===c.id), cTotal=c=>cTeams(c).reduce((a,t)=>a+t.points,0);
 const who=t=>t.nickname||t.name||('Peserta #'+t.id);
 const fmtTime=ts=>{const d=new Date(ts),p=n=>String(n).padStart(2,'0');return p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds())};
 const FISH_IMG='data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF0A0"/><stop offset="1" stop-color="#F59E0B"/></linearGradient></defs><circle cx="28" cy="36" r="26" fill="url(#g)" stroke="#7A3E00" stroke-width="4"/><circle cx="28" cy="36" r="19" fill="#FFD54F" stroke="#B66A00" stroke-width="2.5"/><path fill-rule="evenodd" fill="#7A3E00" d="M20 22h13a9 9 0 0 1 0 18h-6v10h-7zM27 28v6h6a3 3 0 0 0 0-6z"/><circle cx="49" cy="15" r="15" fill="#22C55E" stroke="#fff" stroke-width="3"/><path d="M49 7V23M41 15H57" stroke="#fff" stroke-width="6" stroke-linecap="round"/></svg>');
@@ -341,24 +348,25 @@ function ranks(a,v,b){
   let i=0;a.slice(0,10).forEach(t=>{if(t.points>0&&cnt[t.points]>1&&tie[t.points]===undefined)tie[t.points]=i++%5});
 }
 let timerEnded=false;
-function markClan(){ // MVP & LAST (Clan)
+function markClan(){ // MVP & LAST (Clan & Duo)
   $$('tr.mvp,tr.low').forEach(r=>r.classList.remove('mvp','low'));
-  if(M!=='clan')return;
-  const max=Math.max(0,...clanT.map(t=>t.points));
-  if(max>0)clanT.filter(t=>t.points===max).forEach(t=>document.querySelector('tr[data-id="'+t.id+'"]')?.classList.add('mvp'));
+  if(M==='solo'||!M)return;
+  const T=CT();
+  const max=Math.max(0,...T.map(t=>t.points));
+  if(max>0)T.filter(t=>t.points===max).forEach(t=>document.querySelector('tr[data-id="'+t.id+'"]')?.classList.add('mvp'));
   if(!timerEnded)return;
-  const pl=clanT.filter(t=>t.name.trim()||t.nickname.trim());if(!pl.length)return;
+  const pl=T.filter(t=>t.name.trim()||t.nickname.trim());if(!pl.length)return;
   const min=Math.min(...pl.map(t=>t.points));if(min===max)return;
   pl.filter(t=>t.points===min).forEach(t=>document.querySelector('tr[data-id="'+t.id+'"]')?.classList.add('low'));
 }
 function updateSlotInfo(){
-  const left=M==='solo'?solo.filter(t=>!t.name.trim()).length:clans.filter(c=>cTeams(c).some(t=>!t.name.trim())).length;
+  const left=M==='solo'?solo.filter(t=>!t.name.trim()).length:CL().filter(c=>cTeams(c).some(t=>!t.name.trim())).length;
   $('slotLeft').textContent=left;$('slotInfo').classList.toggle('full',left===0);
 }
 
 // ===== Log global =====
 function renderLog(){
-  const all=[];TS().forEach(t=>t.history.forEach(h=>all.push({t,h})));all.sort((a,b)=>b.h.time-a.h.time);
+  let all=[];TS().forEach(t=>t.history.forEach(h=>all.push({t,h})));all.sort((a,b)=>b.h.time-a.h.time);// Duo: 3 baris terlihat, sisanya bisa di-scroll
   const body=$('logBody');
   if(!all.length){body.innerHTML='<tr><td colspan="6" style="font-weight:500;color:var(--muted)">Belum ada perubahan poin.</td></tr>';return}
   body.innerHTML=all.map(({t,h})=>{
@@ -521,7 +529,7 @@ function buildRow(t,rank,o){
 function clanHeader(c,r,total){
   const tr=mk('tr','ch'+(total>0&&r<=3?' rank-'+r:''));
   const PAL={1:['#9A6A00','#FFC400'],2:['#5F6F7A','#B8C4CC'],3:['#7A410C','#E58E3A']},[dk,mn]=PAL[r]||['#0D47A1','#2196F3'];
-  const td=mk('td',null,'<div class="chin"><span class="rkw"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="29" fill="'+mn+'" stroke="'+dk+'" stroke-width="4"/><text x="32" y="44" text-anchor="middle" font-family="Lexend,Arial" font-weight="800" font-size="36" fill="#fff" stroke="'+dk+'" stroke-width="4" stroke-linejoin="round" paint-order="stroke">'+r+'</text></svg></span><input type="text" class="clan-name" placeholder="Nama Clan"><span class="cinfo"><span>TOTAL</span><span>POINT</span></span><span class="ctot"><b>'+total+'</b></span></div>');
+  const td=mk('td',null,'<div class="chin"><span class="rkw"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="29" fill="'+mn+'" stroke="'+dk+'" stroke-width="4"/><text x="32" y="44" text-anchor="middle" font-family="Lexend,Arial" font-weight="800" font-size="36" fill="#fff" stroke="'+dk+'" stroke-width="4" stroke-linejoin="round" paint-order="stroke">'+r+'</text></svg></span><input type="text" class="clan-name" placeholder="'+(M==='duo'?'Nama Tim':'Nama Clan')+'"><span class="cinfo"><span>TOTAL</span><span>POINT</span></span><span class="ctot"><b>'+total+'</b></span></div>');
   td.colSpan=6;tr.style.setProperty('--cc',CLAN_COLORS[c.id-1]);
   const inp=td.querySelector('input');inp.value=c.name;inp.addEventListener('input',()=>{c.name=inp.value;renderLog()});
   tr.appendChild(td);
@@ -530,16 +538,17 @@ function clanHeader(c,r,total){
 }
 
 function render(){
-  const top=$('tableBodyTop'),bot=$('tableBodyBottom');top.innerHTML='';bot.innerHTML='';
+  const top=$('tableBodyTop'),bot=$('tableBodyBottom');top.innerHTML='';bot.innerHTML='';$('tableBodyFirst').innerHTML='';
   if(M==='solo'){
     const s=[...solo].sort((a,b)=>b.points-a.points||a.id-b.id);
     ranks(s,t=>t.points,t=>t.binGiven);
     s.forEach((t,i)=>(i<10?top:bot).appendChild(buildRow(t,i+1,{alt:i%2===1})));
   }else{
-    const s=[...clans].sort((a,b)=>cTotal(b)-cTotal(a)||a.id-b.id);
+    const cl=CL(),split=M==='duo'?4:3; // Duo: 4 tim kiri (+riwayat) + 5 tim kanan
+    const s=[...cl].sort((a,b)=>cTotal(b)-cTotal(a)||a.id-b.id);
     ranks(s,cTotal,()=>0);
     s.forEach((c,i)=>{
-      const body=i<3?top:bot;
+      const body=M==='duo'?(i===0?$('tableBodyFirst'):i<=4?top:bot):(i<split?top:bot); // Duo: peringkat 1 sendiri di paling atas
       if(body.children.length){const sp=mk('tr','cs');const td=mk('td');td.colSpan=6;sp.appendChild(td);body.appendChild(sp)}
       body.appendChild(clanHeader(c,cr[c.id],cTotal(c)));
       const list=cTeams(c).sort((a,b)=>b.points-a.points||a.slot-b.slot);
@@ -619,25 +628,42 @@ $('tOk').addEventListener('click',()=>{
 setInterval(timerTick,200);timerUI();
 
 // ===== Mode, tema, skala =====
-const COLS={solo:[6,23,7,31,22,5,5],clan:[6,28,35,18.5,6,6.5]};
+const COLS={solo:[6,23,7,31,22,5,5],clan:[6,28,35,18.5,6,6.5],duo:[6,28,35,18.5,6,6.5]};
 function fitToScreen(){
-  const W=M==='clan'?1700:1400,wrap=document.querySelector('.wrap'),avail=document.documentElement.clientWidth-20;
+  const wrap=document.querySelector('.wrap'),avail=document.documentElement.clientWidth-20;
+  if(M==='duo'){ // full layar: bar atas ukuran Clan (lebar 1700), bagian tim mengecil/membesar sampai pas tinggi layar
+    const z=Math.max(.2,Math.min(avail/1700,1.6)),hmax=innerHeight/z,root=document.documentElement;let ts=1;
+    wrap.style.zoom=1;wrap.style.width='1700px';
+    const sync=()=>{root.style.setProperty('--ts',ts);
+      const rs=[...document.querySelectorAll('#tableBodyFirst tr')].slice(0,3),bh=rs.reduce((a,r)=>a+r.offsetHeight,0); // tinggi panel riwayat = 1 blok tim
+      if(bh){document.querySelector('.log-panel').style.height=bh+'px';root.style.setProperty('--lr',((bh-4)/3)+'px')}};
+    for(let k=0;k<5;k++){
+      sync();
+      const T=($('firstRow').offsetHeight+$('mainTables').offsetHeight)||1,N=wrap.offsetHeight-T;
+      ts=Math.max(.35,Math.min(ts*(hmax-N)/T,1.6));
+    }
+    sync();wrap.style.zoom=z;return;
+  }
+  wrap.style.width='';document.querySelector('.log-panel').style.height='';
+  const W=M==='solo'?1400:1700;
   wrap.style.zoom=Math.max(.2,Math.min(avail/W,1.6));
 }
 function setMode(m){
-  M=m;document.body.classList.remove('solo','clan');document.body.classList.add(m);
+  M=m;document.body.classList.remove('solo','clan','duo');document.body.classList.add(m==='solo'?'solo':'clan');if(m==='duo')document.body.classList.add('duo'); // Duo memakai tampilan Clan
   document.querySelectorAll('colgroup').forEach(cg=>cg.innerHTML=COLS[m].map(w=>'<col style="width:'+w+'%">').join(''));
-  document.title=m==='solo'?'Klasemen Galatama Solo':'Klasemen Galtam Clan';
-  $('menu').classList.remove('open');closeAll();fitToScreen();render();
+  document.title=m==='solo'?'Klasemen Galatama Solo':m==='duo'?'Klasemen Galtam Duo':'Klasemen Galtam Clan';
+  const br=document.querySelector('.bottom-row');(m==='duo'?$('colF'):document.querySelector('.panel')).appendChild(br); const cp=document.querySelector('.copyright');(m==='duo'?document.querySelector('.panel'):br).appendChild(cp); // Duo: riwayat di kiri bawah, Created By di paling bawah
+  $('firstRow').style.display=m==='duo'?'grid':'none';
+  $('menu').classList.remove('open');closeAll();render();fitToScreen();
 }
 $$('#menu [data-mode]').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
-$('menuFab').addEventListener('click',()=>{closeAll();$('menu').classList.add('open')}); // data kedua mode tetap tersimpan
+$('menuFab').addEventListener('click',()=>{closeAll();$('menu').classList.add('open')}); // data semua mode tetap tersimpan
 $('themeFab').addEventListener('click',()=>{
   const dark=document.documentElement.getAttribute('data-theme')==='dark';
   if(dark)document.documentElement.removeAttribute('data-theme');else document.documentElement.setAttribute('data-theme','dark');
   try{localStorage.setItem('galTheme',dark?'light':'dark')}catch(e){}
 });
-addEventListener('resize',fitToScreen);
+addEventListener('resize',fitToScreen);if(document.fonts)document.fonts.ready.then(()=>M&&fitToScreen());
 document.addEventListener('pointerdown',()=>window.focus(),{once:true});
 
 </script>
