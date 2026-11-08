@@ -185,9 +185,10 @@ table.log-table td{height:2.1em;border:2px solid var(--bd);padding:.2em .5em;tex
 .log-table tr:nth-child(-n+3) td.up{color:#137E43}.log-table tr:nth-child(-n+3) td.down{color:#C0392B}
 .copyright{flex:none;padding:0 8px;font-size:calc(var(--fs)*1.7);width:min-content;text-align:center;line-height:1.1;font-weight:800;color:#D32F2F;user-select:none}
 .adm-trigger{cursor:pointer}
-#ptToast{position:fixed;top:50%;left:50%;z-index:200;transform:translate(-50%,-50%) scale(.85);opacity:0;pointer-events:none;display:flex;align-items:center;gap:28px;min-width:340px;padding:16px 30px;background:#1C2429;border:3px solid #1FA35C;border-radius:18px;color:#fff;transition:.25s}
-#ptToast.show{transform:translate(-50%,-50%) scale(1);opacity:1}#ptToast.neg{border-color:#E5484D}
-.pt-delta{font-size:44px;font-weight:800;color:#2ED573}#ptToast.neg .pt-delta{color:#FF6B6B}
+#ptStack{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:200;display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:none}
+.pt-toast{display:flex;align-items:center;gap:28px;min-width:340px;padding:16px 30px;background:#1C2429;border:3px solid #1FA35C;border-radius:18px;color:#fff;opacity:0;transform:scale(.85);transition:.25s}
+.pt-toast.show{opacity:1;transform:scale(1)}.pt-toast.neg{border-color:#E5484D}
+.pt-delta{font-size:44px;font-weight:800;color:#2ED573}.pt-toast.neg .pt-delta{color:#FF6B6B}
 .pt-who{font-size:26px;font-weight:800}.pt-after{font-size:22px;color:#C9D3D0}.pt-after b{font-size:1.5em;color:#FFC400}.pt-label{font-size:18px;color:#FFA726}
 
 /* Menu pilihan */
@@ -275,7 +276,7 @@ body.solo .log-scroll{font-size:var(--fs);height:calc(10.5em + 2px)}
 </div></div>
 
 <div class="cd-alert" id="cdAlert"></div>
-<div id="ptToast"><span class="pt-delta"></span><div><div class="pt-who"></div><div class="pt-after">Poin jadi <b></b></div><div class="pt-label"></div></div></div>
+<div id="ptStack"></div>
 <button type="button" class="fab" id="menuFab" title="Ganti mode">⇄ Mode</button>
 <button type="button" class="fab" id="searchFab" title="Cari (Ctrl+F)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg></button>
 <button type="button" class="fab" id="themeFab" title="Siang / malam"><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg><svg class="i-moon" viewBox="0 0 24 24" fill="#CFD8DC"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg></button>
@@ -316,12 +317,15 @@ const FLASH_MS=2400;
 let ac=null,toastTimer=null;
 function beep(f,len,vol,at){try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();const o=ac.createOscillator(),g=ac.createGain(),t0=ac.currentTime+(at||0);o.frequency.value=f;g.gain.setValueAtTime(vol||.25,t0);g.gain.exponentialRampToValueAtTime(.0001,t0+len);o.connect(g);g.connect(ac.destination);o.start(t0);o.stop(t0+len+.02)}catch(e){}}
 const tone=d=>d>0?(beep(880,.14,.3),beep(1320,.22,.3,.09)):(beep(520,.14,.3),beep(330,.26,.3,.09));
-function toast(t,d,after,label){
-  const el=$('ptToast');el.classList.toggle('neg',d<0);
+function toast(t,d,after,label){ // notif bisa muncul bersamaan: ditumpuk atas-bawah (terbaru di bawah)
+  const stack=$('ptStack');
+  const el=mk('div','pt-toast'+(d<0?' neg':''),'<span class="pt-delta"></span><div><div class="pt-who"></div><div class="pt-after">Poin jadi <b></b></div><div class="pt-label"></div></div>');
   el.querySelector('.pt-delta').textContent=(d>0?'+':'\u2212')+Math.abs(d);
   el.querySelector('.pt-who').textContent=who(t);el.querySelector('.pt-after b').textContent=after;
   const lb=el.querySelector('.pt-label');lb.textContent=label||'';lb.style.display=label?'block':'none';
-  el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2500);
+  stack.appendChild(el);while(stack.children.length>4)stack.firstChild.remove();
+  requestAnimationFrame(()=>el.classList.add('show'));
+  setTimeout(()=>{el.classList.remove('show');setTimeout(()=>el.remove(),280)},2500);
 }
 function applyDelta(t,d,label){
   const np=Math.max(0,t.points+d),a=np-t.points;t.points=np;
