@@ -16,7 +16,7 @@ body{margin:0;min-height:100vh;background:var(--sheet-bg);font:500 18px Lexend,'
 body.solo{--inp:1.08em;--pt:1.85em}body.clan{--inp:1.4em;--pt:2.3em}
 .wrap{width:1400px;margin:0 auto}body.clan .wrap{width:1700px}
 .panel{background:var(--cell-bg);border:1px solid var(--grid);border-radius:0 0 4px 4px;padding:6px 14px 7px}
-.col{min-width:0}body.duo{padding-bottom:0}html:has(body.duo){height:100%;overflow:hidden}body.duo{height:100vh;min-height:0;overflow:hidden}body.duo .fab{font-size:15px}body.duo .first-row{margin-bottom:10px}body.duo .tables table:not(.log-table){font-size:calc(var(--fs)*var(--ts,1))}body.duo #searchFab{left:auto;right:72px;transform:none}body.duo .bottom-row{margin-top:0}body.duo .log-table td:nth-child(1){width:15%}body.duo .log-table td:nth-child(3){width:17%}body.duo table.log-table{font-size:calc(var(--fs)*var(--ts,1)*1.1)}body.duo .copyright{display:none}body.duo .log-scroll{height:100%;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;font-size:calc(var(--fs)*1.15)}body.duo table.log-table td{height:var(--lr,70px)}.tables{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+.col{min-width:0}body.duo{padding-bottom:0}html:has(body.duo){height:100%;overflow:hidden}body.duo{height:100vh;min-height:0;overflow:hidden}body.duo .fab{font-size:15px}body.duo .first-row{margin-bottom:10px}body.duo .tables table:not(.log-table){font-size:calc(var(--fs)*var(--ts,1))}body.duo .bottom-row{margin-top:0}body.duo .log-table td:nth-child(1){width:15%}body.duo .log-table td:nth-child(3){width:17%}body.duo table.log-table{font-size:calc(var(--fs)*var(--ts,1)*1.1)}body.duo .copyright{display:none}body.duo .log-scroll{height:100%;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;font-size:calc(var(--fs)*1.15)}body.duo table.log-table td{height:var(--lr,70px)}.tables{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
 table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:var(--fs)}
 th{background:var(--head-bg);border:2px solid #000;color:#fff;font-weight:700;padding:.7em 2px;text-align:center}
 th:nth-child(3){font-weight:800}th:nth-child(6),th:nth-child(7){font-size:.55em;white-space:nowrap;overflow:hidden}
@@ -185,8 +185,8 @@ table.log-table td{height:2.1em;border:2px solid var(--bd);padding:.2em .5em;tex
 .log-table tr:nth-child(-n+3) td.up{color:#137E43}.log-table tr:nth-child(-n+3) td.down{color:#C0392B}
 .copyright{flex:none;padding:0 8px;font-size:calc(var(--fs)*1.7);width:min-content;text-align:center;line-height:1.1;font-weight:800;color:#D32F2F;user-select:none}
 .adm-trigger{cursor:pointer}
-#ptToast{position:fixed;top:calc(14px + env(safe-area-inset-top,0px));left:50%;z-index:200;transform:translate(-50%,-30px);opacity:0;pointer-events:none;display:flex;align-items:center;gap:28px;min-width:340px;padding:16px 30px;background:#1C2429;border:3px solid #1FA35C;border-radius:18px;color:#fff;transition:.25s}
-#ptToast.show{transform:translate(-50%,0);opacity:1}#ptToast.neg{border-color:#E5484D}
+#ptToast{position:fixed;top:50%;left:50%;z-index:200;transform:translate(-50%,-50%) scale(.85);opacity:0;pointer-events:none;display:flex;align-items:center;gap:28px;min-width:340px;padding:16px 30px;background:#1C2429;border:3px solid #1FA35C;border-radius:18px;color:#fff;transition:.25s}
+#ptToast.show{transform:translate(-50%,-50%) scale(1);opacity:1}#ptToast.neg{border-color:#E5484D}
 .pt-delta{font-size:44px;font-weight:800;color:#2ED573}#ptToast.neg .pt-delta{color:#FF6B6B}
 .pt-who{font-size:26px;font-weight:800}.pt-after{font-size:22px;color:#C9D3D0}.pt-after b{font-size:1.5em;color:#FFC400}.pt-label{font-size:18px;color:#FFA726}
 
@@ -576,9 +576,9 @@ mapIn.addEventListener('blur',()=>{if(!mapIn.value.trim()&&mapPrev)mapIn.value=m
 mapIn.addEventListener('input',()=>{mapPrev=''});
 mapIn.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();mapIn.blur()}});
 
-// ===== TIMER: countdown 10 detik, peringatan 5 menit / 1 menit / 10 detik =====
+// ===== TIMER: countdown 5 detik, peringatan 5 menit / 1 menit / 10 detik =====
 const tDisp=$('timerDisp'),tTxt=$('timerTxt'),tSub=$('timerSub'),tPlay=$('tPlay'),tModal=$('tModal');
-const PRE_MS=10000,WARN_MS=300000,FIN_MS=10000;
+const PRE_MS=5000,WARN_MS=300000,FIN_MS=10000;
 const IC={play:'<path d="M7 4l13 8-13 8z"/>',pause:'<path d="M6 4h4v16H6zM14 4h4v16h-4z"/>',stop:'<path d="M6 6h12v12H6z"/>'};
 const icon=k=>'<svg viewBox="0 0 24 24" fill="currentColor">'+IC[k]+'</svg>';
 let tDur=4200000,tState='idle',tRemain=tDur,tEnd=0,cdEnd=0,tWarned=false,lastCd=null,lastSec=null;
@@ -591,7 +591,7 @@ function timerUI(){
   if(tState==='cd'){tTxt.textContent=Math.max(1,Math.ceil((cdEnd-Date.now())/1000));tDisp.classList.add('cd');tSub.innerHTML='MULAI<br>DALAM';tPlay.innerHTML=icon('stop');tPlay.title='Batalkan countdown'}
   else if(tState==='run'){tTxt.textContent=fmtT(tRemain);if(tRemain<=FIN_MS)tDisp.classList.add('fin');else if(tRemain<=WARN_MS)tDisp.classList.add('warn');tPlay.innerHTML=icon('pause');tPlay.title='Jeda'}
   else if(tState==='end'){tTxt.textContent='0:00:00';tDisp.classList.add('end');tSub.innerHTML='WAKTU<br>HABIS';tPlay.innerHTML=icon('play');tPlay.title='Mulai lagi'}
-  else{tTxt.textContent=fmtT(tRemain);if(tState==='paused')tDisp.classList.add('paused');tPlay.innerHTML=icon('play');tPlay.title=tState==='paused'?'Lanjut':'Mulai (countdown 10 detik)'}
+  else{tTxt.textContent=fmtT(tRemain);if(tState==='paused')tDisp.classList.add('paused');tPlay.innerHTML=icon('play');tPlay.title=tState==='paused'?'Lanjut':'Mulai (countdown 5 detik)'}
 }
 function timerTick(){
   const now=Date.now();
