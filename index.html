@@ -192,13 +192,26 @@ table.log-table td{height:2.1em;border:2px solid var(--bd);padding:.2em .5em;tex
 .pt-who{font-size:26px;font-weight:800}.pt-after{font-size:22px;color:#C9D3D0}.pt-after b{font-size:1.5em;color:#FFC400}.pt-label{font-size:18px;color:#FFA726}
 
 /* Menu pilihan */
-#menu{position:fixed;inset:0;z-index:300;background:var(--sheet-bg);display:none;flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:20px}
+#menu{position:fixed;inset:0;z-index:300;background:var(--sheet-bg);display:none;flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:20px;overflow-y:auto}
 #menu.open{display:flex}
 #menu h1{margin:0;font-size:clamp(28px,5vw,52px);color:var(--ink)}
 .menu-btns{display:flex;gap:24px;flex-wrap:wrap;justify-content:center}
 .menu-btns button{width:min(340px,86vw);padding:38px 20px;border-radius:18px;border:4px solid var(--head-bg);background:var(--stripe);color:var(--ink);font-weight:800;font-size:clamp(24px,4vw,38px);font-family:inherit;cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,.25)}
 .menu-btns button small{display:block;margin-top:8px;font-size:.45em;font-weight:500;color:var(--muted)}
 .menu-btns button:hover{background:var(--head-bg);color:#fff}.menu-btns button:hover small{color:#E0F2E7}
+
+/* Judul + kredit menu */
+.menu-title{text-align:center}
+.menu-by{margin-top:6px;font-size:clamp(16px,2.4vw,24px);font-weight:600;color:var(--muted);letter-spacing:3px}
+.menu-by::before,.menu-by::after{content:'';display:inline-block;width:28px;height:2px;background:var(--head-bg);vertical-align:middle;margin:0 12px}
+
+/* Link TikTok & email */
+.menu-links{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:4px}
+.mlink{display:flex;align-items:center;gap:14px;padding:12px 22px;border-radius:14px;border:2px solid var(--head-bg);background:var(--cell-bg);color:var(--ink);text-decoration:none;font-weight:800;font-size:clamp(15px,2vw,20px);max-width:92vw;overflow-wrap:anywhere;transition:.15s}
+.mlink small{display:block;font-size:.65em;font-weight:500;color:var(--muted);letter-spacing:1px}
+.mlink .mi{font-size:1.6em;line-height:1}
+.mlink:hover{background:var(--head-bg);color:#fff;transform:translateY(-2px)}
+.mlink:hover small{color:#E0F2E7}
 
 /* ===== Penyesuaian tampilan Solo (seperti aslinya) ===== */
 body.solo{--k:1}body.clan{--k:1.214}
@@ -226,15 +239,35 @@ html[data-theme=dark] body.solo .join-btn:not(.joined){background:#2A2A2A;border
 #fishList .fish-opt.sel,html[data-theme=dark] #fishList .fish-opt.sel{background:#FFC400;border-color:#fff;color:#000;box-shadow:0 0 0 2px #FFC400,0 2px 8px rgba(0,0,0,.5);transform:scale(1.05);z-index:1}
 #fishList .fish-opt.sel::after{content:'✓';position:absolute;top:-6px;right:-6px;width:17px;height:17px;border-radius:50%;background:#137E43;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;border:1px solid #fff}
 body.solo .log-scroll{font-size:var(--fs);height:calc(10.5em + 2px)}
+
+.rst-btn{cursor:pointer;font-family:inherit;color:var(--ink);padding:0 .6em}.rst-btn svg{width:1em;height:1em}
+.rst-btn.arm{background:var(--red);border-color:var(--red);color:#fff}
+.rst-box{max-width:380px}.rst-box .modal-title{font-size:22px}.rst-box .modal-title small{font-size:15px}.rst-body{padding:18px 22px 22px;font-size:18px;font-weight:600;text-align:center}.rst-act{display:flex;gap:12px;margin-top:18px}.rst-act button{flex:1;font-family:inherit;font-weight:700;font-size:18px;padding:10px 0;border-radius:6px;cursor:pointer}.rst-no{background:var(--cell-bg);color:var(--ink);border:2px solid var(--grid)}.rst-yes{background:var(--red);color:#fff;border:2px solid var(--red)}
 </style>
 </head>
 <body>
 <div id="menu" class="open">
-  <h1>Klasemen Galatama</h1>
+  <div class="menu-title">
+    <h1>Klasemen Galatama</h1>
+    <div class="menu-by">by Aaronn</div>
+  </div>
   <div class="menu-btns">
     <button data-mode="solo">🎣 Galatama Solo<small>20 peserta · ranking perorangan</small></button>
     <button data-mode="duo">👥 Galatama Duo<small>9 tim × 2 akun · ranking tim</small></button>
     <button data-mode="clan">🛡️ Galatama Clan<small>6 clan × 3 akun · ranking clan</small></button>
+  </div>
+  <div class="menu-links">
+    <a class="mlink" href="https://www.tiktok.com/@taaronnn7" target="_blank" rel="noopener">
+      <span class="mi">🎵</span>
+      <span><small>TikTok</small>@Aaronnn.</span>
+    </a>    <a class="mlink" href="https://www.tiktok.com/@Kakashi_hatake424" target="_blank" rel="noopener">
+      <span class="mi">🎵</span>
+      <span><small>TikTok</small>@Aaronnnn2</span>
+    </a>
+    <a class="mlink" href="mailto:m.ihsannudinalfarizi@gmail.com?subject=Kritik%20%26%20Saran%20Klasemen%20Galatama">
+      <span class="mi">✉️</span>
+      <span><small>Kritik &amp; Saran</small>m.ihsannudinalfarizi@gmail.com</span>
+    </a>
   </div>
 </div>
 
@@ -261,6 +294,7 @@ body.solo .log-scroll{font-size:var(--fs);height:calc(10.5em + 2px)}
         </div>
       </div>
       <datalist id="mapList"></datalist>
+      <button type="button" class="slot-badge rst-btn" id="rstPoin" title="Reset semua data"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 3-6.2"/><path d="M4 4v5h5"/></svg></button>
       <div class="slot-badge" id="slotInfo" title="Jumlah slot yang masih kosong"><span class="slot-label">-</span><span class="slot-num" id="slotLeft">0</span></div>
     </div>
   </div>
@@ -286,6 +320,7 @@ body.solo .log-scroll{font-size:var(--fs);height:calc(10.5em + 2px)}
 <div class="modal-overlay" id="tModal"><div class="modal-box" style="max-width:420px"><div class="modal-head"><div class="modal-title">Atur Waktu<small>Durasi timer</small></div><button type="button" class="modal-close" data-close>✕</button></div><div class="modal-body"><div class="t-fields"><label>Jam<input type="number" id="tH" min="0" max="99"></label><label>Menit<input type="number" id="tM" min="0" max="59"></label><label>Detik<input type="number" id="tS" min="0" max="59"></label></div><div style="text-align:right"><button type="button" class="fish-ok" id="tOk">Simpan</button></div></div></div></div>
 <div class="modal-overlay" id="fishModal"><div class="modal-box"><div class="modal-head"><div class="modal-title">Tarik Ikan<small id="fishSub"></small></div><button type="button" class="modal-close" data-close>✕</button></div><div id="fishList"></div><div class="fish-foot"><span>Total: <b id="fishTotal">+0</b></span><button type="button" class="fish-ok" id="fishOk">Tambah</button></div></div></div>
 <div class="modal-overlay" id="pmModal"><div class="modal-box"><div class="modal-head"><div class="modal-title">Tambah / Kurang Poin<small id="pmSub"></small></div><button type="button" class="modal-close" data-close>✕</button></div><div class="pm-grid" id="pmGrid"></div></div></div>
+<div class="modal-overlay" id="rstModal"><div class="modal-box rst-box"><div class="modal-head"><div class="modal-title">Reset Semua<small>Poin, nama, display &amp; pay dikosongkan</small></div></div><div class="rst-body">Yakin ingin mereset semua data?<div class="rst-act"><button type="button" class="rst-no" data-close>Tidak</button><button type="button" class="rst-yes" id="rstYes">Ya</button></div></div></div></div>
 
 <script>
 const $=id=>document.getElementById(id), $$=s=>document.querySelectorAll(s);
@@ -312,6 +347,16 @@ const who=t=>t.nickname||t.name||('Peserta #'+t.id);
 const fmtTime=ts=>{const d=new Date(ts),p=n=>String(n).padStart(2,'0');return p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds())};
 const FISH_IMG='data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF0A0"/><stop offset="1" stop-color="#F59E0B"/></linearGradient></defs><circle cx="28" cy="36" r="26" fill="url(#g)" stroke="#7A3E00" stroke-width="4"/><circle cx="28" cy="36" r="19" fill="#FFD54F" stroke="#B66A00" stroke-width="2.5"/><path fill-rule="evenodd" fill="#7A3E00" d="M20 22h13a9 9 0 0 1 0 18h-6v10h-7zM27 28v6h6a3 3 0 0 0 0-6z"/><circle cx="49" cy="15" r="15" fill="#22C55E" stroke="#fff" stroke-width="3"/><path d="M49 7V23M41 15H57" stroke="#fff" stroke-width="6" stroke-linecap="round"/></svg>');
 const FLASH_MS=2400;
+
+// ===== Penyimpanan lokal (localStorage, hanya di browser ini) =====
+const SKEY='klasemen_manual_v3';
+const SFIELDS=['name','nickname','points','binGiven','pay','paid','joined','red','history'];
+const SGROUPS={solo:solo,duo:clanTD,clan:clanTC}, SCLANS={duo:clansD,clan:clansC};
+function save(){try{const o={};for(const k in SGROUPS)o[k]={t:SGROUPS[k].map(t=>{const r={};SFIELDS.forEach(f=>r[f]=t[f]);return r}),c:(SCLANS[k]||[]).map(c=>c.name)};localStorage.setItem(SKEY,JSON.stringify(o))}catch(e){}}
+function loadSaved(){try{const o=JSON.parse(localStorage.getItem(SKEY)||'null');if(!o)return;for(const k in SGROUPS){const d=o[k];if(!d)continue;(d.t||[]).forEach((r,i)=>{const t=SGROUPS[k][i];if(t)SFIELDS.forEach(f=>{if(r[f]!==undefined)t[f]=r[f]})});(d.c||[]).forEach((n,i)=>{const c=SCLANS[k]&&SCLANS[k][i];if(c&&typeof n==='string')c.name=n})}}catch(e){}}
+loadSaved();
+['input','change','click','blur'].forEach(ev=>document.addEventListener(ev,()=>setTimeout(save,0),true));
+addEventListener('pagehide',save);
 
 // ===== Suara & notifikasi =====
 let ac=null,toastTimer=null;
@@ -368,6 +413,21 @@ function updateSlotInfo(){
   $('slotLeft').textContent=left;$('slotInfo').classList.toggle('full',left===0);
 }
 
+// ===== Reset poin (popup Ya / Tidak) =====
+(function(){
+  $('rstPoin').addEventListener('click',()=>{if(!M)return;closeAll();$('rstModal').classList.add('open')});
+  $('rstYes').addEventListener('click',()=>{
+    closeAll();
+    TS().forEach(t=>{ // kembali ke kondisi awal: nama, display, pay, absen, merah, poin, history
+      Object.assign(t,{name:'',nickname:'',points:0,binGiven:0,pay:'',paid:false,joined:false,red:false,history:[],flash:null});
+      if(M==='solo'&&t.id===20)Object.assign(t,{name:'Admin',nickname:'Admin',joined:true,pay:'D',paid:true}); // slot Admin tetap bawaan
+    });
+    CL().forEach((c,i)=>{c.flash=null;c.name=(M==='duo'?'Tim ':'Clan ')+(i+1)});
+    $('ptStack').innerHTML='';
+    render();
+  });
+})();
+
 // ===== Log global =====
 function renderLog(){
   let all=[];TS().forEach(t=>t.history.forEach(h=>all.push({t,h})));all.sort((a,b)=>b.h.time-a.h.time);// Duo: 3 baris terlihat, sisanya bisa di-scroll
@@ -408,7 +468,7 @@ $('searchFab').addEventListener('click',openSearch);
 document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&!e.altKey&&e.key.toLowerCase()==='f'&&M){e.preventDefault();closeAll();openSearch()}});
 
 // ===== Modal umum =====
-const modals=['histModal','admModal','tModal','fishModal','pmModal'];
+const modals=['histModal','admModal','tModal','fishModal','pmModal','rstModal'];
 function closeAll(){modals.forEach(id=>$(id).classList.remove('open'));fishTarget=null;pmTarget=null}
 modals.forEach(id=>{const m=$(id);m.addEventListener('click',e=>{if(e.target===m||e.target.hasAttribute('data-close'))closeAll()})});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
@@ -489,7 +549,7 @@ function buildRow(t,rank,o){
   if(!(solo_&&t.id===20)){tdRank.classList.add('red-toggle');tdRank.title='Klik untuk tandai MERAH / batalkan';tdRank.addEventListener('click',()=>{t.red=!t.red;tr.classList.toggle('red',t.red)})}
 
   const tdName=mk('td','name-cell'),ni=mk('input','team-name');ni.type='text';ni.value=t.name;ni.placeholder=solo_?'Nama Peserta':'Nama Akun';
-  ni.addEventListener('input',()=>{t.name=ni.value;tr.classList.toggle('blank',!t.name.trim());updateSlotInfo();markClan();renderLog()});tdName.appendChild(ni);
+  ni.addEventListener('input',()=>{t.name=ni.value;tr.classList.toggle('blank',!t.name.trim());updateSlotInfo();markClan();renderLog()});ni.addEventListener('change',()=>{if(!t.name.trim()&&(t.points||t.history.length||t.binGiven)){t.points=0;t.history=[];t.binGiven=0;t.flash=null;render()}});tdName.appendChild(ni);
 
   const tdNick=mk('td','name-cell'),ki=mk('input','team-nick');ki.type='text';ki.value=t.nickname;ki.placeholder='Nama Display';
   ki.addEventListener('input',()=>{t.nickname=ki.value;applySearch();markClan();renderLog()});tdNick.appendChild(ki);
@@ -559,7 +619,7 @@ function render(){
       list.forEach((t,p)=>body.appendChild(buildRow(t,p+1,{alt:p%2===1,last:p===list.length-1})));
     });
   }
-  applySearch();updateSlotInfo();markClan();renderLog();
+  applySearch();updateSlotInfo();markClan();renderLog();save();
 }
 
 // ===== Input USN / MAP =====
@@ -653,7 +713,8 @@ function fitToScreen(){
   wrap.style.zoom=Math.max(.2,Math.min(avail/W,1.6));
 }
 function setMode(m){
-  M=m;document.body.classList.remove('solo','clan','duo');document.body.classList.add(m==='solo'?'solo':'clan');if(m==='duo')document.body.classList.add('duo'); // Duo memakai tampilan Clan
+  M=m;try{sessionStorage.setItem('galMode',m)}catch(e){}
+  document.body.classList.remove('solo','clan','duo');document.body.classList.add(m==='solo'?'solo':'clan');if(m==='duo')document.body.classList.add('duo'); // Duo memakai tampilan Clan
   document.querySelectorAll('colgroup').forEach(cg=>cg.innerHTML=COLS[m].map(w=>'<col style="width:'+w+'%">').join(''));
   document.title=m==='solo'?'Klasemen Galatama Solo':m==='duo'?'Klasemen Galtam Duo':'Klasemen Galtam Clan';
   const br=document.querySelector('.bottom-row');(m==='duo'?$('colF'):document.querySelector('.panel')).appendChild(br); const cp=document.querySelector('.copyright');(m==='duo'?document.querySelector('.panel'):br).appendChild(cp); // Duo: riwayat di kiri bawah, Created By di paling bawah
@@ -661,7 +722,7 @@ function setMode(m){
   $('menu').classList.remove('open');closeAll();render();fitToScreen();
 }
 $$('#menu [data-mode]').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
-$('menuFab').addEventListener('click',()=>{closeAll();$('menu').classList.add('open')}); // data semua mode tetap tersimpan
+$('menuFab').addEventListener('click',()=>{try{sessionStorage.removeItem('galMode')}catch(e){}closeAll();$('menu').classList.add('open')}); // data semua mode tetap tersimpan
 $('themeFab').addEventListener('click',()=>{
   const dark=document.documentElement.getAttribute('data-theme')==='dark';
   if(dark)document.documentElement.removeAttribute('data-theme');else document.documentElement.setAttribute('data-theme','dark');
@@ -669,6 +730,22 @@ $('themeFab').addEventListener('click',()=>{
 });
 addEventListener('resize',fitToScreen);if(document.fonts)document.fonts.ready.then(()=>M&&fitToScreen());
 document.addEventListener('pointerdown',()=>window.focus(),{once:true});
+
+// ===== +POINT tersimpan; mode terakhir dipulihkan saat refresh (tab baru = kembali ke menu) =====
+(function(){
+  const pd=$('plusDefault');
+  try{const v=localStorage.getItem('galPlus');if(v!==null&&v!=='')pd.value=v}catch(e){}
+  const sv=()=>{try{localStorage.setItem('galPlus',pd.value)}catch(e){}};
+  pd.addEventListener('input',sv);pd.addEventListener('change',sv);
+  [['addUsn','galAddUsn'],['addMap','galAddMap']].forEach(([id,key])=>{ // kolom ADD & MAP ikut tersimpan
+    const el=$(id);
+    try{const v=localStorage.getItem(key);if(v!==null){el.value=v;if(el.fitSize)el.fitSize()}}catch(e){}
+    const sv2=()=>{try{localStorage.setItem(key,el.value)}catch(e){}};
+    el.addEventListener('input',sv2);el.addEventListener('change',sv2);
+  });
+  let m=null;try{m=sessionStorage.getItem('galMode')}catch(e){}
+  if(m==='solo'||m==='duo'||m==='clan')setMode(m);
+})();
 
 </script>
 </body>
