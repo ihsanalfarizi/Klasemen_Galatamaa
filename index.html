@@ -8,7 +8,7 @@
 <title>Klasemen Galatama</title>
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--grid:#CFCFCF;--ink:#000;--muted:#4A4A4A;--sheet-bg:#F3F3F3;--cell-bg:#fff;--stripe:#DCEFE1;--head-bg:#1E8E3E;--green:#137E43;--red:#C0392B;--sel:#107C41;--fs:16px;--bd:#000;color-scheme:light}
+:root{--grid:#C3D6C8;--ink:#000;--muted:#4A4A4A;--sheet-bg:#EAF3EC;--cell-bg:#fff;--stripe:#DCEFE1;--head-bg:#1E8E3E;--green:#137E43;--red:#C0392B;--sel:#107C41;--fs:16px;--bd:#123422;color-scheme:light}
 html[data-theme=dark]{--sheet-bg:#0F1417;--cell-bg:#1C2429;--ink:#EEF3F0;--muted:#9FB0A8;--stripe:#26343B;--grid:#3A4A52;--head-bg:#1B7A3A;--green:#34C873;--sel:#34C873;--bd:#8DA0A8;color-scheme:dark}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -243,6 +243,63 @@ body.solo .log-scroll{font-size:var(--fs);height:calc(10.5em + 2px)}
 .rst-btn{cursor:pointer;font-family:inherit;color:var(--ink);padding:0 .6em}.rst-btn svg{width:1em;height:1em}
 .rst-btn.arm{background:var(--red);border-color:var(--red);color:#fff}
 .rst-box{max-width:380px}.rst-box .modal-title{font-size:22px}.rst-box .modal-title small{font-size:15px}.rst-body{padding:18px 22px 22px;font-size:18px;font-weight:600;text-align:center}.rst-act{display:flex;gap:12px;margin-top:18px}.rst-act button{flex:1;font-family:inherit;font-weight:700;font-size:18px;padding:10px 0;border-radius:6px;cursor:pointer}.rst-no{background:var(--cell-bg);color:var(--ink);border:2px solid var(--grid)}.rst-yes{background:var(--red);color:#fff;border:2px solid var(--red)}
+
+/* ===== Tampilan laut ===== */
+body{background:radial-gradient(900px 380px at 50% -80px,rgba(30,142,62,.20),transparent 70%),linear-gradient(180deg,#D9EEDD 0,#EAF3EC 360px);background-attachment:fixed}
+html[data-theme=dark] body{background:radial-gradient(900px 380px at 50% -80px,rgba(27,122,58,.38),transparent 70%),linear-gradient(180deg,#10281B 0,#0F1417 360px);background-attachment:fixed}
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='40'><path d='M0 20 Q20 6 40 20 T80 20 T120 20 T160 20' fill='none' stroke='%231E8E3E' stroke-opacity='.08' stroke-width='2'/></svg>")}
+html[data-theme=dark] body::before{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='40'><path d='M0 20 Q20 6 40 20 T80 20 T120 20 T160 20' fill='none' stroke='%23FFFFFF' stroke-opacity='.05' stroke-width='2'/></svg>")}
+.panel{border-radius:0 0 14px 14px;box-shadow:0 10px 28px rgba(10,70,35,.16)}
+th{background:linear-gradient(180deg,#2FAE55,#12703A);border-color:var(--bd);text-shadow:0 1px 0 rgba(0,0,0,.35);letter-spacing:.4px}
+tbody tr:not(.search-hit):not(.cs) td{box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 -2px 0 rgba(0,0,0,.08)}
+input.points{border-color:rgba(10,40,55,.7);border-radius:9px;box-shadow:inset 0 3px 6px rgba(0,0,0,.2)}
+.pm-btn{background:linear-gradient(#F1FAF5,#CFEBDA);box-shadow:0 2px 0 rgba(19,126,67,.35)}
+.fish-btn{box-shadow:0 2px 0 rgba(224,154,0,.5)}
+.join-btn.joined{box-shadow:0 2px 0 rgba(0,0,0,.2)}
+.slot-badge{background:linear-gradient(180deg,var(--cell-bg),var(--stripe));box-shadow:0 3px 10px rgba(10,70,35,.16)}
+.slot-num{background:linear-gradient(180deg,#1FA35C,#137E43);box-shadow:inset 0 2px 0 rgba(255,255,255,.3)}
+.rst-btn:hover{background:var(--head-bg);color:#fff}
+.timer-disp{border-radius:10px;background:linear-gradient(180deg,var(--cell-bg),var(--stripe));box-shadow:inset 0 3px 8px rgba(0,0,0,.12),0 3px 10px rgba(10,70,35,.16)}
+.timer-btns button{border-color:var(--head-bg);border-radius:7px}
+.timer-btns button:hover{filter:brightness(.94)}
+.log-panel{border-radius:10px;overflow:hidden}
+.fab{background:linear-gradient(180deg,#2FAE55,#12703A)}
+.modal-box{border-radius:14px;border-color:var(--head-bg)}
+.modal-head{background:linear-gradient(180deg,#2FAE55,#12703A)}
+#histModal,#admModal,#tModal,#rstModal{background:rgba(4,24,12,.58);backdrop-filter:blur(2px)}
+.pt-toast{background:linear-gradient(135deg,#17361F,#0B1A10);border-radius:20px;box-shadow:0 16px 44px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.12)}
+
+/* Menu utama */
+#menu{background:radial-gradient(1000px 520px at 50% -60px,rgba(60,190,100,.40),transparent 70%),linear-gradient(180deg,#14693A 0,#0A3D22 60%,#05200F 100%)}
+#menu::after{content:'';position:fixed;left:0;right:0;bottom:0;height:150px;pointer-events:none;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 150' preserveAspectRatio='none'><path d='M0 70 C240 20 480 120 720 70 S1200 20 1440 70 V150 H0Z' fill='%2368D391' fill-opacity='.10'/><path d='M0 100 C260 60 520 140 780 100 S1200 70 1440 105 V150 H0Z' fill='%2368D391' fill-opacity='.14'/></svg>") bottom/100% 100% no-repeat}
+#menu>*{position:relative;z-index:1}
+#menu h1{color:#fff;font-weight:800;letter-spacing:.5px;text-shadow:0 3px 0 rgba(0,0,0,.25),0 10px 30px rgba(0,0,0,.35)}
+.menu-by{color:rgba(255,255,255,.78)}.menu-by::before,.menu-by::after{background:#FFC400}
+.menu-btns button{border:0;border-radius:22px;background:linear-gradient(180deg,var(--cell-bg),var(--stripe));box-shadow:inset 0 7px 0 var(--ac,#FFC400),0 14px 30px rgba(0,0,0,.38);transition:transform .15s,box-shadow .15s}
+.menu-btns button[data-mode=solo]{--ac:#FFC400}.menu-btns button[data-mode=duo]{--ac:#9BE564}.menu-btns button[data-mode=clan]{--ac:#B388FF}
+.menu-btns button:hover{background:linear-gradient(180deg,#2FAE55,#12703A);color:#fff;transform:translateY(-6px);box-shadow:inset 0 7px 0 var(--ac,#FFC400),0 20px 38px rgba(0,0,0,.45)}
+.mlink{border-color:rgba(255,255,255,.35);box-shadow:0 8px 20px rgba(0,0,0,.3)}
+.mlink:hover{background:linear-gradient(180deg,#2FAE55,#12703A)}
+@media (prefers-reduced-motion:reduce){.menu-btns button,.mlink{transition:none}.menu-btns button:hover,.mlink:hover{transform:none}}
+
+/* ===== Baris ringkas + garis halus ===== */
+:root{--rowline:#9CC2A7}html[data-theme=dark]{--rowline:#46665A}
+th{padding:.32em 2px}
+body.solo input.team-name,body.solo input.team-nick{padding:.3em .3em}
+body.clan input.team-name,body.clan input.team-nick{padding:.18em .25em}
+input.pay-input{padding:.12em 0}
+body.solo{--pt:1.8em}body.clan{--pt:2.05em}
+input.points{width:2.2em;height:1.04em;border-width:2px;line-height:1.1;margin-right:.06em}
+td.poin-cell{padding:1px}
+.join-btn{height:1.5em}.hist-btn{height:1.7em}
+body.solo .tables tbody td{border:1px solid var(--rowline)}
+body.solo .tables table:not(.log-table){border:2px solid var(--bd)}
+tr.cr td{border-top:1px solid var(--rowline);border-bottom:1px solid var(--rowline)}
+tr.cr td+td{border-left:1px solid var(--rowline)}
+td.rank{background-image:linear-gradient(90deg,rgba(30,142,62,.18),rgba(30,142,62,.03))}
+body.solo tbody tr.rank-1:not(.search-hit) td.rank{box-shadow:inset 6px 0 0 #E0A800,inset 0 1px 0 rgba(255,255,255,.3)}
+body.solo tbody tr.rank-2:not(.search-hit) td.rank{box-shadow:inset 6px 0 0 #8FA0AB,inset 0 1px 0 rgba(255,255,255,.3)}
+body.solo tbody tr.rank-3:not(.search-hit) td.rank{box-shadow:inset 6px 0 0 #C46F1F,inset 0 1px 0 rgba(255,255,255,.3)}
 </style>
 </head>
 <body>
